@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Meals list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Energyvaluekcal</th>
+                <th>Proteing</th>
+                <th>Carbohydratesg</th>
+                <th>Fatg</th>
+                <th>Averagecost</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for meal in meals %}
+            <tr>
+                <td><a href="{{ path('meal_show', { 'id': meal.id }) }}">{{ meal.id }}</a></td>
+                <td>{{ meal.name }}</td>
+                <td>{{ meal.description }}</td>
+                <td>{{ meal.type }}</td>
+                <td>{{ meal.energyValueKcal }}</td>
+                <td>{{ meal.proteinG }}</td>
+                <td>{{ meal.carbohydratesG }}</td>
+                <td>{{ meal.fatG }}</td>
+                <td>{{ meal.averageCost }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('meal_show', { 'id': meal.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('meal_edit', { 'id': meal.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('meal_new') }}">Create a new meal</a>
+        </li>
+    </ul>
+{% endblock %}

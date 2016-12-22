@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Diet_rules list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Dailycaloriesrequirementskcal</th>
+                <th>Dailyproteinrequirementsg</th>
+                <th>Dailycarbohydratesrequirementsg</th>
+                <th>Monthlycost</th>
+                <th>Whichmeal</th>
+                <th>Whichproduct</th>
+                <th>Repetition</th>
+                <th>Ininterval</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for diet_rule in diet_rules %}
+            <tr>
+                <td><a href="{{ path('diet_rules_show', { 'id': diet_rule.id }) }}">{{ diet_rule.id }}</a></td>
+                <td>{{ diet_rule.dailyCaloriesRequirementsKcal }}</td>
+                <td>{{ diet_rule.dailyProteinRequirementsG }}</td>
+                <td>{{ diet_rule.dailyCarbohydratesRequirementsG }}</td>
+                <td>{{ diet_rule.monthlyCost }}</td>
+                <td>{{ diet_rule.whichMeal }}</td>
+                <td>{{ diet_rule.whichProduct }}</td>
+                <td>{{ diet_rule.repetition }}</td>
+                <td>{{ diet_rule.inInterval }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('diet_rules_show', { 'id': diet_rule.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('diet_rules_edit', { 'id': diet_rule.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('diet_rules_new') }}">Create a new diet_rule</a>
+        </li>
+    </ul>
+{% endblock %}

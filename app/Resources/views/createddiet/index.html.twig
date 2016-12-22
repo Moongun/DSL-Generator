@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Createddiets list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for createdDiet in createdDiets %}
+            <tr>
+                <td><a href="{{ path('createddiet_show', { 'id': createdDiet.id }) }}">{{ createdDiet.id }}</a></td>
+                <td>{% if createdDiet.date %}{{ createdDiet.date|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('createddiet_show', { 'id': createdDiet.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('createddiet_edit', { 'id': createdDiet.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('createddiet_new') }}">Create a new createdDiet</a>
+        </li>
+    </ul>
+{% endblock %}

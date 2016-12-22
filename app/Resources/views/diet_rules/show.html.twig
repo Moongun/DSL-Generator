@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Diet_rule</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ diet_rule.id }}</td>
+            </tr>
+            <tr>
+                <th>Dailycaloriesrequirementskcal</th>
+                <td>{{ diet_rule.dailyCaloriesRequirementsKcal }}</td>
+            </tr>
+            <tr>
+                <th>Dailyproteinrequirementsg</th>
+                <td>{{ diet_rule.dailyProteinRequirementsG }}</td>
+            </tr>
+            <tr>
+                <th>Dailycarbohydratesrequirementsg</th>
+                <td>{{ diet_rule.dailyCarbohydratesRequirementsG }}</td>
+            </tr>
+            <tr>
+                <th>Monthlycost</th>
+                <td>{{ diet_rule.monthlyCost }}</td>
+            </tr>
+            <tr>
+                <th>Whichmeal</th>
+                <td>{{ diet_rule.whichMeal }}</td>
+            </tr>
+            <tr>
+                <th>Whichproduct</th>
+                <td>{{ diet_rule.whichProduct }}</td>
+            </tr>
+            <tr>
+                <th>Repetition</th>
+                <td>{{ diet_rule.repetition }}</td>
+            </tr>
+            <tr>
+                <th>Ininterval</th>
+                <td>{{ diet_rule.inInterval }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('diet_rules_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('diet_rules_edit', { 'id': diet_rule.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
