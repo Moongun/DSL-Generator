@@ -83,6 +83,9 @@ class CreatedDietController extends Controller
        
         }
         
+        $createdDiet = $rule->getCreatedDiet();
+        var_dump($createdDiet);
+        
         return $this->render('createddiet/show.html.twig', array(
         ));
     }
