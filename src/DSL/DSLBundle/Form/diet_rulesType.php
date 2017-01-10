@@ -13,7 +13,7 @@ class diet_rulesType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('dailyCaloriesRequirementsKcal')->add('dailyProteinRequirementsG')->add('dailyCarbohydratesRequirementsG')->add('monthlyCost')->add('whichMeal')->add('whichProduct')->add('repetition')->add('inInterval')        ;
+        $builder->add('dailyCaloriesRequirementsKcal')->add('dailyProteinRequirementsG')->add('dailyCarbohydratesRequirementsG')->add('dailyFatRequirementsG')->add('monthlyCost')->add('whichMeal')->add('whichProduct')->add('repetition')->add('inInterval')        ;
     }
     
     /**

@@ -41,6 +41,13 @@ class Diet_rules
      * @ORM\Column(name="daily_carbohydrates_requirements_g", type="integer", nullable=true)
      */
     private $dailyCarbohydratesRequirementsG;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="daily_fat_requirements_g", type="integer", nullable=true)
+     */
+    private $dailyFatRequirementsG;
 
     /**
      * @var float
@@ -152,8 +159,27 @@ class Diet_rules
 
         return $this;
     }
-
+    
     /**
+     * Get dailyFatRequirementsG
+     *
+     * @return integer 
+     */
+    function getDailyFatRequirementsG() {
+        return $this->dailyFatRequirementsG;
+    }
+    
+    /**
+     * Set dailyFatRequirementsG
+     *
+     * @param integer $dailyFatRequirementsG
+     * @return diet_rules
+     */
+    function setDailyFatRequirementsG($dailyFatRequirementsG) {
+        $this->dailyFatRequirementsG = $dailyFatRequirementsG;
+    }
+
+        /**
      * Get dailyCarbohydratesRequirementsG
      *
      * @return integer 
