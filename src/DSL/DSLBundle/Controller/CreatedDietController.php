@@ -66,15 +66,21 @@ class CreatedDietController extends Controller
      */
     public function showAction($dietRuleId)
     {
-        
+        //getting to repo of diet_rules
         $ruleRepo = $this->getDoctrine()->getRepository('DSLBundle:Diet_rules');
+        
+        //finding single meal
         $rule = $ruleRepo->findOneById($dietRuleId);
+        
+        
         $createdDiet = $rule->getCreatedDiet();
 //        var_dump($createdDiet);
+//        
+        //creating new diet
         if(!count($createdDiet)){
            
             echo 'create';
-            
+            //geting to repo of createdDiet
             $repoCreate = $this->getDoctrine()->getRepository('DSLBundle:CreatedDiet');
             $repoCreate->calcDiet($dietRuleId);
             
@@ -84,9 +90,27 @@ class CreatedDietController extends Controller
         }
         
         $createdDiet = $rule->getCreatedDiet();
-        var_dump($createdDiet);
+//        var_dump($createdDiet[149]->getMeal()->getId());
+//        
+        $repoMeal= $this->getDoctrine()->getRepository('DSLBundle:Meal');
+//        
+//        $meal=$repoMeal->findOneById($createdDiet[149]->getMeal()->getId());
+//        var_dump($meal);
         
-        return $this->render('createddiet/show.html.twig', array(
+        $arrayWithMealIds=[];
+        foreach($createdDiet as $meal){
+            $mealId=$meal->getMeal()->getId();
+            $arrayWithMealIds[]=$mealId;
+        }
+//        var_dump($arrayWithMealIds);
+        
+        $meals=[];
+        foreach($arrayWithMealIds as $singleId){
+            $meals[]=$repoMeal->findOneById($singleId);
+        }
+//        var_dump($meals);
+        
+        return $this->render('createddiet/show.html.twig', array('meals'=>$meals
         ));
     }
 

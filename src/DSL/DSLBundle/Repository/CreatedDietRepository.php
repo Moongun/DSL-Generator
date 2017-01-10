@@ -25,7 +25,6 @@ class CreatedDietRepository extends EntityRepository {
 //      REQUIREMENTS ABOUT ENERGY VALUE  
         $caloriesRule = $rule->getDailyCaloriesRequirementsKcal();
         if ($caloriesRule != null) {
-echo 'test';
             $em = $this->getEntityManager();
             $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.type=:type');
 

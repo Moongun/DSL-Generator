@@ -1,5 +1,38 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
-HELLO CREATE
+
+    TABLE OF CREATED DIET
+    {% set counter = 0 %}
+    <table>
+        <tr>
+            <th>number</th>
+            <th>meal</th>
+            <th>description</th>
+            <th>type</th>
+            <th>energy value [kcal]</th>
+            <th>protein [g]</th>
+            <th>carbohydrates [g]</th>
+            <th>fat [g]</th>
+            <th>avarage cost [pln]</th>
+        </tr>
+
+        {% for meal in meals%}
+            <tr>
+                <td>{% set counter = counter + 1 %}
+                    {{counter}}</td>
+                <td>{{meal.name}}</td>
+                <td>{{meal.description}}</td>
+                <td>{{meal.type}}</td>
+                <td>{{meal.energyValueKcal}}</td>
+                <td>{{meal.proteinG}}</td>
+                <td>{{meal.carbohydratesG}}</td>
+                <td>{{meal.fatG}}</td>
+                <td>{{meal.averageCost}}</td>
+            </tr>
+        {%endfor%}
+
+    </table>
 {% endblock %}
+
