@@ -212,11 +212,11 @@ class CreatedDietRepository extends EntityRepository {
                     shuffle($dinners);
                     shuffle($suppers);
 
-                    $allCarbohydratesValue+=$breakfasts[0]->getProteinG();
-                    $allCarbohydratesValue+=$brunches[0]->getProteinG();
-                    $allCarbohydratesValue+=$lunches[0]->getProteinG();
-                    $allCarbohydratesValue+=$dinners[0]->getProteinG();
-                    $allCarbohydratesValue+=$suppers[0]->getProteinG();
+                    $allCarbohydratesValue+=$breakfasts[0]->getCarbohydratesG();
+                    $allCarbohydratesValue+=$brunches[0]->getCarbohydratesG();
+                    $allCarbohydratesValue+=$lunches[0]->getCarbohydratesG();
+                    $allCarbohydratesValue+=$dinners[0]->getCarbohydratesG();
+                    $allCarbohydratesValue+=$suppers[0]->getCarbohydratesG();
                     
 //                    var_dump($breakfasts[0]->getName());
 //                    var_dump($brunches[0]->getName());
@@ -294,12 +294,97 @@ class CreatedDietRepository extends EntityRepository {
                     shuffle($dinners);
                     shuffle($suppers);
 
-                    $allFatValue+=$breakfasts[0]->getProteinG();
-                    $allFatValue+=$brunches[0]->getProteinG();
-                    $allFatValue+=$lunches[0]->getProteinG();
-                    $allFatValue+=$dinners[0]->getProteinG();
-                    $allFatValue+=$suppers[0]->getProteinG();
+                    $allFatValue+=$breakfasts[0]->getFatG();
+                    $allFatValue+=$brunches[0]->getFatG();
+                    $allFatValue+=$lunches[0]->getFatG();
+                    $allFatValue+=$dinners[0]->getFatG();
+                    $allFatValue+=$suppers[0]->getFatG();
                     
+//                    var_dump($breakfasts[0]->getName());
+//                    var_dump($brunches[0]->getName());
+//                    var_dump($lunches[0]->getName());
+//                    var_dump($dinners[0]->getName());
+//                    var_dump($suppers[0]->getName());
+
+                    $counter++;
+                }
+                $current_date = date('Y-m-d', strtotime($start_date . ' + ' . $i . ' days'));
+
+                //CREATING OBIECTS OF SINGLE TYPE OF  GENERATED MEALS
+                $createdBreakfasts = new CreatedDiet();
+                $createdBreakfasts->setDate(new \DateTime($current_date));
+                $createdBreakfasts->setMeal($breakfasts[0]);
+                $createdBreakfasts->setDietRules($rule);
+
+                $createdBrunches = new CreatedDiet();
+                $createdBrunches->setDate(new \DateTime($current_date));
+                $createdBrunches->setMeal($brunches[0]);
+                $createdBrunches->setDietRules($rule);
+
+                $createdLunches = new CreatedDiet();
+                $createdLunches->setDate(new \DateTime($current_date));
+                $createdLunches->setMeal($lunches[0]);
+                $createdLunches->setDietRules($rule);
+
+                $createdDinners = new CreatedDiet();
+                $createdDinners->setDate(new \DateTime($current_date));
+                $createdDinners->setMeal($dinners[0]);
+                $createdDinners->setDietRules($rule);
+
+                $createdSuppers = new CreatedDiet();
+                $createdSuppers->setDate(new \DateTime($current_date));
+                $createdSuppers->setMeal($suppers[0]);
+                $createdSuppers->setDietRules($rule);
+
+                // SAVING OBIECTS IN DATABASE
+                $em = $this->getEntityManager();
+                $em->persist($createdBreakfasts);
+                $em->persist($createdBrunches);
+                $em->persist($createdLunches);
+                $em->persist($createdDinners);
+                $em->persist($createdSuppers);
+
+                $em->flush();
+            }
+        }
+        
+        
+        
+         //      REQUIREMENTS ABOUT MONTHLY COSTS VALUE
+        $costRule = $rule->getMonthlyCost();
+        if ($costRule != null) {
+
+            $em = $this->getEntityManager();
+            $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.type=:type');
+
+            $breakfasts = $query->setParameter('type', 'śniadanie')->getResult();
+            $brunches = $query->setParameter('type', 'brunch')->getResult();
+            $lunches = $query->setParameter('type', 'lunch')->getResult();
+            $dinners = $query->setParameter('type', 'obiad')->getResult();
+            $suppers = $query->setParameter('type', 'kolacja')->getResult();
+
+            $start_date = Date('Y-m-d');
+            
+            $costRulePerDay = $costRule/30;
+
+            for ($i = 0; $i < 30; $i++) {
+                $allCostValue = 0;
+                $counter = 0;
+                while ($allCostValue < ($costRulePerDay - 1.70) || $allCostValue > $costRulePerDay || $counter < 5) {
+                    $allCostValue = 0;
+
+                    shuffle($breakfasts);
+                    shuffle($brunches);
+                    shuffle($lunches);
+                    shuffle($dinners);
+                    shuffle($suppers);
+
+                    $allCostValue+=$breakfasts[0]->getAverageCost();
+                    $allCostValue+=$brunches[0]->getAverageCost();
+                    $allCostValue+=$lunches[0]->getAverageCost();
+                    $allCostValue+=$dinners[0]->getAverageCost();
+                    $allCostValue+=$suppers[0]->getAverageCost();
+//                    
 //                    var_dump($breakfasts[0]->getName());
 //                    var_dump($brunches[0]->getName());
 //                    var_dump($lunches[0]->getName());
