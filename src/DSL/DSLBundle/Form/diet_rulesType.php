@@ -5,6 +5,9 @@ namespace DSL\DSLBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class diet_rulesType extends AbstractType
 {
@@ -13,8 +16,35 @@ class diet_rulesType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('dailyCaloriesRequirementsKcal')->add('dailyProteinRequirementsG')->add('dailyCarbohydratesRequirementsG')->add('dailyFatRequirementsG')->add('monthlyCost')->add('whichMeal')->add('whichProduct')->add('repetition')->add('inInterval')        ;
+        $builder->add('dailyCaloriesRequirementsKcal')
+                ->add('dailyProteinRequirementsG')
+                ->add('dailyCarbohydratesRequirementsG')
+                ->add('dailyFatRequirementsG')
+                ->add('monthlyCost')
+                ->add('whichMeal', EntityType::class, array(
+                    'class'=>'DSLBundle:Meal',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('meal')
+                            ->orderBy('meal.name', 'ASC');
+                },
+                    'choice_label'=>'name',
+                    'required'=>false,
+                    'placeholder' => 'Choose meal',
+                    'empty_data'  => null))
+                ->add('whichProduct', EntityType::class, array(
+                    'class'=>'DSLBundle:Product', 
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('product')
+                            ->orderBy('product.name', 'ASC');
+                },
+                    'choice_label'=>'name',
+                    'required'=>false,
+                    'placeholder' => 'Choose product',
+                    'empty_data'  => null))
+                ->add('repetition')
+                ->add('inInterval')        ;
     }
+
     
     /**
      * {@inheritdoc}
