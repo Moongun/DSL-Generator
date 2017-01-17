@@ -16,6 +16,21 @@ class diet_rulesType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+//        $mealRepository = $this->getDoctrine()->getRepository('DSLBundle:Meal');
+////        $meals = $mealRepository-> findAll();
+//        
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $meals = $em->getRepository('DSLBundle:Meal')->findAll();
+////        $mealsRepo-> $this->getDoctrine()->getEntityManager()-> getRepository('DSLBundle:Meal')->findAll();
+//        $mealNames=[];
+//
+//        foreach($mealsRepo as $meal){
+//            $mealName = $meal->getName();
+//            $mealNames[]=$mealName;
+//        }
+//        var_dump($meals);
+//        
         $builder->add('dailyCaloriesRequirementsKcal')
                 ->add('dailyProteinRequirementsG')
                 ->add('dailyCarbohydratesRequirementsG')
