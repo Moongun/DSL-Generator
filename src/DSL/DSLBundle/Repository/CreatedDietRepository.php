@@ -54,12 +54,6 @@ class CreatedDietRepository extends EntityRepository {
                     $allEnergyValue+=$dinners[0]->getEnergyValueKcal();
                     $allEnergyValue+=$suppers[0]->getEnergyValueKcal();
 
-//                    var_dump($breakfasts[0]->getName());
-//                    var_dump($brunches[0]->getName());
-//                    var_dump($lunches[0]->getName());
-//                    var_dump($dinners[0]->getName());
-//                    var_dump($suppers[0]->getName());
-
                     $counter++;
                 }
 
@@ -135,12 +129,6 @@ class CreatedDietRepository extends EntityRepository {
                     $allProteinValue+=$lunches[0]->getProteinG();
                     $allProteinValue+=$dinners[0]->getProteinG();
                     $allProteinValue+=$suppers[0]->getProteinG();
-                    
-//                    var_dump($breakfasts[0]->getName());
-//                    var_dump($brunches[0]->getName());
-//                    var_dump($lunches[0]->getName());
-//                    var_dump($dinners[0]->getName());
-//                    var_dump($suppers[0]->getName());
 
                     $counter++;
                 }
@@ -183,8 +171,8 @@ class CreatedDietRepository extends EntityRepository {
                 $em->flush();
             }
         }
-        
-        
+
+
         //      REQUIREMENTS ABOUT CARBOHYDRATES VALUE
         $carbohydratesRule = $rule->getDailyCarbohydratesRequirementsG();
         if ($carbohydratesRule != null) {
@@ -217,12 +205,6 @@ class CreatedDietRepository extends EntityRepository {
                     $allCarbohydratesValue+=$lunches[0]->getCarbohydratesG();
                     $allCarbohydratesValue+=$dinners[0]->getCarbohydratesG();
                     $allCarbohydratesValue+=$suppers[0]->getCarbohydratesG();
-                    
-//                    var_dump($breakfasts[0]->getName());
-//                    var_dump($brunches[0]->getName());
-//                    var_dump($lunches[0]->getName());
-//                    var_dump($dinners[0]->getName());
-//                    var_dump($suppers[0]->getName());
 
                     $counter++;
                 }
@@ -265,9 +247,9 @@ class CreatedDietRepository extends EntityRepository {
                 $em->flush();
             }
         }
-        
-        
-                //      REQUIREMENTS ABOUT FAT VALUE
+
+
+        //      REQUIREMENTS ABOUT FAT VALUE
         $fatsRule = $rule->getDailyFatRequirementsG();
         if ($fatsRule != null) {
 
@@ -299,12 +281,6 @@ class CreatedDietRepository extends EntityRepository {
                     $allFatValue+=$lunches[0]->getFatG();
                     $allFatValue+=$dinners[0]->getFatG();
                     $allFatValue+=$suppers[0]->getFatG();
-                    
-//                    var_dump($breakfasts[0]->getName());
-//                    var_dump($brunches[0]->getName());
-//                    var_dump($lunches[0]->getName());
-//                    var_dump($dinners[0]->getName());
-//                    var_dump($suppers[0]->getName());
 
                     $counter++;
                 }
@@ -347,10 +323,10 @@ class CreatedDietRepository extends EntityRepository {
                 $em->flush();
             }
         }
-        
-        
-        
-         //      REQUIREMENTS ABOUT MONTHLY COSTS VALUE
+
+
+
+        //      REQUIREMENTS ABOUT MONTHLY COSTS VALUE
         $costRule = $rule->getMonthlyCost();
         if ($costRule != null) {
 
@@ -364,8 +340,8 @@ class CreatedDietRepository extends EntityRepository {
             $suppers = $query->setParameter('type', 'kolacja')->getResult();
 
             $start_date = Date('Y-m-d');
-            
-            $costRulePerDay = $costRule/30;
+
+            $costRulePerDay = $costRule / 30;
 
             for ($i = 0; $i < 30; $i++) {
                 $allCostValue = 0;
@@ -384,12 +360,6 @@ class CreatedDietRepository extends EntityRepository {
                     $allCostValue+=$lunches[0]->getAverageCost();
                     $allCostValue+=$dinners[0]->getAverageCost();
                     $allCostValue+=$suppers[0]->getAverageCost();
-//                    
-//                    var_dump($breakfasts[0]->getName());
-//                    var_dump($brunches[0]->getName());
-//                    var_dump($lunches[0]->getName());
-//                    var_dump($dinners[0]->getName());
-//                    var_dump($suppers[0]->getName());
 
                     $counter++;
                 }
@@ -432,19 +402,20 @@ class CreatedDietRepository extends EntityRepository {
                 $em->flush();
             }
         }
-        
+
         //      REQUIREMENTS ABOUT MEAL CONDITIONS
         $mealConditionARule = $rule->getWhichMeal();
         $mealConditionBRule = $rule->getRepetition();
         $mealConditionCRule = $rule->getInInterval();
         if ($mealConditionARule != null &&
-            $mealConditionBRule != null &&
-            $mealConditionCRule != null) {
+                $mealConditionBRule != null &&
+                $mealConditionCRule != null) {
 
             $em = $this->getEntityManager();
+            
             //SELECT ALL RECORDS WITHOUT CHOOSEN MEAL
             $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.type=:type AND meal.name<>:name');
-            
+
             $query->setParameter('name', $mealConditionARule);
 
             $breakfasts = $query->setParameter('type', 'śniadanie')->getResult();
@@ -452,196 +423,186 @@ class CreatedDietRepository extends EntityRepository {
             $lunches = $query->setParameter('type', 'lunch')->getResult();
             $dinners = $query->setParameter('type', 'obiad')->getResult();
             $suppers = $query->setParameter('type', 'kolacja')->getResult();
-            
-//            var_dump($breakfasts);
-//            var_dump($brunches);
-//            var_dump($lunches);
-//            var_dump($dinners);
-//            var_dump($suppers);
-            
+
+
             //SELECT CHOOSEN MEAL FROM DATABASE
             $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.name=:name');
             $choosenMeal = $query->setParameter('name', $mealConditionARule)->getResult();
             $choosenMealType = $choosenMeal[0]->getType();
 
             $start_date = Date('Y-m-d');
-            
-            $shuffledBreakfasts=[];
-            $shuffledBrunches=[];
-            $shuffledLunches=[];
-            $shuffledDinners=[];
-            $shuffledSuppers=[];
-            
+
+            $shuffledBreakfasts = [];
+            $shuffledBrunches = [];
+            $shuffledLunches = [];
+            $shuffledDinners = [];
+            $shuffledSuppers = [];
+
             for ($i = 0; $i < 30; $i++) {
                 shuffle($breakfasts);
                 shuffle($brunches);
                 shuffle($lunches);
                 shuffle($dinners);
                 shuffle($suppers);
-                
-                $shuffledBreakfasts[]=$breakfasts[0];
-                $shuffledBrunches[]=$brunches[0];
-                $shuffledLunches[]=$lunches[0];
-                $shuffledDinners[]=$dinners[0];
-                $shuffledSuppers[]=$suppers[0];
-                
+
+                $shuffledBreakfasts[] = $breakfasts[0];
+                $shuffledBrunches[] = $brunches[0];
+                $shuffledLunches[] = $lunches[0];
+                $shuffledDinners[] = $dinners[0];
+                $shuffledSuppers[] = $suppers[0];
             }
             //DIVIDE CREATED ARRAYS IN GIVEN INTERVALS
-            $dividedBreakfasts = array_chunk($shuffledBreakfasts, $mealConditionCRule);
-            $dividedBrunches = array_chunk($shuffledBrunches, $mealConditionCRule);
-            $dividedLunches = array_chunk($shuffledLunches, $mealConditionCRule);
-            $dividedDinners = array_chunk($shuffledDinners, $mealConditionCRule);
-            $dividedSuppers = array_chunk($shuffledSuppers, $mealConditionCRule);
-            
+            $breakfastsInIntervals = array_chunk($shuffledBreakfasts, $mealConditionCRule);
+            $brunchesInIntervals = array_chunk($shuffledBrunches, $mealConditionCRule);
+            $lunchesInIntervals = array_chunk($shuffledLunches, $mealConditionCRule);
+            $dinnersInIntervals = array_chunk($shuffledDinners, $mealConditionCRule);
+            $suppersInIntervals = array_chunk($shuffledSuppers, $mealConditionCRule);
+
             //COMPARING TYPES OF MEALS TO IDENTIFY PROPER GROUP WHICH HAVE TO BE CHANGED
             if ($choosenMealType == $shuffledBreakfasts[0]->getType()) {
-                foreach ($dividedBreakfasts as $breakfast) {
-                    if (count($breakfast) == $mealConditionCRule) {
-                        $reducedArray = array_splice($breakfast, $mealConditionBRule);
-                        $increasedArray = array_pad($reducedArray, $mealConditionCRule, $choosenMeal);
-                        shuffle($increasedArray);
+                $mergedArray = [];
+                foreach ($breakfastsInIntervals as $singleInterval) {
+                    if (count($singleInterval) == $mealConditionCRule) {
+                        $clearedArray = array_splice($singleInterval, $mealConditionBRule);
+                        $fullfilledBreakfastsArray = array_pad($clearedArray, $mealConditionCRule, $choosenMeal[0]);
+                        shuffle($fullfilledBreakfastsArray);
+                        $mergedArray = array_merge($mergedArray, $fullfilledBreakfastsArray);
                     }
                 }
+
+                while (count($mergedArray) != 30) {
+                    shuffle($shuffledBreakfasts);
+                    $mergedArray[] = $shuffledBreakfasts[0];
+                }
+                $shuffledBreakfasts = $mergedArray;
             }
-            
+
             if ($choosenMealType == $shuffledBrunches[0]->getType()) {
-                foreach ($dividedBrunches as $brunch) {
-                    if (count($brunch) == $mealConditionCRule) {
-                        $reducedArray = array_splice($brunch, $mealConditionBRule);
-                        $increasedArray = array_pad($reducedArray, $mealConditionCRule, $choosenMeal);
-                        shuffle($increasedArray);
+                $mergedArray = [];
+                foreach ($brunchesInIntervals as $singleInterval) {
+                    if (count($singleInterval) == $mealConditionCRule) {
+                        $clearedArray = array_splice($singleInterval, $mealConditionBRule);
+                        $fullfilledBrunchesArray = array_pad($clearedArray, $mealConditionCRule, $choosenMeal[0]);
+                        shuffle($fullfilledBrunchesArray);
+                        $mergedArray = array_merge($mergedArray, $fullfilledBrunchesArray);
                     }
                 }
+                while (count($mergedArray) != 30) {
+                    shuffle($shuffledBrunches);
+                    $mergedArray[] = $shuffledBrunches[0];
+                }
+                $shuffledBrunches = $mergedArray;
             }
-            
+
+
             if ($choosenMealType == $shuffledLunches[0]->getType()) {
-                foreach ($dividedLunches as $lunch) {
-                    if (count($lunch) == $mealConditionCRule) {
-                        $reducedArray = array_splice($lunch, $mealConditionBRule);
-                        $increasedArray = array_pad($reducedArray, $mealConditionCRule, $choosenMeal);
-                        shuffle($increasedArray);
+                $mergedArray = [];
+                foreach ($lunchesInIntervals as $singleInterval) {
+                    if (count($singleInterval) == $mealConditionCRule) {
+                        $clearedArray = array_splice($singleInterval, $mealConditionBRule);
+                        $fullfilledLunchesArray = array_pad($clearedArray, $mealConditionCRule, $choosenMeal[0]);
+                        shuffle($fullfilledLunchesArray);
+                        $mergedArray = array_merge($mergedArray, $fullfilledLunchesArray);
                     }
                 }
+                while (count($mergedArray) != 30) {
+                    shuffle($shuffledLunches);
+                    $mergedArray[] = $shuffledLunches[0];
+                }
+                $shuffledLunches = $mergedArray;
             }
-            
+
+
             if ($choosenMealType == $shuffledDinners[0]->getType()) {
-                foreach ($dividedDinners as $dinner) {
-                    if (count($dinner) == $mealConditionCRule) {
-                        $reducedArray = array_splice($dinner, $mealConditionBRule);
-                        $increasedArray = array_pad($reducedArray, $mealConditionCRule, $choosenMeal);
-                        shuffle($increasedArray);
+                $mergedArray = [];
+                foreach ($dinnersInIntervals as $singleInterval) {
+                    if (count($singleInterval) == $mealConditionCRule) {
+                        $clearedArray = array_splice($singleInterval, $mealConditionBRule);
+                        $fullfilledDinnersArray = array_pad($clearedArray, $mealConditionCRule, $choosenMeal[0]);
+                        shuffle($fullfilledDinnersArray);
+                        $mergedArray = array_merge($mergedArray, $fullfilledDinnersArray);
                     }
                 }
+                while (count($mergedArray) != 30) {
+                    shuffle($shuffledDinners);
+                    $mergedArray[] = $shuffledDinners[0];
+                }
+                $shuffledDinners = $mergedArray;
             }
-            
+
+
             if ($choosenMealType == $shuffledSuppers[0]->getType()) {
-                foreach ($dividedSuppers as $supper) {
-                    if (count($supper) == $mealConditionCRule) {
-                        $reducedArray = array_splice($supper, $mealConditionBRule);
-                        $increasedArray = array_pad($reducedArray, $mealConditionCRule, $choosenMeal);
-                        shuffle($increasedArray);
+                $mergedArray = [];
+                foreach ($suppersInIntervals as $singleInterval) {
+                    if (count($singleInterval) == $mealConditionCRule) {
+                        $clearedArray = array_splice($singleInterval, $mealConditionBRule);
+                        $fullfilledSuppersArray = array_pad($clearedArray, $mealConditionCRule, $choosenMeal[0]);
+                        shuffle($fullfilledSuppersArray);
+                        $mergedArray = array_merge($mergedArray, $fullfilledSuppersArray);
                     }
                 }
+                while (count($mergedArray) != 30) {
+                    shuffle($shuffledSuppers);
+                    $mergedArray[] = $shuffledSuppers[0];
+                }
+                $shuffledSuppers = $mergedArray;
+            }
+
+            $current_date = date('Y-m-d', strtotime($start_date . ' + ' . $i . ' days'));
+
+            
+//                //CREATING AND SAVING OBIECTS OF SINGLE TYPE OF GENERATED MEALS
+            foreach ($shuffledBreakfasts as $breakfast) {
+                $createdBreakfasts = new CreatedDiet();
+                $createdBreakfasts->setDate(new \DateTime($current_date));
+                $createdBreakfasts->setMeal($breakfast);
+                $createdBreakfasts->setDietRules($rule);
+
+                $em->persist($createdBreakfasts);
+                $em->flush();
+            }
+
+            foreach ($shuffledBrunches as $brunch) {
+                $createdBrunches = new CreatedDiet();
+                $createdBrunches->setDate(new \DateTime($current_date));
+                $createdBrunches->setMeal($brunch);
+                $createdBrunches->setDietRules($rule);
+
+                $em->persist($createdBrunches);
+                $em->flush();
             }
             
+            foreach ($shuffledLunches as $lunch) {
+                $createdLunches = new CreatedDiet();
+                $createdLunches->setDate(new \DateTime($current_date));
+                $createdLunches->setMeal($lunch);
+                $createdLunches->setDietRules($rule);
+
+                $em->persist($createdLunches);
+                $em->flush();
+            }
             
+            foreach ($shuffledDinners as $dinner) {
+                $createdDinners = new CreatedDiet();
+                $createdDinners->setDate(new \DateTime($current_date));
+                $createdDinners->setMeal($dinner);
+                $createdDinners->setDietRules($rule);
+
+                $em->persist($createdDinners);
+                $em->flush();
+            }
             
-            
-            
-            
-            
-            
+            foreach ($shuffledSuppers as $supper) {
+                $createdSuppers = new CreatedDiet();
+                $createdSuppers->setDate(new \DateTime($current_date));
+                $createdSuppers->setMeal($supper);
+                $createdSuppers->setDietRules($rule);
 
+                $em->persist($createdSuppers);
+                $em->flush();
+            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//                
-//                
-//                $allFatValue = 0;
-//                $counter = 0;
-//                while ($allFatValue < ($fatsRule - 10) || $allFatValue > $fatsRule || $counter < 5) {
-//                    $allFatValue = 0;
-//
-//                    shuffle($breakfasts);
-//                    shuffle($brunches);
-//                    shuffle($lunches);
-//                    shuffle($dinners);
-//                    shuffle($suppers);
-//
-//                    $allFatValue+=$breakfasts[0]->getFatG();
-//                    $allFatValue+=$brunches[0]->getFatG();
-//                    $allFatValue+=$lunches[0]->getFatG();
-//                    $allFatValue+=$dinners[0]->getFatG();
-//                    $allFatValue+=$suppers[0]->getFatG();
-                    
-//                    var_dump($breakfasts[0]->getName());
-//                    var_dump($brunches[0]->getName());
-//                    var_dump($lunches[0]->getName());
-//                    var_dump($dinners[0]->getName());
-//                    var_dump($suppers[0]->getName());
-
-//                    $counter++;
-//                }
-//                $current_date = date('Y-m-d', strtotime($start_date . ' + ' . $i . ' days'));
-//
-//                //CREATING OBIECTS OF SINGLE TYPE OF  GENERATED MEALS
-//                $createdBreakfasts = new CreatedDiet();
-//                $createdBreakfasts->setDate(new \DateTime($current_date));
-//                $createdBreakfasts->setMeal($breakfasts[0]);
-//                $createdBreakfasts->setDietRules($rule);
-//
-//                $createdBrunches = new CreatedDiet();
-//                $createdBrunches->setDate(new \DateTime($current_date));
-//                $createdBrunches->setMeal($brunches[0]);
-//                $createdBrunches->setDietRules($rule);
-//
-//                $createdLunches = new CreatedDiet();
-//                $createdLunches->setDate(new \DateTime($current_date));
-//                $createdLunches->setMeal($lunches[0]);
-//                $createdLunches->setDietRules($rule);
-//
-//                $createdDinners = new CreatedDiet();
-//                $createdDinners->setDate(new \DateTime($current_date));
-//                $createdDinners->setMeal($dinners[0]);
-//                $createdDinners->setDietRules($rule);
-//
-//                $createdSuppers = new CreatedDiet();
-//                $createdSuppers->setDate(new \DateTime($current_date));
-//                $createdSuppers->setMeal($suppers[0]);
-//                $createdSuppers->setDietRules($rule);
-//
-//                // SAVING OBIECTS IN DATABASE
-//                $em = $this->getEntityManager();
-//                $em->persist($createdBreakfasts);
-//                $em->persist($createdBrunches);
-//                $em->persist($createdLunches);
-//                $em->persist($createdDinners);
-//                $em->persist($createdSuppers);
-//
-//                $em->flush();
-//            }
         }
     }
+
 }
-        
