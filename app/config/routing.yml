@@ -5,4 +5,8 @@ dsl:
     
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+    
+homepage:
+    pattern: /home
+    defaults: { _controller: DSLBundle:Default:index }
 

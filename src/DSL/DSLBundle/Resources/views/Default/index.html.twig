@@ -1,1 +1,58 @@
-Hello World!
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="container">
+        <a href ="/login">
+            <div class="homepage-divs">
+                ZALOGUJ
+            </div>
+        </a>
+        <a href="/register">
+            <div class="homepage-divs">
+                ZAREJESTRUJ   
+            </div>
+        </a>
+        <div class='clearness'></div>
+    </div>
+
+
+    <style>
+        body{
+            font-family: 'Lato', sans-serif;
+        }
+        #container{
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 200px;
+            width: 720px;
+        }
+        .homepage-divs{
+            border:3px solid black;
+            float: left;
+            align-content: center;
+            width: 250px;
+            height: 200px;
+            padding: 47px;
+            text-align: center;
+            margin-left: 5px;
+            margin-right: 5px;
+            color: black;
+
+        }
+        .homepage-divs:hover{
+            border-color: grey;
+            color: grey;
+
+        }
+        .clearness{
+            clear: both;
+        }
+        a{
+            text-decoration: none;
+        }
+
+    </style>
+
+{% endblock %}
+
+
