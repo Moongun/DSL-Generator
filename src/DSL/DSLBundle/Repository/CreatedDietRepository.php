@@ -55,6 +55,8 @@ class CreatedDietRepository extends EntityRepository {
                     $allEnergyValue+=$suppers[0]->getEnergyValueKcal();
 
                     $counter++;
+                    
+                    //test synchonizacji z gitem
                 }
 
                 $current_date = date('Y-m-d', strtotime($start_date . ' + ' . $i . ' days'));
