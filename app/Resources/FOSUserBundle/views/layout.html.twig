@@ -4,30 +4,53 @@
         <meta charset="UTF-8" />
     </head>
     <body>
-        <div>
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-                <a href="{{ path('fos_user_security_logout') }}">
-                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                </a>
-            {% else %}
-                <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-            {% endif %}
-        </div>
+        <div id='container'>
+            <div>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                    <a href="{{ path('fos_user_security_logout') }}">
+                        {#                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}#}
+                        wyloguj
+                    </a>
+                {% else %}
+                    <a href="{{ path('fos_user_security_login') }}">
+                        {#                        {{ 'layout.login'|trans({}, 'FOSUserBundle') }}#}
+                        zaloguj
+                    </a>
+                {% endif %}
+            </div>
 
-        {% if app.request.hasPreviousSession %}
-            {% for type, messages in app.session.flashbag.all() %}
-                {% for message in messages %}
-                    <div class="flash-{{ type }}">
-                        {{ message }}
-                    </div>
+            {% if app.request.hasPreviousSession %}
+                {% for type, messages in app.session.flashbag.all() %}
+                    {% for message in messages %}
+                        <div class="flash-{{ type }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-        {% endif %}
+            {% endif %}
 
-        <div>
-            {% block fos_user_content %}
-            {% endblock fos_user_content %}
+            <div>
+                {% block fos_user_content %}
+                {% endblock fos_user_content %}
+            </div>
         </div>
+
+        <style>
+            body{
+                font-family: 'Lato', sans-serif;
+                font-size: 12px;
+            }
+            #container{
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 200px;
+                width: 720px;
+            }
+            a{
+                text-decoration: none;
+                color: black;
+            }
+        </style>
     </body>
 </html>
