@@ -2,12 +2,20 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}DSL{% endblock %}</title>
+        {% block stylesheets %}
+            {% stylesheets 'bundles/DSLBundle/css/*' filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+    {% block body %}{% endblock %}
+    {% block javascripts %}
+{#        {% javascripts '@DSLBundle/Resources/public/js/*' %}#}
+        {#    <script src="{{ asset_url }}"></script>#}
+{#        {% endjavascripts %}#}
+    {% endblock %}
+</body>
 </html>
