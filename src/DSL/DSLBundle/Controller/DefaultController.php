@@ -14,4 +14,12 @@ class DefaultController extends Controller
     {
         return $this->render('DSLBundle:Default:index.html.twig');
     }
+    
+    /**
+     * @Route("/start")
+     */
+    public function startAction()
+    {
+        return $this->render('DSLBundle:Default:start.html.twig');
+    }
 }
