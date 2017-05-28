@@ -11,27 +11,32 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}
-            {% block header %}
-                <div>
-                    <ul class='menu-header'>
-                        <li>Profil</li>
-                        <li>Historia</li>
-                        <li>Stwórz dietę!</li>
-                        <li>o mnie</li>
-                    </ul>
-                </div>
-            {% endblock header %}
+        <div id='container'>
+            {% block body %}
+                {% block header %}
+                    <div>
+                        <ul class='menu-header'>
+                            <li>Profil</li>
+                            <li>Historia</li>
+                            <li>Stwórz dietę!</li>
+                            <li>o mnie</li>
+                        </ul>
+                    </div>
+                {% endblock header %}
 
-        {% block content %}{% endblock content %}
-
-        {% block footer %}
-            <div class="footer">
-                <div>Diet & Shopping List Generator</div>
-                <div>Michał Wiązek</div
+                <div id='content'>
+                {% block content %}{% endblock content %}
             </div>
-        {% endblock footer%}
-    {% endblock %}
+
+            {% block footer %}
+                <div class="footer">
+                    <div class="line"></div>
+                    <div>Diet & Shopping List Generator</div>
+                    <div>Michał Wiązek</div>
+                </div>
+            {% endblock footer%}
+        {% endblock %}
+    </div>
     {% block javascripts %}
         {#        {% javascripts '@DSLBundle/Resources/public/js/*' %}#}
         {#    <script src="{{ asset_url }}"></script>#}
