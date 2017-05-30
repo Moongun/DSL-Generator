@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_logged.html.twig' %}
 
-{% block body %}
+{% block content %}
     <h1>Meals list</h1>
 
     <table>
@@ -50,4 +50,4 @@
             <a href="{{ path('meal_new') }}">Create a new meal</a>
         </li>
     </ul>
-{% endblock %}
+{% endblock content %}

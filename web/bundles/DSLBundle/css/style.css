@@ -123,9 +123,11 @@ input[type=checkbox] {
 }
 .menu-header-options{
     display: inline;
-    color: white;
     margin: 10px;
     text-align: center;
+}
+.menu-header-options a{
+        color: white;
 }
 .menu-header-options:hover{
     background-color: green; 

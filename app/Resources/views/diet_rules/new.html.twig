@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_logged.html.twig' %}
 
-{% block body %}
+{% block content %}
     <h1>Diet_rule creation</h1>
 
     {{ form_start(form) }}
@@ -13,4 +13,4 @@
             <a href="{{ path('diet_rules_index') }}">Back to the list</a>
         </li>
     </ul>
-{% endblock %}
+{% endblock content %}
