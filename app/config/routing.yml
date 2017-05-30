@@ -9,4 +9,3 @@ fos_user:
 homepage:
     pattern: /home
     defaults: { _controller: DSLBundle:Default:index }
-

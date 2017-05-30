@@ -16,7 +16,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/start")
+     * @Route("/start", name="start")
      */
     public function startAction()
     {
