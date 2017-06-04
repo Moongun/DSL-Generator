@@ -154,3 +154,13 @@ input[type=checkbox] {
     background: -moz-linear-gradient(right,rgba(255,0,0,0),rgba(255,0,0,1),rgba(255,0,0,0)); /*Fx 3.6-15*/
     background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1),rgba(255,0,0,0)); /*Standard*/
 }
+.form_submit{
+    background-color: rgba(133, 34, 42, 1);
+}
+.form_div{
+    margin-left: auto;
+    margin-right: auto;
+}
+.repets_inters{
+    width:35px;
+}
