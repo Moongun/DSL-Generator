@@ -1,21 +1,21 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_logged.html.twig' %}
 
 
-{% block body %}
+{% block content %}
 
-    TABLE OF CREATED DIET
+    <h1>Stworzona dieta</h1>
     {% set counter = 0 %}
     <table>
         <tr>
-            <th>number</th>
-            <th>meal</th>
-            <th>description</th>
-            <th>type</th>
-            <th>energy value [kcal]</th>
-            <th>protein [g]</th>
-            <th>carbohydrates [g]</th>
-            <th>fat [g]</th>
-            <th>avarage cost [pln]</th>
+            <th>numer</th>
+            <th>posiłek</th>
+            <th>typ</th>
+            <th>wartość energetyczna [kcal]</th>
+            <th>białko [g]</th>
+            <th>węglowodany [g]</th>
+            <th>tłuszcz [g]</th>
+            <th>średni koszt [pln]</th>
+            <th>szczegóły</th>
         </tr>
 
         {% for meal in meals%}
@@ -23,16 +23,18 @@
                 <td>{% set counter = counter + 1 %}
                     {{counter}}</td>
                 <td>{{meal.name}}</td>
-                <td>{{meal.description}}</td>
                 <td>{{meal.type}}</td>
                 <td>{{meal.energyValueKcal}}</td>
                 <td>{{meal.proteinG}}</td>
                 <td>{{meal.carbohydratesG}}</td>
                 <td>{{meal.fatG}}</td>
                 <td>{{meal.averageCost}}</td>
+                <td><span>rozwiń opis</span>
+                    {{meal.description}}</td>
             </tr>
         {%endfor%}
 
     </table>
-{% endblock %}
 
+
+{% endblock content %}
