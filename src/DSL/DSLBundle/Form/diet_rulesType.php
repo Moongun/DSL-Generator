@@ -44,7 +44,7 @@ class diet_rulesType extends AbstractType
                 },
                     'choice_label'=>'name',
                     'required'=>false,
-                    'placeholder' => 'Choose meal',
+                    'placeholder' => 'Wybierz posiłek',
                     'empty_data'  => null))
                 ->add('whichProduct', EntityType::class, array(
                     'class'=>'DSLBundle:Product', 
@@ -54,10 +54,10 @@ class diet_rulesType extends AbstractType
                 },
                     'choice_label'=>'name',
                     'required'=>false,
-                    'placeholder' => 'Choose product',
+                    'placeholder' => 'ybierz produkt',
                     'empty_data'  => null))
                 ->add('repetition')
-                ->add('inInterval')        ;
+                ->add('inInterval');
     }
 
     

@@ -48,8 +48,9 @@ class Diet_rulesController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($diet_rule);
             $em->flush($diet_rule);
-            
-            return $this->redirectToRoute('createddiet_show', array('id' => $diet_rule->getId()));
+//            echo"tak jest";
+//            dump($diet_rule->getId());
+            return $this->redirectToRoute('createddiet_show', array('dietRuleId' => $diet_rule->getId()));
         }
 
         return $this->render('diet_rules/new.html.twig', array(

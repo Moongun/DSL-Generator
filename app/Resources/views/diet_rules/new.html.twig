@@ -1,11 +1,55 @@
 {% extends 'base_logged.html.twig' %}
 
 {% block content %}
-    <h1>Diet_rule creation</h1>
+    <h1>Wprowadź warunki diety</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+    <div class="form_div">
+        <p>a) Warunki dietetyczne:</p>
+        {{form_errors(form.dailyCaloriesRequirementsKcal)}}
+        {{form_widget(form.dailyCaloriesRequirementsKcal, {'attr':{'placeholder':'dzienne zapotrzebowanie kaloryczne', 'class':'fos_register_div'}})}}
+    </div>
+    <div class="form_div">
+        {{form_errors(form.dailyProteinRequirementsG)}}
+        {{form_widget(form.dailyProteinRequirementsG, {'attr':{'placeholder':'dzienne zapotrzebowanie na białko', 'class':'fos_register_div'}})}}
+    </div>
+    <div class="form_div">
+        {{form_errors(form.dailyCarbohydratesRequirementsG)}}
+        {{form_widget(form.dailyCarbohydratesRequirementsG, {'attr':{'placeholder':'dzienne zapotrzebowanie na węglowodany', 'class':'fos_register_div'}})}}
+    </div>
+    <div class="form_div">
+        {{form_errors(form.dailyFatRequirementsG)}}
+        {{form_widget(form.dailyFatRequirementsG, {'attr':{'placeholder':'dzienne zapotrzebowanie na tłuszcz', 'class':'fos_register_div'}})}}
+    </div>
+    <div class="form_div">
+        <p>b): Warunki finansowe:</p>
+        {{form_errors(form.monthlyCost)}}
+        {{form_widget(form.monthlyCost, {'attr':{'placeholder':'miesięczny koszt diety', 'class':'fos_register_div'}})}}
+    </div>
+    <div class="form_div">
+        <p>c) Warunki cykliczne:</p>
+        <span><p>Chcę zjeść
+        {{form_errors(form.whichMeal)}}
+        {{form_widget(form.whichMeal)}}
+        {{form_errors(form.repetition, {'attr':{'class':'repets_inters'}})}}
+        {{form_widget(form.repetition, {'attr':{'class':'repets_inters'}})}}
+        razy w ciągu
+        {{form_errors(form.inInterval, {'attr':{'class':'repets_inters'}})}}
+        {{form_widget(form.inInterval, {'attr':{'class':'repets_inters'}})}}
+        dni.</p>
+        </span>
+    </div>
+    <div class="form_div">
+        {{form_errors(form.whichProduct)}}
+        {{form_widget(form.whichProduct)}}
+        {{form_errors(form.repetition)}}
+        {{form_widget(form.repetition)}}
+        {{form_errors(form.inInterval)}}
+        {{form_widget(form.inInterval)}}
+    </div>
+    <div>
+        <input type="submit" value="Stwórz dietę", class="fos_register_div submit form_submit" />
+    </div>
     {{ form_end(form) }}
 
     <ul>
