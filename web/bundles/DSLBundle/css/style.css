@@ -164,3 +164,12 @@ input[type=checkbox] {
 .repets_inters{
     width:35px;
 }
+.expand{
+    text-align: right;
+}
+.description{
+    display: none;
+    text-align: center;
+}
+.table-diet{
+}
