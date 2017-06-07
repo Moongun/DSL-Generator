@@ -2,37 +2,55 @@
 
 {% block content %}
     <h1>Stworzona dieta</h1>
-    {% set counter = 0 %}
     <table class='table-diet'>
-        <tr>
-            <th>numer</th>
-            <th>posiłek</th>
-            <th>typ</th>
-            <th>wartość energetyczna [kcal]</th>
-            <th>białko [g]</th>
-            <th>węglowodany [g]</th>
-            <th>tłuszcz [g]</th>
-            <th>średni koszt [pln]</th>
-            <th>szczegóły</th>
+        <tr class='table-row'>
+            <th class='table-center'>Dzień</th>
+            <th class='table-center'>śniadanie</th>
+            <th class='table-center'>brunch</th>
+            <th class='table-center'>lunch</th>
+            <th class='table-center'>obiad</th>
+            <th class='table-center'>kolacja</th>
         </tr>
+        {% set counterMeal = 0 %}
 
-        {% for meal in meals%}
-            <tr>
-                <td>{% set counter = counter + 1 %}
-                    {{counter}}</td>
-                <td>{{meal.name}}</td>
-                <td>{{meal.type}}</td>
-                <td>{{meal.energyValueKcal}}</td>
-                <td>{{meal.proteinG}}</td>
-                <td>{{meal.carbohydratesG}}</td>
-                <td>{{meal.fatG}}</td>
-                <td>{{meal.averageCost}}</td>
-                <td>
-                    <p class='expand'>rozwiń opis</p>
-                    <p class='description'>{{meal.description}}</p>
-                </td>
+        {% for i in 1..30 %}
+            <tr class='table-row without-header'>
+                <td class='table-center'>{{ i }}</td>
+                {% for meal in meals |slice(counterMeal, 5) %}
+                    <td class='table-center expand'> {{ meal.name }}
+                        <div class='description'> 
+                        <p>
+                        <h3>{{meal.name}}</h3>
+                        </p>
+                        <p>
+                            <span>typ:</span> <span>{{meal.type}}</span>
+                        </p>
+                        <p>
+                            <span>wartość energetyczna [kcal]:</span> <span>{{meal.energyValueKcal}}</span>
+                        </p>
+                        <p>
+                            <span>białko [g]:</span> <span>{{meal.proteinG}}</span>
+                        </p>
+                        <p>
+                            <span>węglowodany [g]:</span> <span>{{meal.carbohydratesG}}</span>
+                        </p>
+                        <p>
+                            <span>tłuszcz [g]:</span> <span>{{meal.fatG}}</span>
+                        </p>
+                        <p>
+                            <span>średni koszt [zł]:</span> <span>{{meal.averageCost}}</span>
+                        </p>
+                        <p>
+                            <span>opis:</span> <span>{{meal.description}}</span>
+                        </p>
+                        </div>
+                    </td>
+                {% endfor %}
+                {% set counterMeal = counterMeal + 5 %}
             </tr>
-        {%endfor%}
+        {% endfor %}
+    </table>
+
 
     </table>
 {% endblock content %}

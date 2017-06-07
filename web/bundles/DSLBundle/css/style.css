@@ -169,7 +169,22 @@ input[type=checkbox] {
 }
 .description{
     display: none;
+    position: fixed;
     text-align: center;
+    background-color: white;
+    border: 1px solid #000;
+    padding: 10px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
 }
 .table-diet{
+    border-collapse: collapse;
+}
+.table-center{
+    text-align: center;
+}
+.without-header:hover{
+    background-color: gray;
+    opacity: 0.90;
 }
