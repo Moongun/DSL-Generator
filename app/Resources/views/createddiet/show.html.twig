@@ -2,6 +2,45 @@
 
 {% block content %}
     <h1 class='content_header'>Stworzona dieta</h1>
+    <div>
+        <h3>Podsumowanie:</h3>
+        <table>
+            <tr>
+                <th>średnie wartość energetyczna/dzień</th>
+                <th>średnie białko/dzień</th>
+                <th>średnie tłuszcz/dzień</th>
+                <th>średnie węglowodany/dzień</th>
+                <th>szacowany koszt/miesiąc </th>
+            </tr>
+            <tr>
+                <td>{{ energy }}</td>
+                <td>{{ proteins }}</td>
+                <td>{{ fats }}</td>
+                <td>{{ carbohydrates }}</td>
+                <td>{{ costs }}</td>
+            </tr>
+            <tr>
+                <th>koszty tygodniowe</th>
+            </tr>
+            <tr>
+                <th>1 tydzień</th>
+                <th>2 tydzień</th>
+                <th>3 tydzień</th>
+                <th>4 tydzień</th>
+                <th>reszta miesiąca</th>
+            </tr>
+            <tr>
+                <td>{{ firstWeek }}</td>
+                <td>{{ secondWeek }}</td>
+                <td>{{ thirdWeek }}</td>
+                <td>{{ fourthWeek }}</td>
+                <td>{{ restOfMonth }}</td>
+            </tr>
+        </table>
+        <div>
+            ===================================
+        </div>
+    </div>
     <table class='table-diet'>
         <tr class='table-row'>
             <th class='table-center'>Dzień</th>
@@ -18,30 +57,30 @@
                 {% for meal in meals |slice(counterMeal, 5) %}
                     <td class='table-center expand'> {{ meal.name }}
                         <div class='description'> 
-                        <p>
-                        <h3>{{meal.name}}</h3>
-                        </p>
-                        <p>
-                            <span>typ:</span> <span>{{meal.type}}</span>
-                        </p>
-                        <p>
-                            <span>wartość energetyczna [kcal]:</span> <span>{{meal.energyValueKcal}}</span>
-                        </p>
-                        <p>
-                            <span>białko [g]:</span> <span>{{meal.proteinG}}</span>
-                        </p>
-                        <p>
-                            <span>węglowodany [g]:</span> <span>{{meal.carbohydratesG}}</span>
-                        </p>
-                        <p>
-                            <span>tłuszcz [g]:</span> <span>{{meal.fatG}}</span>
-                        </p>
-                        <p>
-                            <span>średni koszt [zł]:</span> <span>{{meal.averageCost}}</span>
-                        </p>
-                        <p>
-                            <span>opis:</span> <span>{{meal.description}}</span>
-                        </p>
+                            <p>
+                            <h3>{{meal.name}}</h3>
+                            </p>
+                            <p>
+                                <span>typ:</span> <span>{{meal.type}}</span>
+                            </p>
+                            <p>
+                                <span>wartość energetyczna [kcal]:</span> <span>{{meal.energyValueKcal}}</span>
+                            </p>
+                            <p>
+                                <span>białko [g]:</span> <span>{{meal.proteinG}}</span>
+                            </p>
+                            <p>
+                                <span>węglowodany [g]:</span> <span>{{meal.carbohydratesG}}</span>
+                            </p>
+                            <p>
+                                <span>tłuszcz [g]:</span> <span>{{meal.fatG}}</span>
+                            </p>
+                            <p>
+                                <span>średni koszt [zł]:</span> <span>{{meal.averageCost}}</span>
+                            </p>
+                            <p>
+                                <span>opis:</span> <span>{{meal.description}}</span>
+                            </p>
                         </div>
                     </td>
                 {% endfor %}

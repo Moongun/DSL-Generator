@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use DSL\DSLBundle\Entity\Meal;
 
 /**
  * Createddiet controller.
@@ -76,43 +77,86 @@ class CreatedDietController extends Controller {
         //finding single meal
         $rule = $ruleRepo->findOneById($dietRuleId);
 
-
         $createdDiet = $rule->getCreatedDiet();
-//        var_dump($createdDiet);
 //        
         //creating new diet
         if (!count($createdDiet)) {
-
-//            echo 'create';
-            //geting to repo of createdDiet
             $repoCreate = $this->getDoctrine()->getRepository('DSLBundle:CreatedDiet');
             $repoCreate->calcDiet($dietRuleId);
 
             $createdDiet = $rule->getCreatedDiet();
         }
 
-        $createdDiet = $rule->getCreatedDiet();
-//        var_dump($createdDiet[149]->getMeal()->getId());
+//        $createdDiet = $rule->getCreatedDiet();
 //        
         $repoMeal = $this->getDoctrine()->getRepository('DSLBundle:Meal');
 //        
-//        $meal=$repoMeal->findOneById($createdDiet[149]->getMeal()->getId());
-//        var_dump($meal);
-
         $arrayWithMealIds = [];
         foreach ($createdDiet as $meal) {
             $mealId = $meal->getMeal()->getId();
             $arrayWithMealIds[] = $mealId;
         }
-//        var_dump($arrayWithMealIds);
 
         $meals = [];
+        $energy = 0;
+        $proteins = 0;
+        $fats = 0;
+        $carbohydrates = 0;
+        $costs = 0;
+        $firstWeek = 0;
+        $secondWeek = 0;
+        $thirdWeek = 0;
+        $fourthWeek = 0;
+        $restOfMonth = 0;
+        $counter = 0;
         foreach ($arrayWithMealIds as $singleId) {
-            $meals[] = $repoMeal->findOneById($singleId);
-        }
-//        var_dump($meals);
+            $counter++;
 
-        return $this->render('createddiet/show.html.twig', array('meals' => $meals
+            $meal = $repoMeal->findOneById($singleId);
+            $meals[] = $meal;
+
+            $energy = $energy + $meal->getEnergyValueKcal();
+            $proteins = $proteins + $meal->getProteinG();
+            $fats = $fats + $meal->getFatG();
+            $carbohydrates = $carbohydrates + $meal->getCarbohydratesG();
+            $costs = $costs + $meal->getAverageCost();
+
+            switch ($counter) {
+                case $counter <= 35;
+                    $firstWeek = $firstWeek + $meal->getAverageCost();
+                    break;
+                case $counter <= 70;
+                    $secondWeek = $secondWeek + $meal->getAverageCost();
+                    break;
+                case $counter <= 105;
+                    $thirdWeek = $thirdWeek + $meal->getAverageCost();
+                    break;
+                case $counter <= 140;
+                    $fourthWeek = $fourthWeek + $meal->getAverageCost();
+                    break;
+                case $counter > 140;
+                    $restOfMonth = $restOfMonth + $meal->getAverageCost();
+                    break;
+            };
+        };
+
+        $energy = $energy / 30;
+        $proteins = $proteins / 30;
+        $fats = $fats / 30;
+        $carbohydrates = $carbohydrates / 30;
+
+        return $this->render('createddiet/show.html.twig', array(
+                    'meals' => $meals,
+                    'energy' => $energy,
+                    'proteins' => $proteins,
+                    'fats' => $fats,
+                    'carbohydrates' => $carbohydrates,
+                    'costs' => $costs,
+                    'firstWeek' => $firstWeek,
+                    'secondWeek' => $secondWeek,
+                    'thirdWeek' => $thirdWeek,
+                    'fourthWeek' => $fourthWeek,
+                    'restOfMonth' => $restOfMonth
         ));
     }
 
@@ -151,9 +195,9 @@ class CreatedDietController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery("SELECT diet FROM DSLBundle:CreatedDiet diet WHERE diet.dietRules=$id");
         $results = $query->getResult();
-        foreach($results as $result){
-        $em->remove($result);
-        $em->flush($result);
+        foreach ($results as $result) {
+            $em->remove($result);
+            $em->flush($result);
         }
 
 //        $form = $this->createDeleteForm($createdDiet);
