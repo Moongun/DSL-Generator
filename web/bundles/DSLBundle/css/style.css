@@ -234,3 +234,16 @@ input[type=checkbox] {
 .table-links-color{
     color: black;
 }
+.summary-table{
+    border-bottom: solid 1px;
+    margin-bottom: 50px;
+}
+
+.summary-table-header{
+    background-color: rgba(133, 34, 42, 1);
+    color: whitesmoke !important;
+}
+.summary-table-td-padding{
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
