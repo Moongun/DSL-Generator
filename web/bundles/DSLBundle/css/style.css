@@ -238,7 +238,6 @@ input[type=checkbox] {
     border-bottom: solid 1px;
     margin-bottom: 50px;
 }
-
 .summary-table-header{
     background-color: rgba(133, 34, 42, 1);
     color: whitesmoke !important;
@@ -246,4 +245,19 @@ input[type=checkbox] {
 .summary-table-td-padding{
     padding-bottom: 15px;
     padding-top: 15px;
+}
+.sidebar{
+    position: fixed;
+    left: 0px;
+}
+.sidebar > ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px 0px 0px 0px;
+}
+.sidebar > ul > li {
+    background-color: rgba(133, 34, 42, 1);
+    padding: 10px 10px 10px 10px;
+    color: whitesmoke;
+    margin: 0px 0px 10px 0px;
 }
