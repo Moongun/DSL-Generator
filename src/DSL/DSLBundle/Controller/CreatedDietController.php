@@ -87,10 +87,8 @@ class CreatedDietController extends Controller {
             $createdDiet = $rule->getCreatedDiet();
         }
 
-//        $createdDiet = $rule->getCreatedDiet();
-//        
         $repoMeal = $this->getDoctrine()->getRepository('DSLBundle:Meal');
-//        
+
         $arrayWithMealIds = [];
         foreach ($createdDiet as $meal) {
             $mealId = $meal->getMeal()->getId();

@@ -4,37 +4,37 @@
     <h1 class='content_header'>Stworzona dieta</h1>
     <div>
         <h3>Podsumowanie:</h3>
-        <table>
-            <tr>
-                <th>średnie wartość energetyczna/dzień</th>
-                <th>średnie białko/dzień</th>
-                <th>średnie tłuszcz/dzień</th>
-                <th>średnie węglowodany/dzień</th>
-                <th>szacowany koszt/miesiąc </th>
+        <table class='table-diet'>
+            <tr class='table-row'>
+                <th class='table-center'>średnie wartość energetyczna/dzień</th>
+                <th class='table-center'>średnie białko/dzień</th>
+                <th class='table-center'>średnie tłuszcz/dzień</th>
+                <th class='table-center'>średnie węglowodany/dzień</th>
+                <th class='table-center'>szacowany koszt/miesiąc </th>
             </tr>
-            <tr>
-                <td>{{ energy }}</td>
-                <td>{{ proteins }}</td>
-                <td>{{ fats }}</td>
-                <td>{{ carbohydrates }}</td>
-                <td>{{ costs }}</td>
+            <tr class='table-row'>
+                <td class='table-center'>{{ energy }} kcal</td>
+                <td class='table-center'>{{ proteins }} g</td>
+                <td class='table-center'>{{ fats }} g</td>
+                <td class='table-center'>{{ carbohydrates }} g</td>
+                <td class='table-center'>{{ costs }} zł</td>
             </tr>
-            <tr>
-                <th>koszty tygodniowe</th>
+            <tr class='table-row'>
+                <th class='table-center'>koszty tygodniowe</th>
             </tr>
-            <tr>
-                <th>1 tydzień</th>
-                <th>2 tydzień</th>
-                <th>3 tydzień</th>
-                <th>4 tydzień</th>
-                <th>reszta miesiąca</th>
+            <tr class='table-row'>
+                <th class='table-center'>1 tydzień</th>
+                <th class='table-center'>2 tydzień</th>
+                <th class='table-center'>3 tydzień</th>
+                <th class='table-center'>4 tydzień</th>
+                <th class='table-center'>reszta miesiąca</th>
             </tr>
-            <tr>
-                <td>{{ firstWeek }}</td>
-                <td>{{ secondWeek }}</td>
-                <td>{{ thirdWeek }}</td>
-                <td>{{ fourthWeek }}</td>
-                <td>{{ restOfMonth }}</td>
+            <tr class='table-row'>
+                <td class='table-center'>{{ firstWeek }} zł</td>
+                <td class='table-center'>{{ secondWeek }} zł</td>
+                <td class='table-center'>{{ thirdWeek }} zł</td>
+                <td class='table-center'>{{ fourthWeek }} zł</td>
+                <td class='table-center'>{{ restOfMonth }} zł</td>
             </tr>
         </table>
         <div>
