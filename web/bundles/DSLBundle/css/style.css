@@ -27,7 +27,6 @@ body{
 .homepage-divs:hover{
     border-color: grey;
     color: grey;
-
 }
 .clearness{
     clear: both;
@@ -131,7 +130,13 @@ input[type=checkbox] {
     color: white;
 }
 .menu-header-options:hover{
-    background-color: green; 
+    border-bottom: 2px solid;
+    border-bottom-color: whitesmoke;
+    padding-bottom: 7px;
+}
+.active{
+    border-bottom-color: rgba(210, 201, 201, 1) !important;
+    background-color: rgba(93, 8, 14, 1) !important;
 }
 #container{
     position: relative;

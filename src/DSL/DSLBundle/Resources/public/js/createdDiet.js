@@ -4,5 +4,4 @@ $(function(){
     $('.expand').on('click', function(){
         $(this).find('div').fadeToggle('slow');
     });
-    
 });
