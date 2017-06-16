@@ -128,7 +128,7 @@ input[type=checkbox] {
     text-align: center;
 }
 .menu-header-options a{
-        color: white;
+    color: white;
 }
 .menu-header-options:hover{
     background-color: green; 
@@ -204,4 +204,28 @@ input[type=checkbox] {
 .content_header{
     padding-left: 18px;
     padding-top: 20px;
+}
+.table-links{
+    list-style-type: none;
+    padding: inherit;
+}
+.div-link{
+    width: auto;
+    margin-bottom: 0;
+    margin-left: 210px;
+    margin-right: 210px;
+}
+.link-create-diet{
+    color: whitesmoke;
+    margin-left: 210px;
+    margin-right: 210px;
+    width: auto;
+    padding: 10px 11.5% 10px 11.5%;
+}
+.div-link-create-diet{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.table-links-color{
+    color: black;
 }

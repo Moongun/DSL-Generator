@@ -2,59 +2,55 @@
 
 {% block content %}
     <h1 class='content_header'>Lista diet</h1>
-{#    <table>
-        <thead>
-            <tr>
-                <th>lp</th>
-                <th>Data</th>
-                <th>Akcje</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for createdDiet in createdDiets %}
-            <tr>
-                <td><a href="{{ path('createddiet_show', { 'dietRuleId': createdDiet.id }) }}">{{ createdDiet.id }}</a></td>
-                <td>{% if createdDiet.date %}{{ createdDiet.date|date('Y-m-d') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('createddiet_show', { 'dietRuleId': createdDiet.id }) }}">Pokaż</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('createddiet_edit', { 'id': createdDiet.id }) }}">edytuj</a>
-                        </li>
+    {#    <table>
+            <thead>
+                <tr>
+                    <th>lp</th>
+                    <th>Data</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for createdDiet in createdDiets %}
+                <tr>
+                    <td><a href="{{ path('createddiet_show', { 'dietRuleId': createdDiet.id }) }}">{{ createdDiet.id }}</a></td>
+                    <td>{% if createdDiet.date %}{{ createdDiet.date|date('Y-m-d') }}{% endif %}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('createddiet_show', { 'dietRuleId': createdDiet.id }) }}">Pokaż</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('createddiet_edit', { 'id': createdDiet.id }) }}">edytuj</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>#}
+    {% set counter = 0 %}
+    <table class='table-diet'>
+        <tr class='table-row'>
+            <th class='table-center'>lp</<th>
+            <th class='table-center'>Data stworzenia</<th>
+            <th class='table-center'>akcje</<th>
+        </tr>
+        {% for diet in diets %}
+            {%set counter = counter + 1%}
+            <tr class='table-row without-header'>
+                <td class='table-center'>{{ counter }}</td>
+                <td class='table-center'>{{ diet[150]|date('Y-m-d') }}</td>
+                <td class='table-center'>
+                    <ul class='table-links'>
+                        <li><a class='table-links-color' href='{{ path("createddiet_show", { 'dietRuleId': diet[151] })}}'>Pokaż</a></li>
+                        <li><a class='table-links-color' href='{{ path("createddiet_delete", { 'id': diet[151] })}}'>Usuń</a></li>
                     </ul>
                 </td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>#}
-{% set counter = 0 %}
-<table class='table-diet'>
-    <tr class='table-row'>
-        <th class='table-center'>lp</<th>
-        <th class='table-center'>Data stworzenia</<th>
-        <th class='table-center'>akcje</<th>
-    </tr>
-    {% for diet in diets %}
-    {%set counter = counter + 1%}
-    <tr class='table-row without-header'>
-        <td class='table-center'>{{ counter }}</td>
-        <td class='table-center'>{{ diet[150]|date('Y-m-d') }}</td>
-        <td class='table-center'>
-            <ul>
-                <li><a href='{{ path("createddiet_show", { 'dietRuleId': diet[151] })}}'>Pokaż</a></li>
-                <li><a href='{{ path("createddiet_delete", { 'id': diet[151] })}}'>Usuń</a></li>
-            </ul>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-
-
-    <ul>
-        <li>
-            <a href="{{ path('diet_rules_new') }}">stwórz nową dietę</a>
-        </li>
-    </ul>
+    </table>
+    <div class="div-link-create-diet">
+        <a href="{{ path('diet_rules_new') }}" class="form_submit link-create-diet">stwórz nową dietę</a>
+    </div>
 {% endblock content %}
