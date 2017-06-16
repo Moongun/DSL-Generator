@@ -11,7 +11,7 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <img src="{{asset('bundles/DSLBundle/img/still-life-2338824_1920.jpg')}}" alt='texr' id='bodyImg'>
+        <img src="{{asset('bundles/DSLBundle/img/still-life-2338824_1920.jpg')}}" alt='texr' class='bodyImg'>
         <div id='container'>
             {% block body %}
                 {% block header %}
@@ -19,7 +19,7 @@
                         <ul class='menu-header'>
                             <li class='menu-header-options'><a href="{{ path('start') }}">Strona Główna</a></li>
                             <li class='menu-header-options'><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
-                            <li class='menu-header-options'><a href="{{ path('start') }}">Historia</a></li>
+                            <li class='menu-header-options'><a href="{{ path('createddiet_index') }}">Historia</a></li>
                             <li class='menu-header-options'><a href="{{ path('diet_rules_new') }}">Stwórz dietę!</a></li>
                             <li class='menu-header-options'><a href="{{ path('start') }}">o mnie</a></li>
                         </ul>

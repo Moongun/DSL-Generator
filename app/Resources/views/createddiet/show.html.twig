@@ -12,7 +12,6 @@
             <th class='table-center'>kolacja</th>
         </tr>
         {% set counterMeal = 0 %}
-
         {% for i in 1..30 %}
             <tr class='table-row without-header'>
                 <td class='table-center'>{{ i }}</td>
@@ -49,8 +48,5 @@
                 {% set counterMeal = counterMeal + 5 %}
             </tr>
         {% endfor %}
-    </table>
-
-
     </table>
 {% endblock content %}

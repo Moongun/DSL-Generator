@@ -13,22 +13,28 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("createddiet")
  */
-class CreatedDietController extends Controller
-{
+class CreatedDietController extends Controller {
+
     /**
      * Lists all createdDiet entities.
      *
      * @Route("/", name="createddiet_index")
      * @Method("GET")
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
-        $createdDiets = $em->getRepository('DSLBundle:CreatedDiet')->findAll();
-
+        $dietsRepo = $em->getRepository('DSLBundle:CreatedDiet')->findAll();
+        $chunkedDiets = array_chunk($dietsRepo, 150);
+        $diets = [];
+        foreach ($chunkedDiets as $singleDiet) {
+            $date = $singleDiet[0]->getDate();
+            $dietRule = $singleDiet[0]->getDietRules()->getId();
+            array_push($singleDiet, $date, $dietRule);
+            $diets[] = $singleDiet;
+        }
         return $this->render('createddiet/index.html.twig', array(
-            'createdDiets' => $createdDiets,
+                    'diets' => $diets,
         ));
     }
 
@@ -38,8 +44,7 @@ class CreatedDietController extends Controller
      * @Route("/new", name="createddiet_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
-    {
+    public function newAction(Request $request) {
         $createdDiet = new Createddiet();
         $form = $this->createForm('DSL\DSLBundle\Form\CreatedDietType', $createdDiet);
         $form->handleRequest($request);
@@ -53,8 +58,8 @@ class CreatedDietController extends Controller
         }
 
         return $this->render('createddiet/new.html.twig', array(
-            'createdDiet' => $createdDiet,
-            'form' => $form->createView(),
+                    'createdDiet' => $createdDiet,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -117,8 +122,7 @@ class CreatedDietController extends Controller
      * @Route("/{id}/edit", name="createddiet_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, CreatedDiet $createdDiet)
-    {
+    public function editAction(Request $request, CreatedDiet $createdDiet) {
         $deleteForm = $this->createDeleteForm($createdDiet);
         $editForm = $this->createForm('DSL\DSLBundle\Form\CreatedDietType', $createdDiet);
         $editForm->handleRequest($request);
@@ -130,28 +134,36 @@ class CreatedDietController extends Controller
         }
 
         return $this->render('createddiet/edit.html.twig', array(
-            'createdDiet' => $createdDiet,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'createdDiet' => $createdDiet,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
      * Deletes a createdDiet entity.
      *
-     * @Route("/{id}", name="createddiet_delete")
-     * @Method("DELETE")
+     * @Route("/del/{id}", name="createddiet_delete")
+     * 
      */
-    public function deleteAction(Request $request, CreatedDiet $createdDiet)
-    {
-        $form = $this->createDeleteForm($createdDiet);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($createdDiet);
-            $em->flush($createdDiet);
+    public function deleteAction(Request $request, $id) {
+//        $repo = $this->getDoctrine()->getRepository('DSLBundle:CreatedDiet');
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery("SELECT diet FROM DSLBundle:CreatedDiet diet WHERE diet.dietRules=$id");
+        $results = $query->getResult();
+        foreach($results as $result){
+        $em->remove($result);
+        $em->flush($result);
         }
+
+//        $form = $this->createDeleteForm($createdDiet);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+////            $em = $this->getDoctrine()->getManager();
+//            $em->remove($createdDiet);
+//            $em->flush($createdDiet);
+//        }
 
         return $this->redirectToRoute('createddiet_index');
     }
@@ -163,12 +175,19 @@ class CreatedDietController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(CreatedDiet $createdDiet)
-    {
+    private function createDeleteForm(CreatedDiet $createdDiet) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('createddiet_delete', array('id' => $createdDiet->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('createddiet_delete', array('id' => $createdDiet->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
+    /**
+     * @Route ("/delete", name="delete_diet")
+     */
+    public function deleteDietAction() {
+        
+    }
+
 }

@@ -1,39 +1,60 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_logged.html.twig' %}
 
-{% block body %}
-    <h1>Createddiets list</h1>
-
-    <table>
+{% block content %}
+    <h1 class='content_header'>Lista diet</h1>
+{#    <table>
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Date</th>
-                <th>Actions</th>
+                <th>lp</th>
+                <th>Data</th>
+                <th>Akcje</th>
             </tr>
         </thead>
         <tbody>
         {% for createdDiet in createdDiets %}
             <tr>
-                <td><a href="{{ path('createddiet_show', { 'id': createdDiet.id }) }}">{{ createdDiet.id }}</a></td>
+                <td><a href="{{ path('createddiet_show', { 'dietRuleId': createdDiet.id }) }}">{{ createdDiet.id }}</a></td>
                 <td>{% if createdDiet.date %}{{ createdDiet.date|date('Y-m-d') }}{% endif %}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('createddiet_show', { 'id': createdDiet.id }) }}">show</a>
+                            <a href="{{ path('createddiet_show', { 'dietRuleId': createdDiet.id }) }}">Pokaż</a>
                         </li>
                         <li>
-                            <a href="{{ path('createddiet_edit', { 'id': createdDiet.id }) }}">edit</a>
+                            <a href="{{ path('createddiet_edit', { 'id': createdDiet.id }) }}">edytuj</a>
                         </li>
                     </ul>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
-    </table>
+    </table>#}
+{% set counter = 0 %}
+<table class='table-diet'>
+    <tr class='table-row'>
+        <th class='table-center'>lp</<th>
+        <th class='table-center'>Data stworzenia</<th>
+        <th class='table-center'>akcje</<th>
+    </tr>
+    {% for diet in diets %}
+    {%set counter = counter + 1%}
+    <tr class='table-row without-header'>
+        <td class='table-center'>{{ counter }}</td>
+        <td class='table-center'>{{ diet[150]|date('Y-m-d') }}</td>
+        <td class='table-center'>
+            <ul>
+                <li><a href='{{ path("createddiet_show", { 'dietRuleId': diet[151] })}}'>Pokaż</a></li>
+                <li><a href='{{ path("createddiet_delete", { 'id': diet[151] })}}'>Usuń</a></li>
+            </ul>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
 
     <ul>
         <li>
-            <a href="{{ path('createddiet_new') }}">Create a new createdDiet</a>
+            <a href="{{ path('diet_rules_new') }}">stwórz nową dietę</a>
         </li>
     </ul>
-{% endblock %}
+{% endblock content %}
