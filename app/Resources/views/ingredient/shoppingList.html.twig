@@ -1,6 +1,19 @@
 {%extends "base_logged.html.twig"%}
 
 {% block content %}
-    dobrze je
-    {{ dietRuleId }}
-{% endblock content %}
+    <table>
+        <tr>
+            <th colspan="2">tydzień 1</th>
+        </<tr>
+            {#            {{dump(ingredients)}}#}
+            {% for mealIngredients in ingredients %}
+                {% for meal in mealIngredients %}
+                <tr>
+                    <td>{{ meal.quantity }}</td>
+                    <td>{{ meal.product }}</td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+        {{ dietRuleId }}
+        {% endblock content %}
