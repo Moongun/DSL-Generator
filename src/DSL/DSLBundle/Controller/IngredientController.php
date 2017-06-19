@@ -133,4 +133,41 @@ class IngredientController extends Controller
             ->getForm()
         ;
     }
+    
+    /**
+     * @Route ("/shoppinglist/{dietRuleId}", name="shopping_list")
+     */
+    public function generateShoopingListAction($dietRuleId){
+        
+        $em = $this->getDoctrine()->getManager();
+        $createdDiet = $em->getRepository('DSLBundle:CreatedDiet')->findByDietRules($dietRuleId);
+        
+        $mealIds = [];
+        foreach($createdDiet as $meal){
+            array_push($mealIds, $meal->getMeal()->getId());
+        };
+//        dump($mealIds);
+        
+        $ingredients =[];
+        foreach($mealIds as $mealId){
+                    $mealIngredients = $em->getRepository('DSLBundle:Ingredient')->findByMealId($mealId);
+                    dump($mealIngredients);
+                    $ingredients[] = $mealIngredients;
+        };
+        dump($ingredients);
+//        $query = $em->createQuery(
+//                'SELECT i FROM DSLBundle:Ingredient i'
+//                . 'WHERE i.mealId > :mealId'
+//                )
+//                foreach($mealIds as $mealId){
+//                ->setParameter('mealId',$mealId);
+//                $results = $query->gettResult();
+//                };
+        
+        
+        return $this->render("ingredient/shoppingList.html.twig", array(
+            'dietRuleId'=> $dietRuleId
+        ));
+        
+    }
 }

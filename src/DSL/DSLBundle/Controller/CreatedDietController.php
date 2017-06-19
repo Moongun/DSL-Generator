@@ -154,7 +154,8 @@ class CreatedDietController extends Controller {
                     'secondWeek' => $secondWeek,
                     'thirdWeek' => $thirdWeek,
                     'fourthWeek' => $fourthWeek,
-                    'restOfMonth' => $restOfMonth
+                    'restOfMonth' => $restOfMonth,
+                    'dietRuleId' =>$dietRuleId
         ));
     }
 
