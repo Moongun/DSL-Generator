@@ -1,19 +1,54 @@
 {%extends "base_logged.html.twig"%}
 
 {% block content %}
-    <table>
-        <tr>
-            <th colspan="2">tydzień 1</th>
-        </<tr>
-            {#            {{dump(ingredients)}}#}
-            {% for mealIngredients in ingredients %}
-                {% for meal in mealIngredients %}
-                <tr>
-                    <td>{{ meal.quantity }}</td>
-                    <td>{{ meal.product }}</td>
-                </tr>
+    <h1 class='content_header'>Lista zakupów</h1>
+    <div>
+        <table class='table-diet summary-table'>
+            {% for key, mealIngredients in ingredients %}
+                {% if key == 0 %}
+                    {% set counterMeal = 0 %}
+                    <tr class='table-row summary-table-header'>
+                        <th class='table-center' colspan="8">tydzień 1 (szacowany wydatek to: 000zł)</th>
+                    </<tr>
+                    {% elseif key == 35 %}
+                        {% set counterMeal = 0 %}
+                    <tr class='table-row summary-table-header'>
+                        <th class='table-center' colspan="8">tydzień 2 (szacowany wydatek to: 000zł)</th>
+                    </<tr>
+                    {% elseif key == 70 %}
+                        {% set counterMeal = 0 %}
+                    <tr class='table-row summary-table-header'>
+                        <th class='table-center' colspan="8">tydzień 3 (szacowany wydatek to: 000zł)</th>
+                    </<tr>
+                    {% elseif key == 105 %}
+                        {% set counterMeal = 0 %}
+                    <tr class='table-row summary-table-header'>
+                        <th class='table-center' colspan="8">tydzień 4 (szacowany wydatek to: 000zł)</th>
+                    </<tr>
+                    {% elseif key == 140 %}
+                        {% set counterMeal = 0 %}
+                    <tr class='table-row summary-table-header'>
+                        <th class='table-center' colspan="8">reszta miesiąca (szacowany wydatek to: 000zł)</th>
+                    </<tr>
+                    {% endif %}
+                    {% if counterMeal == 0 or counterMeal%4==0 %}
+                    <tr class='table-row'>
+                    {% endif %}
+                    {% for meal in mealIngredients %}
+                        {%set counterMeal = counterMeal + 1 %}
+                        {% if counterMeal==5 %}
+                        <tr class='table-row'>
+                        {% endif %}
+                        <td class='summary-table-td-padding'>{{ meal.quantity }}</td>
+                        <td class='summary-table-td-padding'>{{ meal.product }}</td>
+                        {% if counterMeal%4==0 %}
+                        </tr>
+                    {% endif %}
                 {% endfor %}
+                {% if counterMeal == 0 or counterMeal%4==0 %}
+                    </tr>
+                {% endif %}
             {% endfor %}
         </table>
-        {{ dietRuleId }}
-        {% endblock content %}
+    </div>
+{% endblock content %}
