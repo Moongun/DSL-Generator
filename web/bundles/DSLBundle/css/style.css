@@ -261,3 +261,16 @@ input[type=checkbox] {
     color: whitesmoke;
     margin: 0px 0px 10px 0px;
 }
+.shoppinglist-table{
+    width: 100%;
+}
+.shoppinglist-row{
+    padding: 5px 10px 5px 10px;
+}
+.shoppinglist-row-td{
+    padding: inherit;
+}
+.shoppinglist-th-header{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
