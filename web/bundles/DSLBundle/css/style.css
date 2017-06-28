@@ -274,3 +274,10 @@ input[type=checkbox] {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+.div_paddings{
+    padding: 20px 18px 20px 18px;
+    text-align: center;
+}
+.placeholders{
+    text-align: center;
+}

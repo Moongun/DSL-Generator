@@ -5,6 +5,7 @@ namespace DSL\DSLBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+USE Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ProductType extends AbstractType
 {
@@ -13,7 +14,16 @@ class ProductType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('averagePrice')->add('countable')        ;
+        $builder
+                ->add('name')
+                ->add('averagePrice')
+                ->add('countable', ChoiceType::class, array(
+                    'choices' => array(
+                        'Tak' => 'TAK',
+                        'Nie' => 'NIE'
+                    ),
+                    'placeholder' => 'policzalny?'
+                ))        ;
     }
     
     /**

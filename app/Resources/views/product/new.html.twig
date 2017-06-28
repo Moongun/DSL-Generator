@@ -1,16 +1,24 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_logged.html.twig' %}
 
-{% block body %}
-    <h1>Product creation</h1>
-
+{% block content %}
+    <h1 class="content_header">Dodaj produkt</h1>
+    <div class="form_div">
+        <div class="div_paddings">
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+    {{ form_errors(form.name) }}
+    {{ form_widget(form.name, {'attr':{'placeholder':'nazwa', 'class':'placeholders'}}) }}
+    {{ form_errors(form.averagePrice) }}
+    {{ form_widget(form.averagePrice, {'attr':{'placeholder':'średni koszt', 'class':'placeholders'}}) }}
+    {{ form_errors(form.countable) }}
+    {{ form_widget(form.countable, {'attr':{'placeholder':'policzalny?', 'class':'placeholders'}}) }}
+    <input type="submit" value="dodaj" />
     {{ form_end(form) }}
+        </div>
+    </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('product_index') }}">Back to the list</a>
-        </li>
-    </ul>
+    {#    <ul>
+            <li>
+                <a href="{{ path('product_index') }}">Back to the list</a>
+            </li>
+        </ul>#}
 {% endblock %}
