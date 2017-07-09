@@ -88,7 +88,13 @@ class Meal
      * @var type 
      */
     private $createdDiet;
-
+    
+    /**
+     * @var int
+     * 
+     * @ORM\Column(name="base", type="integer", nullable=false)
+     */
+    private $base;
 
     /**
      * Get id
@@ -356,7 +362,16 @@ class Meal
     {
         return $this->createdDiet;
     }
-        /**
+    
+    function getBase() {
+        return $this->base;
+    }
+
+    function setBase($base) {
+        $this->base = $base;
+    }
+
+    /**
      * Generates the magic method
      * 
      */

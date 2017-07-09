@@ -65,13 +65,6 @@ class diet_rulesType extends AbstractType
                         1 => 'Biedronka',
                         2 => 'Lidl'
                     ),
-//                    'choice_label' => function($value){
-//                        switch($value){
-//                            case 'Baza podstawowa';
-//                                return 'Baza podstawowa';
-//                                break;
-//                        }
-//                    },
                     'placeholder' => 'Wybierz bazę posiłków',
                     'expanded' => false,
                     'multiple' => false,
