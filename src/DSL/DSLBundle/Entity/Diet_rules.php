@@ -89,7 +89,13 @@ class Diet_rules
      * @var type 
      */
     private $createdDiet;
-
+    
+    /**
+     * @var int
+     * 
+     * @ORM\Column(name="base", type="integer", nullable=false)
+     */
+    private $base;
 
     /**
      * Get id
@@ -303,6 +309,15 @@ class Diet_rules
     {
         return $this->inInterval;
     }
+    
+    function getBase() {
+        return $this->base;
+    }
+
+    function setBase($base) {
+        $this->base = $base;
+    }
+
     /**
      * Constructor
      */

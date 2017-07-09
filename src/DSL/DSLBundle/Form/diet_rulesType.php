@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class diet_rulesType extends AbstractType
 {
@@ -57,7 +58,25 @@ class diet_rulesType extends AbstractType
                     'placeholder' => 'ybierz produkt',
                     'empty_data'  => null))
                 ->add('repetition')
-                ->add('inInterval');
+                ->add('inInterval')
+                ->add('base', ChoiceType::class, array(
+                    'choices' => array(
+                        0 => 'Baza podstawowa',
+                        1 => 'Biedronka',
+                        2 => 'Lidl'
+                    ),
+//                    'choice_label' => function($value){
+//                        switch($value){
+//                            case 'Baza podstawowa';
+//                                return 'Baza podstawowa';
+//                                break;
+//                        }
+//                    },
+                    'placeholder' => 'Wybierz bazę posiłków',
+                    'expanded' => false,
+                    'multiple' => false,
+                    
+                ));
     }
 
     

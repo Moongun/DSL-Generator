@@ -41,8 +41,7 @@ class CreatedDiet
      * @var type 
      */
     private $meal;
-
-
+    
     /**
      * Get id
      *
