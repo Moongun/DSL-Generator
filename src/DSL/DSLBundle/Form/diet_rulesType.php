@@ -55,7 +55,7 @@ class diet_rulesType extends AbstractType
                 },
                     'choice_label'=>'name',
                     'required'=>false,
-                    'placeholder' => 'ybierz produkt',
+                    'placeholder' => 'wybierz produkt',
                     'empty_data'  => null))
                 ->add('repetition')
                 ->add('inInterval')
