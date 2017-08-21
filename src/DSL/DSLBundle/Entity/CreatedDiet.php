@@ -43,6 +43,12 @@ class CreatedDiet
     private $meal;
     
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $userId;
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -120,4 +126,16 @@ class CreatedDiet
     {
         return $this->meal;
     }
+  
+    function getUserId() {
+        return $this->userId;
+    }
+
+    function setUserId($userId) {
+        $this->userId = $userId;
+    }
+
+
+
+
 }

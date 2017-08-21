@@ -8,8 +8,8 @@ use DSL\DSLBundle\Entity\CreatedDiet;
 
 class CreatedDietRepository extends EntityRepository {
 
-    public function calcDiet($ruleId) {
-
+    public function calcDiet($ruleId, $user) {
+        
         //CHOOSEN RULES
         $ruleRepo = $this->getEntityManager()->getRepository('DSLBundle:Diet_rules');
         $rule = $ruleRepo->findOneById($ruleId);
@@ -66,26 +66,31 @@ class CreatedDietRepository extends EntityRepository {
                 $createdBreakfasts->setDate(new \DateTime($current_date));
                 $createdBreakfasts->setMeal($breakfasts[0]);
                 $createdBreakfasts->setDietRules($rule);
+                $createdBreakfasts->setUserId($user);
 
                 $createdBrunches = new CreatedDiet();
                 $createdBrunches->setDate(new \DateTime($current_date));
                 $createdBrunches->setMeal($brunches[0]);
                 $createdBrunches->setDietRules($rule);
+                $createdBrunches->setUserId($user);
 
                 $createdLunches = new CreatedDiet();
                 $createdLunches->setDate(new \DateTime($current_date));
                 $createdLunches->setMeal($lunches[0]);
                 $createdLunches->setDietRules($rule);
+                $createdLunches->setUserId($user);
 
                 $createdDinners = new CreatedDiet();
                 $createdDinners->setDate(new \DateTime($current_date));
                 $createdDinners->setMeal($dinners[0]);
                 $createdDinners->setDietRules($rule);
+                $createdDinners->setUserId($user);
 
                 $createdSuppers = new CreatedDiet();
                 $createdSuppers->setDate(new \DateTime($current_date));
                 $createdSuppers->setMeal($suppers[0]);
                 $createdSuppers->setDietRules($rule);
+                $createdSuppers->setUserId($user);
 
                 // SAVING OBIECTS IN DATABASE
                 $em = $this->getEntityManager();

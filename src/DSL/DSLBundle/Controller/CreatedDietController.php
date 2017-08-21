@@ -24,8 +24,10 @@ class CreatedDietController extends Controller {
      */
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
+        $user=$this->getUser();
 
-        $dietsRepo = $em->getRepository('DSLBundle:CreatedDiet')->findAll();
+//        $dietsRepo = $em->getRepository('DSLBundle:CreatedDiet')->findAll();
+        $dietsRepo = $em->getRepository('DSLBundle:CreatedDiet')->findByUserId($user);
         $chunkedDiets = array_chunk($dietsRepo, 150);
         $diets = [];
         foreach ($chunkedDiets as $singleDiet) {
@@ -73,6 +75,7 @@ class CreatedDietController extends Controller {
     public function showAction($dietRuleId) {
         //getting to repo of diet_rules
         $ruleRepo = $this->getDoctrine()->getRepository('DSLBundle:Diet_rules');
+        $user = $this->getUser();
 
         //finding single meal
         $rule = $ruleRepo->findOneById($dietRuleId);
@@ -82,7 +85,7 @@ class CreatedDietController extends Controller {
         //creating new diet
         if (!count($createdDiet)) {
             $repoCreate = $this->getDoctrine()->getRepository('DSLBundle:CreatedDiet');
-            $repoCreate->calcDiet($dietRuleId);
+            $repoCreate->calcDiet($dietRuleId, $user);
 
             $createdDiet = $rule->getCreatedDiet();
         }
