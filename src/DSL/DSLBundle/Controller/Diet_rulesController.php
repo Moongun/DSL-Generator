@@ -43,13 +43,7 @@ class Diet_rulesController extends Controller
         $diet_rule = new Diet_rules();
         $form = $this->createForm('DSL\DSLBundle\Form\diet_rulesType', $diet_rule);
         $form->handleRequest($request);
-        
-//        $em = $this->getUser();
-//        dump($em);
-        
-//        $u = $this->container->get('dsl.user_identity');
-//        dump($user);
-
+     
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($diet_rule);
