@@ -4,91 +4,97 @@
     <div class="sidebar">
         <ul>
             <li><a class="sidebar-a" href="{{ path('shopping_list', {'dietRuleId': dietRuleId })}}">generuj listę zakupową</a></li>
-            <li>drukuj diete</li>
+            <li>
+                <button id='printDiet' onclick='printDiv()' hidden>drukuj dietę</button>
+                <label for='printDiet'>drukuj dietę</label>
+            </li>
         </ul>
     </div>
     <h1 class='content_header'>Stworzona dieta</h1>
-    <div>
-        <h3>Podsumowanie:</h3>
-        <table class='table-diet summary-table'>
-            <tr class='table-row summary-table-header'>
-                <th class='table-center'>średnie wartość energetyczna/dzień</th>
-                <th class='table-center'>średnie białko/dzień</th>
-                <th class='table-center'>średnie tłuszcz/dzień</th>
-                <th class='table-center'>średnie węglowodany/dzień</th>
-                <th class='table-center'>szacowany koszt/miesiąc </th>
-            </tr>
+    <div id='diet'>
+        <div>
+            <h3>Podsumowanie:</h3>
+            <table class='table-diet summary-table'>
+                <tr class='table-row summary-table-header'>
+                    <th class='table-center'>średnie wartość energetyczna/dzień</th>
+                    <th class='table-center'>średnie białko/dzień</th>
+                    <th class='table-center'>średnie tłuszcz/dzień</th>
+                    <th class='table-center'>średnie węglowodany/dzień</th>
+                    <th class='table-center'>szacowany koszt/miesiąc </th>
+                </tr>
+                <tr class='table-row'>
+                    <td class='table-center summary-table-td-padding'>{{ energy }} kcal</td>
+                    <td class='table-center summary-table-td-padding'>{{ proteins }} g</td>
+                    <td class='table-center summary-table-td-padding'>{{ fats }} g</td>
+                    <td class='table-center summary-table-td-padding'>{{ carbohydrates }} g</td>
+                    <td class='table-center summary-table-td-padding'>{{ costs }} zł</td>
+                </tr>
+                <tr class='table-row summary-table-header'>
+                    <th class='table-center' colspan="5">koszty tygodniowe</th>
+                </tr>
+                <tr class='table-row summary-table-header'>
+                    <th class='table-center'>1 tydzień</th>
+                    <th class='table-center'>2 tydzień</th>
+                    <th class='table-center'>3 tydzień</th>
+                    <th class='table-center'>4 tydzień</th>
+                    <th class='table-center'>reszta miesiąca</th>
+                </tr>
+                <tr class='table-row'>
+                    <td class='table-center summary-table-td-padding'>{{ firstWeek }} zł</td>
+                    <td class='table-center summary-table-td-padding'>{{ secondWeek }} zł</td>
+                    <td class='table-center summary-table-td-padding'>{{ thirdWeek }} zł</td>
+                    <td class='table-center summary-table-td-padding'>{{ fourthWeek }} zł</td>
+                    <td class='table-center summary-table-td-padding'>{{ restOfMonth }} zł</td>
+                </tr>
+            </table>
+        </div>
+        <table class='table-diet'>
             <tr class='table-row'>
-                <td class='table-center summary-table-td-padding'>{{ energy }} kcal</td>
-                <td class='table-center summary-table-td-padding'>{{ proteins }} g</td>
-                <td class='table-center summary-table-td-padding'>{{ fats }} g</td>
-                <td class='table-center summary-table-td-padding'>{{ carbohydrates }} g</td>
-                <td class='table-center summary-table-td-padding'>{{ costs }} zł</td>
+                <th class='table-center'>Dzień</th>
+                <th class='table-center'>śniadanie</th>
+                <th class='table-center'>brunch</th>
+                <th class='table-center'>lunch</th>
+                <th class='table-center'>obiad</th>
+                <th class='table-center'>kolacja</th>
             </tr>
-            <tr class='table-row summary-table-header'>
-                <th class='table-center' colspan="5">koszty tygodniowe</th>
-            </tr>
-            <tr class='table-row summary-table-header'>
-                <th class='table-center'>1 tydzień</th>
-                <th class='table-center'>2 tydzień</th>
-                <th class='table-center'>3 tydzień</th>
-                <th class='table-center'>4 tydzień</th>
-                <th class='table-center'>reszta miesiąca</th>
-            </tr>
-            <tr class='table-row'>
-                <td class='table-center summary-table-td-padding'>{{ firstWeek }} zł</td>
-                <td class='table-center summary-table-td-padding'>{{ secondWeek }} zł</td>
-                <td class='table-center summary-table-td-padding'>{{ thirdWeek }} zł</td>
-                <td class='table-center summary-table-td-padding'>{{ fourthWeek }} zł</td>
-                <td class='table-center summary-table-td-padding'>{{ restOfMonth }} zł</td>
-            </tr>
+            {% set counterMeal = 0 %}
+            {% for i in 1..30 %}
+                <tr class='table-row without-header'>
+                    <td class='table-center'>{{ i }}</td>
+                    {% for meal in meals |slice(counterMeal, 5) %}
+                        <td class='table-center expand'> {{ meal.name }}
+                            <div class='description'> 
+                                <p>
+                                <h3>{{meal.name}}</h3>
+                                </p>
+                                <p>
+                                    <span>typ:</span> <span>{{meal.type}}</span>
+                                </p>
+                                <p>
+                                    <span>wartość energetyczna [kcal]:</span> <span>{{meal.energyValueKcal}}</span>
+                                </p>
+                                <p>
+                                    <span>białko [g]:</span> <span>{{meal.proteinG}}</span>
+                                </p>
+                                <p>
+                                    <span>węglowodany [g]:</span> <span>{{meal.carbohydratesG}}</span>
+                                </p>
+                                <p>
+                                    <span>tłuszcz [g]:</span> <span>{{meal.fatG}}</span>
+                                </p>
+                                <p>
+                                    <span>średni koszt [zł]:</span> <span>{{meal.averageCost}}</span>
+                                </p>
+                                <p>
+                                    <span>opis:</span> <span>{{meal.description}}</span>
+                                </p>
+                            </div>
+                        </td>
+                    {% endfor %}
+                    {% set counterMeal = counterMeal + 5 %}
+                </tr>
+            {% endfor %}
         </table>
     </div>
-    <table class='table-diet'>
-        <tr class='table-row'>
-            <th class='table-center'>Dzień</th>
-            <th class='table-center'>śniadanie</th>
-            <th class='table-center'>brunch</th>
-            <th class='table-center'>lunch</th>
-            <th class='table-center'>obiad</th>
-            <th class='table-center'>kolacja</th>
-        </tr>
-        {% set counterMeal = 0 %}
-        {% for i in 1..30 %}
-            <tr class='table-row without-header'>
-                <td class='table-center'>{{ i }}</td>
-                {% for meal in meals |slice(counterMeal, 5) %}
-                    <td class='table-center expand'> {{ meal.name }}
-                        <div class='description'> 
-                            <p>
-                            <h3>{{meal.name}}</h3>
-                            </p>
-                            <p>
-                                <span>typ:</span> <span>{{meal.type}}</span>
-                            </p>
-                            <p>
-                                <span>wartość energetyczna [kcal]:</span> <span>{{meal.energyValueKcal}}</span>
-                            </p>
-                            <p>
-                                <span>białko [g]:</span> <span>{{meal.proteinG}}</span>
-                            </p>
-                            <p>
-                                <span>węglowodany [g]:</span> <span>{{meal.carbohydratesG}}</span>
-                            </p>
-                            <p>
-                                <span>tłuszcz [g]:</span> <span>{{meal.fatG}}</span>
-                            </p>
-                            <p>
-                                <span>średni koszt [zł]:</span> <span>{{meal.averageCost}}</span>
-                            </p>
-                            <p>
-                                <span>opis:</span> <span>{{meal.description}}</span>
-                            </p>
-                        </div>
-                    </td>
-                {% endfor %}
-                {% set counterMeal = counterMeal + 5 %}
-            </tr>
-        {% endfor %}
-    </table>
+            
 {% endblock content %}
