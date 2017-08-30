@@ -6,12 +6,6 @@ $(function () {
         $(this).find('div').fadeToggle('slow');
     });
 
-//drukowanie diety
-//    $('#printDiet').on('click', function(){
-//        $('#diet').show();
-//        window.print();
-//        console.log($('#diet'));
-//    });
 
 
 
@@ -36,7 +30,7 @@ function printDiv()
 
     //wstawianie przerw w odpowiednim miejscu
     var child = divToPrint.lastElementChild;
-    for ($i = 0; $i < 4; $i++) {
+    for (var i = 0; i < 4; i++) {
         element = document.createElement('br');
         divToPrint.insertBefore(element, child);
     }
@@ -50,6 +44,33 @@ function printDiv()
     setTimeout(function () {
         newWin.close();
     }, 10);
-
 }
+
+function printDiv2()
+{
+    var divToPrint = document.getElementById('shoppingList').cloneNode('true');
+
+    var weeks = divToPrint.getElementsByClassName("summary-table-header");
+
+    for (var i = 0; i < weeks.length; i++) {
+        element1 = document.createElement('tr');
+        element2 = document.createElement('td');
+        var cellText = document.createTextNode("....................................");
+        element2.appendChild(cellText);
+        element1.appendChild(element2);
+        element2.colSpan = 8;
+        weeks[i].parentNode.insertBefore(element1, weeks[i]);
+    }
+
+    var newWin = window.open('', 'Print-Window');
+    newWin.document.open();
+    newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+    newWin.document.close();
+
+    setTimeout(function () {
+        newWin.close();
+    }, 10);
+}
+
+
 

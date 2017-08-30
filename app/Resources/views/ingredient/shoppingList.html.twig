@@ -4,11 +4,14 @@
     <div class="sidebar">
         <ul>
             <li>kontener jeszcze nie wiem</li>
-            <li>drukuj listę zakupów</li>
+            <li>
+                <button id='printShoppingList' onclick='printDiv2()' hidden>drukuj listę zakupową</button>
+                <label for='printShoppingList'>drukuj listę zakupową</label>
+            </li>
         </ul>
     </div>
     <h1 class='content_header'>Lista zakupów</h1>
-    <div>
+    <div id="shoppingList">
         <table class='table-diet summary-table shoppinglist-table'>
             {% for key, mealIngredients in ingredients %}
                 {% if key == 0 %}

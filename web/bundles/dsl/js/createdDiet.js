@@ -6,12 +6,6 @@ $(function () {
         $(this).find('div').fadeToggle('slow');
     });
 
-//drukowanie diety
-//    $('#printDiet').on('click', function(){
-//        $('#diet').show();
-//        window.print();
-//        console.log($('#diet'));
-//    });
 
 
 
@@ -50,6 +44,20 @@ function printDiv()
     setTimeout(function () {
         newWin.close();
     }, 10);
+}
 
+
+function printDivDiet()
+{
+    console.log('adsada');
+//    var divToPrint = document.getElementById('shoppingList').cloneNode('true');
+//    var newWin = window.open('', 'Print-Window');
+//    newWin.document.open();
+//    newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+//    newWin.document.close();
+//
+//    setTimeout(function () {
+//        newWin.close();
+//    }, 10);
 }
 
