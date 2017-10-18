@@ -1,16 +1,41 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_logged.html.twig' %}
 
-{% block body %}
-    <h1>Meal creation</h1>
+{% block content %}
+    <h1 class="content_header">Dodaj posiłek</h1>
+    
+    <div class="form_div">
+        <div class="div_paddings">
+            {{ form_start(form) }}
+            {{form_errors(form.name)}}
+            {{form_widget(form.name, {'attr': {'placeholder': 'nazwa', 'class':'fos_register_div'}})}}
+            {{ form_errors(form.description) }}
+            {{ form_widget(form.description, {'attr': {'placeholder': 'opis', 'class':'fos_register_div', 'rows':10}}) }}
+            {{ form_errors(form.type) }}
+            {{ form_widget(form.type, {'attr': {'placeholder': 'Typ posiłku', 'class':'fos_register_div'}}) }}
+            {{ form_errors(form.energyValueKcal) }}
+            {{ form_widget(form.energyValueKcal, {'attr': {'placeholder': 'Wartość energetyczna', 'class':'fos_register_div'}}) }}
+            {{ form_errors(form.proteinG) }}
+            {{ form_widget(form.proteinG, {'attr': {'placeholder': 'Białko', 'class':'fos_register_div'}}) }}
+            {{ form_errors(form.carbohydratesG) }}
+            {{ form_widget(form.carbohydratesG, {'attr': {'placeholder': 'Węglowodany', 'class':'fos_register_div'}}) }}
+            {{ form_errors(form.fatG) }}
+            {{ form_widget(form.fatG, {'attr': {'placeholder': 'Tłuszcze', 'class':'fos_register_div'}}) }}
+            {{ form_errors(form.averageCost) }}
+            {{ form_widget(form.averageCost, {'attr': {'placeholder': 'Średni koszt', 'class':'fos_register_div'}}) }}
+            {{ form_errors(form.base) }}
+            {{ form_widget(form.base, {'attr': {'placeholder': 'Baza', 'class':'fos_register_div'}}) }}
+            {#{{ form_error(form) }}
+            {{ form_widget(form) }}
+            #}<input type="submit" value="Dodaj" class="fos_register_div submit form_submit" />
+            {{ form_end(form) }}
+        </div>
+    </div>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+    
 
-    <ul>
+{#    <ul>
         <li>
             <a href="{{ path('meal_index') }}">Back to the list</a>
         </li>
-    </ul>
+    </ul>#}
 {% endblock %}
