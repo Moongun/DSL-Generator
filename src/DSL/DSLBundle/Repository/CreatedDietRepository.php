@@ -8,409 +8,512 @@ use DSL\DSLBundle\Entity\CreatedDiet;
 
 class CreatedDietRepository extends EntityRepository {
 
+    public function pickMeals() {
+        $em = $this->getEntityManager();
+
+        //TODO uwzględnić bazę
+        $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.type=:type');
+
+        $breakfasts = $query->setParameter('type', 'śniadanie')->getResult();
+        $brunches = $query->setParameter('type', 'brunch')->getResult();
+        $lunches = $query->setParameter('type', 'lunch')->getResult();
+        $dinners = $query->setParameter('type', 'obiad')->getResult();
+        $suppers = $query->setParameter('type', 'kolacja')->getResult();
+
+        $all = ['śniadanie' => $breakfasts,
+            'brunch' => $brunches,
+            'lunch' => $lunches,
+            'obiad' => $dinners,
+            'kolacja' => $suppers];
+//        $all = ['breakfasts' => $breakfasts,
+//            'brunches' => $brunches,
+//            'lunches' => $lunches,
+//            'dinners' => $dinners,
+//            'suppers' => $suppers];
+
+        return $all;
+    }
+
+    public function valueRequirementsFirst($meals, $rule, $whichRule = 0) {
+        $out = [];
+        for ($i = 0; $i < 30; $i++) {
+            $eValue = 0;
+            $pValue = 0;
+            $cValue = 0;
+            $fValue = 0;
+            $dayCost = 0;
+
+            for ($j = 0; $j < 5; $j++) {
+                $temp = [];
+                $eValue = 0;
+                $pValue = 0;
+                $cValue = 0;
+                $fValue = 0;
+                $dayCost = 0;
+
+                foreach ($meals as $k => $type) {
+                    shuffle($type);
+                    $temp[$k] = $type[0];
+                    $eValue+=$type[0]->getEnergyValueKcal();
+                    $pValue+=$type[0]->getProteinG();
+                    $cValue+=$type[0]->getCarbohydratesG();
+                    $fValue+=$type[0]->getFatG();
+                    $dayCost+=$type[0]->getAverageCost();
+                }
+
+                switch ($whichRule) {
+                    case 1:
+                        if ($eValue > ($rule - 100) && $eValue < ($rule + 100)) {
+                            $out[] = $temp;
+                            break 2;
+                        }
+                        continue 2;
+                    case 2:
+                        if ($pValue > ($rule - 10) && $pValue < ($rule + 10)) {
+                            $out[] = $temp;
+                            break 2;
+                        }
+                        continue 2;
+                    case 3:
+                        if ($cValue > ($rule - 10) && $cValue < ($rule + 10)) {
+                            $out[] = $temp;
+                            break 2;
+                        }
+                        continue 2;
+                    case 4:
+                        if ($fValue > ($rule - 10) && $fValue < ($rule + 10)) {
+                            $out[] = $temp;
+                            break 2;
+                        }
+                        continue 2;
+                    case 5:
+                        if ($dayCost > ($rule - 3.00) && $dayCost < ($rule + 3.00)) {
+                            $out[] = $temp;
+                            break 2;
+                        }
+                        continue 2;
+                }
+            }
+        }
+        return $out;
+    }
+
+    public function shuffleMeals($meals, $rule, $whichRule = 0) {
+        $out = [];
+        for ($i = 0; $i <= 5; $i++) {
+            $temp = [];
+            $eValue = 0;
+            $pValue = 0;
+            $cValue = 0;
+            $fValue = 0;
+            $dayCost = 0;
+
+            foreach ($meals as $k => $type) {
+                shuffle($type);
+                $temp[$k] = $type[0];
+                $eValue+=$type[0]->getEnergyValueKcal();
+                $pValue+=$type[0]->getProteinG();
+                $cValue+=$type[0]->getCarbohydratesG();
+                $fValue+=$type[0]->getFatG();
+                $dayCost+=$type[0]->getAverageCost();
+            }
+
+            if ($i == 5) {
+                $out[] = $temp;
+                return $out;
+            }
+
+            switch ($whichRule) {
+                case 1:
+                    if ($eValue > ($rule - 100) && $eValue < ($rule + 100)) {
+                        $out[] = $temp;
+                        return $out;
+                    }
+                    break;
+                case 2:
+                    if ($pValue > ($rule - 10) && $pValue < ($rule + 10)) {
+                        $out[] = $temp;
+                        return $out;
+                    }
+                    break;
+                case 3:
+                    if ($cValue > ($rule - 10) && $cValue < ($rule + 10)) {
+                        $out[] = $temp;
+                        return $out;
+                    }
+                    break;
+                case 4:
+                    if ($fValue > ($rule - 10) && $fValue < ($rule + 10)) {
+                        $out[] = $temp;
+                        return $out;
+                    }
+                    break;
+                case 5:
+                    if ($dayCost > ($rule - 3.00) && $dayCost < ($rule + 3.00)) {
+                        $out[] = $temp;
+                        return $out;
+                    }
+                    break;
+            }
+        }
+    }
+
+    public function valueRequirementsSecond($diet, $rule, $mealsFromDb, $whichRule = 0) {
+        $out = [];
+        foreach ($diet as $k => $day) {
+            $temp = [];
+            $eValue = 0;
+            $pValue = 0;
+            $cValue = 0;
+            $fValue = 0;
+            $dayCost = 0;
+            foreach ($day as $meal) {
+                $temp[] = $meal;
+                $eValue+=$meal->getEnergyValueKcal();
+                $pValue+=$meal->getProteinG();
+                $cValue+=$meal->getCarbohydratesG();
+                $fValue+=$meal->getFatG();
+                $dayCost+=$meal->getAverageCost();
+            }
+            switch ($whichRule) {
+                case 1:
+                    if ($eValue > ($rule - 100) && $eValue < ($rule + 100)) {
+                        $out[] = $temp;
+                    } else {
+                        $out[] = $this->shuffleMeals($mealsFromDb, $rule, 1);
+                    }
+                    break;
+                case 2:
+                    if ($pValue > ($rule - 10) && $pValue < ($rule + 10)) {
+                        $out[] = $temp;
+                    } else {
+                        $out[] = $this->shuffleMeals($mealsFromDb, $rule, 2);
+                    }
+                    break;
+                case 3:
+                    if ($cValue > ($rule - 10) && $cValue < ($rule + 10)) {
+                        $out[] = $temp;
+                    } else {
+                        $out[] = $this->shuffleMeals($mealsFromDb, $rule, 3);
+                    }
+                    break;
+                case 4:
+                    if ($fValue > ($rule - 10) && $fValue < ($rule + 10)) {
+                        $out[] = $temp;
+                    } else {
+                        $out[] = $this->shuffleMeals($mealsFromDb, $rule, 4);
+                    }
+                    break;
+                case 5:
+                    if ($dayCost > ($rule - 3.00) && $dayCost < ($rule + 3.00)) {
+                        $out[] = $temp;
+                    } else {
+                        $out[] = $this->shuffleMeals($mealsFromDb, $rule, 5);
+                    }
+            }
+        }
+        return $out;
+    }
+
+//    
+//    public function proteinRequirements($meals, $rule){
+//                    for ($i = 0; $i < 30; $i++) {
+//                $allProteinValue = 0;
+//                $counter = 0;
+//                while ($allProteinValue < ($proteinRule - 10) || $allProteinValue > $proteinRule || $counter < 5) {
+//                    $allProteinValue = 0;
+//
+//                    shuffle($breakfasts);
+//                    shuffle($brunches);
+//                    shuffle($lunches);
+//                    shuffle($dinners);
+//                    shuffle($suppers);
+//
+//                    $allProteinValue+=$breakfasts[0]->getProteinG();
+//                    $allProteinValue+=$brunches[0]->getProteinG();
+//                    $allProteinValue+=$lunches[0]->getProteinG();
+//                    $allProteinValue+=$dinners[0]->getProteinG();
+//                    $allProteinValue+=$suppers[0]->getProteinG();
+//
+//                    $counter++;
+//                    }
+//                }
+//    }
+
+    /**
+     * 
+     * @param type $meals - meal set without selected meal 
+     * @param type $selected - meal which is selected
+     * @param type $rep - how many times selected will be repeted
+     * @param type $inter - for how many days selected will be repeted
+     * @return type
+     */
+    public function createWithRepetitionsFirst($meals, $selected, $rep, $inter) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.name=:name');
+
+        $result = $query->setParameter('name', $selected)->getResult();
+        $objectMeal = $result[0];
+        $mealType = $result[0]->getType();
+
+        $out = [];
+        for ($i = 0; $i < 30; $i++) {
+            $temp = [];
+            foreach ($meals as $type) {
+                shuffle($type);
+                $temp[] = $type[0];
+            }
+            $out[$i] = $temp;
+        }
+        foreach ($out as $k => $day) {
+            foreach ($day as $kk => $single) {
+                if (($k + 1) % $inter == 0 && $k !== 0 && $single->getType() == $mealType) {
+                    array_splice($out[$k], $kk, 1, $result);
+                }
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * 
+     * @param type $meals - meal set without selected meal 
+     * @param type $selected - meal which is selected
+     * @param type $rep - how many times selected will be repeted
+     * @param type $inter - for how many days selected will be repeted
+     * @return type
+     */
+    public function createWithRepetitionsSecond($meals, $selected, $rep, $inter) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.name=:name');
+
+        $result = $query->setParameter('name', $selected)->getResult();
+        $objectMeal = $result[0];
+        $mealType = $result[0]->getType();
+
+        foreach ($meals as $k => $day) {
+            foreach ($day as $kk => $single) {
+                if (($k + 1) % $inter == 0 && $k !== 0 && $single->getType() == $mealType) {
+//                    array_splice($meals[$k], $kk, 1, $result);
+
+                    switch ($single->getType()) {
+                        case 'śniadanie':
+                            array_splice($meals[$k], 0, 1, $result);
+                            $meals[$k] = $this->replaceKey($meals[$k], 0, 'śniadanie');
+                            break;
+                        case 'brunch':
+                            array_splice($meals[$k], 1, 1, $result);
+                            $meals[$k] = $this->replaceKey($meals[$k], 1, 'brunch');
+                            break;
+                        case 'lunch':
+                            array_splice($meals[$k], 2, 1, $result);
+                            $meals[$k] = $this->replaceKey($meals[$k], 2, 'lunch');
+                            break;
+                        case 'obiad':
+                            array_splice($meals[$k], 3, 1, $result);
+                            $meals[$k] = $this->replaceKey($meals[$k], 3, 'obiad');
+                            break;
+                        case 'kolacja':
+                            array_splice($meals[$k], 4, 1, $result);
+                            $meals[$k] = $this->replaceKey($meals[$k], 4, 'kolacja');
+                            break;
+                    }
+                }
+            }
+        }
+        return $meals;
+    }
+
+    public function removeMealFirst($meals, $toRemove) {
+        foreach ($meals as $k => $type) {
+            foreach ($type as $kk => $meal) {
+                if ($meal->getName() === $toRemove) {
+                    unset($meals[$k][$kk]);
+                    return $meals;
+                }
+            }
+        }
+        return $meals;
+    }
+
+    public function notTheSameMeal($meals, $toCompare) {
+        shuffle($meals);
+        $out = [];
+        if ($meals[0]->getId() == $toCompare->getId()) {
+            return $this->notTheSameMeal($meals, $toCompare);
+        } else {
+            $out[] = $meals[0];
+            return $out;
+        }
+    }
+
+    public function replaceKey($array, $key1, $key2) {
+        $keys = array_keys($array);
+        $index = array_search($key1, $keys);
+
+        if ($index !== false) {
+            $keys[$index] = $key2;
+            $array = array_combine($keys, $array);
+        }
+
+        return $array;
+    }
+
+    public function removeMealSecond($base, $meals, $toRemove) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.name=:name');
+
+        $result = $query->setParameter('name', $toRemove)->getResult();
+        $objectMeal = $result[0];
+        $mealType = $result[0]->getType();
+        $mealName = $result[0]->getName();
+
+        $removedBase = $this->removeMealFirst($base, $toRemove);
+        foreach ($removedBase as $k => $type) {
+            if ($k == $mealType) {
+                $typeRemovedBase = $type;
+            }
+        }
+
+        foreach ($meals as $k => $day) {
+            foreach ($day as $kk => $meal) {
+                if ($meal->getType() == $mealType && $meal->getName() == $mealName) {
+                    shuffle($typeRemovedBase);
+                    $otherMeal = $this->notTheSameMeal($typeRemovedBase, $objectMeal);
+                    switch ($meal->getType()) {
+                        case 'śniadanie':
+                            array_splice($meals[$k], 0, 1, $otherMeal);
+                            $meals[$k] = $this->replaceKey($meals[$k], 0, 'śniadanie');
+                            break;
+                        case 'brunch':
+                            array_splice($meals[$k], 1, 1, $otherMeal);
+                            $meals[$k] = $this->replaceKey($meals[$k], 1, 'brunch');
+                            break;
+                        case 'lunch':
+                            array_splice($meals[$k], 2, 1, $otherMeal);
+                            $meals[$k] = $this->replaceKey($meals[$k], 2, 'lunch');
+                            break;
+                        case 'obiad':
+                            array_splice($meals[$k], 3, 1, $otherMeal);
+                            $meals[$k] = $this->replaceKey($meals[$k], 3, 'obiad');
+                            break;
+                        case 'kolacja':
+                            array_splice($meals[$k], 4, 1, $otherMeal);
+                            $meals[$k] = $this->replaceKey($meals[$k], 4, 'kolacja');
+                            break;
+                    }
+                }
+            }
+        }
+        return $meals;
+    }
+
+    public function saveDiet($diet, $user, $rule) {
+        $startDate = Date('Y-m-d');
+
+        foreach ($diet as $day) {
+            $i = 1;
+            $currentDate = date('Y-m-d', strtotime($startDate . ' + ' . $i . ' days')); //zeby utworzyc date dnia danego posilku diety
+            foreach ($day as $meal) {
+                $item = new CreatedDiet();
+                $item->setDate(new \DateTime($currentDate));
+                $item->setMeal($meal);
+                $item->setDietRules($rule);
+                $item->setUserId($user);
+                
+                $em = $this->getEntityManager();
+                $em->persist($item);
+                $em->flush();
+            }
+        }
+    }
+
+    public function validateDiet($meals, $user, $rule) {
+        //TODO dopisać wialidację przekazanej diety
+
+        $this->saveDiet($meals, $user, $rule);
+    }
+
     public function calcDiet($ruleId, $user) {
-        
+
         //CHOOSEN RULES
         $ruleRepo = $this->getEntityManager()->getRepository('DSLBundle:Diet_rules');
         $rule = $ruleRepo->findOneById($ruleId);
 
-        //ALL MEALS
-        $mealRepo = $this->getEntityManager()->getRepository('DSLBundle:Meal');
-        $meals = $mealRepo->findAll();
+//        //ALL MEALS
+//        $mealRepo = $this->getEntityManager()->getRepository('DSLBundle:Meal');
+//        $meals = $mealRepo->findAll();
+//
+//        //GET TO THE CREATED DIET DATABASE 
+//        $dietRepo = $this->getEntityManager()->getRepository('DSLBundle:CreatedDiet');
+//        $em = $this->getEntityManager();
 
-        //GET TO THE CREATED DIET DATABASE 
-        $dietRepo = $this->getEntityManager()->getRepository('DSLBundle:CreatedDiet');
+        $meals = $this->pickMeals();
+        $mealsToCorrect = $meals;
+        $start_date = Date('Y-m-d');
+//        $current_date = date('Y-m-d', strtotime($start_date . ' + ' . $i . ' days')); //zeby utworzyc date dnia danego posilku diety
 
-
-//      REQUIREMENTS ABOUT ENERGY VALUE  
         $caloriesRule = $rule->getDailyCaloriesRequirementsKcal();
         if ($caloriesRule != null) {
-            $em = $this->getEntityManager();
-            $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.type=:type');
-
-            $breakfasts = $query->setParameter('type', 'śniadanie')->getResult();
-            $brunches = $query->setParameter('type', 'brunch')->getResult();
-            $lunches = $query->setParameter('type', 'lunch')->getResult();
-            $dinners = $query->setParameter('type', 'obiad')->getResult();
-            $suppers = $query->setParameter('type', 'kolacja')->getResult();
-
-            $start_date = Date('Y-m-d');
-
-            for ($i = 0; $i < 30; $i++) {
-                $allEnergyValue = 0;
-                $counter = 0;
-                while ($allEnergyValue < ($caloriesRule - 200) || $allEnergyValue > $caloriesRule || $counter < 5) {
-                    $allEnergyValue = 0;
-
-                    shuffle($breakfasts);
-                    shuffle($brunches);
-                    shuffle($lunches);
-                    shuffle($dinners);
-                    shuffle($suppers);
-
-                    $allEnergyValue+=$breakfasts[0]->getEnergyValueKcal();
-                    $allEnergyValue+=$brunches[0]->getEnergyValueKcal();
-                    $allEnergyValue+=$lunches[0]->getEnergyValueKcal();
-                    $allEnergyValue+=$dinners[0]->getEnergyValueKcal();
-                    $allEnergyValue+=$suppers[0]->getEnergyValueKcal();
-
-                    $counter++;
-                    
-                    //test synchonizacji z gitem
-                }
-
-                $current_date = date('Y-m-d', strtotime($start_date . ' + ' . $i . ' days'));
-
-                //CREATING OBIECTS OF SINGLE TYPE OF  GENERATED MEALS
-                $createdBreakfasts = new CreatedDiet();
-                $createdBreakfasts->setDate(new \DateTime($current_date));
-                $createdBreakfasts->setMeal($breakfasts[0]);
-                $createdBreakfasts->setDietRules($rule);
-                $createdBreakfasts->setUserId($user);
-
-                $createdBrunches = new CreatedDiet();
-                $createdBrunches->setDate(new \DateTime($current_date));
-                $createdBrunches->setMeal($brunches[0]);
-                $createdBrunches->setDietRules($rule);
-                $createdBrunches->setUserId($user);
-
-                $createdLunches = new CreatedDiet();
-                $createdLunches->setDate(new \DateTime($current_date));
-                $createdLunches->setMeal($lunches[0]);
-                $createdLunches->setDietRules($rule);
-                $createdLunches->setUserId($user);
-
-                $createdDinners = new CreatedDiet();
-                $createdDinners->setDate(new \DateTime($current_date));
-                $createdDinners->setMeal($dinners[0]);
-                $createdDinners->setDietRules($rule);
-                $createdDinners->setUserId($user);
-
-                $createdSuppers = new CreatedDiet();
-                $createdSuppers->setDate(new \DateTime($current_date));
-                $createdSuppers->setMeal($suppers[0]);
-                $createdSuppers->setDietRules($rule);
-                $createdSuppers->setUserId($user);
-
-                // SAVING OBIECTS IN DATABASE
-                $em = $this->getEntityManager();
-                $em->persist($createdBreakfasts);
-                $em->persist($createdBrunches);
-                $em->persist($createdLunches);
-                $em->persist($createdDinners);
-                $em->persist($createdSuppers);
-
-                $em->flush();
+            switch (count($meals)) {
+                case 5:
+                    $meals = $this->valueRequirementsFirst($meals, $caloriesRule, 1);
+                    break;
+                case 30:
+                    $meals = $this->valueRequirementsSecond($meals, $caloriesRule, $mealsToCorrect, 1);
+                    break;
             }
         }
 
-//      REQUIREMENTS ABOUT PROTEIN VALUE
         $proteinRule = $rule->getDailyProteinRequirementsG();
         if ($proteinRule != null) {
-
-            $em = $this->getEntityManager();
-            $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.type=:type');
-
-            $breakfasts = $query->setParameter('type', 'śniadanie')->getResult();
-            $brunches = $query->setParameter('type', 'brunch')->getResult();
-            $lunches = $query->setParameter('type', 'lunch')->getResult();
-            $dinners = $query->setParameter('type', 'obiad')->getResult();
-            $suppers = $query->setParameter('type', 'kolacja')->getResult();
-
-            $start_date = Date('Y-m-d');
-
-            for ($i = 0; $i < 30; $i++) {
-                $allProteinValue = 0;
-                $counter = 0;
-                while ($allProteinValue < ($proteinRule - 10) || $allProteinValue > $proteinRule || $counter < 5) {
-                    $allProteinValue = 0;
-
-                    shuffle($breakfasts);
-                    shuffle($brunches);
-                    shuffle($lunches);
-                    shuffle($dinners);
-                    shuffle($suppers);
-
-                    $allProteinValue+=$breakfasts[0]->getProteinG();
-                    $allProteinValue+=$brunches[0]->getProteinG();
-                    $allProteinValue+=$lunches[0]->getProteinG();
-                    $allProteinValue+=$dinners[0]->getProteinG();
-                    $allProteinValue+=$suppers[0]->getProteinG();
-
-                    $counter++;
-                }
-                $current_date = date('Y-m-d', strtotime($start_date . ' + ' . $i . ' days'));
-
-                //CREATING OBIECTS OF SINGLE TYPE OF  GENERATED MEALS
-                $createdBreakfasts = new CreatedDiet();
-                $createdBreakfasts->setDate(new \DateTime($current_date));
-                $createdBreakfasts->setMeal($breakfasts[0]);
-                $createdBreakfasts->setDietRules($rule);
-
-                $createdBrunches = new CreatedDiet();
-                $createdBrunches->setDate(new \DateTime($current_date));
-                $createdBrunches->setMeal($brunches[0]);
-                $createdBrunches->setDietRules($rule);
-
-                $createdLunches = new CreatedDiet();
-                $createdLunches->setDate(new \DateTime($current_date));
-                $createdLunches->setMeal($lunches[0]);
-                $createdLunches->setDietRules($rule);
-
-                $createdDinners = new CreatedDiet();
-                $createdDinners->setDate(new \DateTime($current_date));
-                $createdDinners->setMeal($dinners[0]);
-                $createdDinners->setDietRules($rule);
-
-                $createdSuppers = new CreatedDiet();
-                $createdSuppers->setDate(new \DateTime($current_date));
-                $createdSuppers->setMeal($suppers[0]);
-                $createdSuppers->setDietRules($rule);
-
-                // SAVING OBIECTS IN DATABASE
-                $em = $this->getEntityManager();
-                $em->persist($createdBreakfasts);
-                $em->persist($createdBrunches);
-                $em->persist($createdLunches);
-                $em->persist($createdDinners);
-                $em->persist($createdSuppers);
-
-                $em->flush();
+            switch (count($meals)) {
+                case 5:
+                    $meals = $this->valueRequirementsFirst($meals, $proteinRule, 2);
+                    break;
+                case 30:
+                    $meals = $this->valueRequirementsSecond($meals, $proteinRule, $mealsToCorrect, 2);
+                    break;
             }
         }
 
-
-        //      REQUIREMENTS ABOUT CARBOHYDRATES VALUE
         $carbohydratesRule = $rule->getDailyCarbohydratesRequirementsG();
         if ($carbohydratesRule != null) {
-
-            $em = $this->getEntityManager();
-            $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.type=:type');
-
-            $breakfasts = $query->setParameter('type', 'śniadanie')->getResult();
-            $brunches = $query->setParameter('type', 'brunch')->getResult();
-            $lunches = $query->setParameter('type', 'lunch')->getResult();
-            $dinners = $query->setParameter('type', 'obiad')->getResult();
-            $suppers = $query->setParameter('type', 'kolacja')->getResult();
-
-            $start_date = Date('Y-m-d');
-
-            for ($i = 0; $i < 30; $i++) {
-                $allCarbohydratesValue = 0;
-                $counter = 0;
-                while ($allCarbohydratesValue < ($carbohydratesRule - 10) || $allCarbohydratesValue > $carbohydratesRule || $counter < 5) {
-                    $allCarbohydratesValue = 0;
-
-                    shuffle($breakfasts);
-                    shuffle($brunches);
-                    shuffle($lunches);
-                    shuffle($dinners);
-                    shuffle($suppers);
-
-                    $allCarbohydratesValue+=$breakfasts[0]->getCarbohydratesG();
-                    $allCarbohydratesValue+=$brunches[0]->getCarbohydratesG();
-                    $allCarbohydratesValue+=$lunches[0]->getCarbohydratesG();
-                    $allCarbohydratesValue+=$dinners[0]->getCarbohydratesG();
-                    $allCarbohydratesValue+=$suppers[0]->getCarbohydratesG();
-
-                    $counter++;
-                }
-                $current_date = date('Y-m-d', strtotime($start_date . ' + ' . $i . ' days'));
-
-                //CREATING OBIECTS OF SINGLE TYPE OF  GENERATED MEALS
-                $createdBreakfasts = new CreatedDiet();
-                $createdBreakfasts->setDate(new \DateTime($current_date));
-                $createdBreakfasts->setMeal($breakfasts[0]);
-                $createdBreakfasts->setDietRules($rule);
-
-                $createdBrunches = new CreatedDiet();
-                $createdBrunches->setDate(new \DateTime($current_date));
-                $createdBrunches->setMeal($brunches[0]);
-                $createdBrunches->setDietRules($rule);
-
-                $createdLunches = new CreatedDiet();
-                $createdLunches->setDate(new \DateTime($current_date));
-                $createdLunches->setMeal($lunches[0]);
-                $createdLunches->setDietRules($rule);
-
-                $createdDinners = new CreatedDiet();
-                $createdDinners->setDate(new \DateTime($current_date));
-                $createdDinners->setMeal($dinners[0]);
-                $createdDinners->setDietRules($rule);
-
-                $createdSuppers = new CreatedDiet();
-                $createdSuppers->setDate(new \DateTime($current_date));
-                $createdSuppers->setMeal($suppers[0]);
-                $createdSuppers->setDietRules($rule);
-
-                // SAVING OBIECTS IN DATABASE
-                $em = $this->getEntityManager();
-                $em->persist($createdBreakfasts);
-                $em->persist($createdBrunches);
-                $em->persist($createdLunches);
-                $em->persist($createdDinners);
-                $em->persist($createdSuppers);
-
-                $em->flush();
+            switch (count($meals)) {
+                case 5:
+                    $meals = $this->valueRequirementsFirst($meals, $carbohydratesRule, 3);
+                    break;
+                case 30:
+                    $meals = $this->valueRequirementsSecond($meals, $carbohydratesRule, $mealsToCorrect, 3);
+                    break;
             }
         }
 
-
-        //      REQUIREMENTS ABOUT FAT VALUE
         $fatsRule = $rule->getDailyFatRequirementsG();
         if ($fatsRule != null) {
-
-            $em = $this->getEntityManager();
-            $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.type=:type');
-
-            $breakfasts = $query->setParameter('type', 'śniadanie')->getResult();
-            $brunches = $query->setParameter('type', 'brunch')->getResult();
-            $lunches = $query->setParameter('type', 'lunch')->getResult();
-            $dinners = $query->setParameter('type', 'obiad')->getResult();
-            $suppers = $query->setParameter('type', 'kolacja')->getResult();
-
-            $start_date = Date('Y-m-d');
-
-            for ($i = 0; $i < 30; $i++) {
-                $allFatValue = 0;
-                $counter = 0;
-                while ($allFatValue < ($fatsRule - 10) || $allFatValue > $fatsRule || $counter < 5) {
-                    $allFatValue = 0;
-
-                    shuffle($breakfasts);
-                    shuffle($brunches);
-                    shuffle($lunches);
-                    shuffle($dinners);
-                    shuffle($suppers);
-
-                    $allFatValue+=$breakfasts[0]->getFatG();
-                    $allFatValue+=$brunches[0]->getFatG();
-                    $allFatValue+=$lunches[0]->getFatG();
-                    $allFatValue+=$dinners[0]->getFatG();
-                    $allFatValue+=$suppers[0]->getFatG();
-
-                    $counter++;
-                }
-                $current_date = date('Y-m-d', strtotime($start_date . ' + ' . $i . ' days'));
-
-                //CREATING OBIECTS OF SINGLE TYPE OF  GENERATED MEALS
-                $createdBreakfasts = new CreatedDiet();
-                $createdBreakfasts->setDate(new \DateTime($current_date));
-                $createdBreakfasts->setMeal($breakfasts[0]);
-                $createdBreakfasts->setDietRules($rule);
-
-                $createdBrunches = new CreatedDiet();
-                $createdBrunches->setDate(new \DateTime($current_date));
-                $createdBrunches->setMeal($brunches[0]);
-                $createdBrunches->setDietRules($rule);
-
-                $createdLunches = new CreatedDiet();
-                $createdLunches->setDate(new \DateTime($current_date));
-                $createdLunches->setMeal($lunches[0]);
-                $createdLunches->setDietRules($rule);
-
-                $createdDinners = new CreatedDiet();
-                $createdDinners->setDate(new \DateTime($current_date));
-                $createdDinners->setMeal($dinners[0]);
-                $createdDinners->setDietRules($rule);
-
-                $createdSuppers = new CreatedDiet();
-                $createdSuppers->setDate(new \DateTime($current_date));
-                $createdSuppers->setMeal($suppers[0]);
-                $createdSuppers->setDietRules($rule);
-
-                // SAVING OBIECTS IN DATABASE
-                $em = $this->getEntityManager();
-                $em->persist($createdBreakfasts);
-                $em->persist($createdBrunches);
-                $em->persist($createdLunches);
-                $em->persist($createdDinners);
-                $em->persist($createdSuppers);
-
-                $em->flush();
+            switch (count($meals)) {
+                case 5:
+                    $meals = $this->valueRequirementsFirst($meals, $fatsRule, 4);
+                    break;
+                case 30:
+                    $meals = $this->valueRequirementsSecond($meals, $fatsRule, $mealsToCorrect, 4);
+                    break;
             }
         }
 
-
-
-        //      REQUIREMENTS ABOUT MONTHLY COSTS VALUE
         $costRule = $rule->getMonthlyCost();
         if ($costRule != null) {
-
-            $em = $this->getEntityManager();
-            $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.type=:type');
-
-            $breakfasts = $query->setParameter('type', 'śniadanie')->getResult();
-            $brunches = $query->setParameter('type', 'brunch')->getResult();
-            $lunches = $query->setParameter('type', 'lunch')->getResult();
-            $dinners = $query->setParameter('type', 'obiad')->getResult();
-            $suppers = $query->setParameter('type', 'kolacja')->getResult();
-
-            $start_date = Date('Y-m-d');
-
             $costRulePerDay = $costRule / 30;
-
-            for ($i = 0; $i < 30; $i++) {
-                $allCostValue = 0;
-                $counter = 0;
-                while ($allCostValue < ($costRulePerDay - 1.70) || $allCostValue > $costRulePerDay || $counter < 5) {
-                    $allCostValue = 0;
-
-                    shuffle($breakfasts);
-                    shuffle($brunches);
-                    shuffle($lunches);
-                    shuffle($dinners);
-                    shuffle($suppers);
-
-                    $allCostValue+=$breakfasts[0]->getAverageCost();
-                    $allCostValue+=$brunches[0]->getAverageCost();
-                    $allCostValue+=$lunches[0]->getAverageCost();
-                    $allCostValue+=$dinners[0]->getAverageCost();
-                    $allCostValue+=$suppers[0]->getAverageCost();
-
-                    $counter++;
-                }
-                $current_date = date('Y-m-d', strtotime($start_date . ' + ' . $i . ' days'));
-
-                //CREATING OBIECTS OF SINGLE TYPE OF  GENERATED MEALS
-                $createdBreakfasts = new CreatedDiet();
-                $createdBreakfasts->setDate(new \DateTime($current_date));
-                $createdBreakfasts->setMeal($breakfasts[0]);
-                $createdBreakfasts->setDietRules($rule);
-
-                $createdBrunches = new CreatedDiet();
-                $createdBrunches->setDate(new \DateTime($current_date));
-                $createdBrunches->setMeal($brunches[0]);
-                $createdBrunches->setDietRules($rule);
-
-                $createdLunches = new CreatedDiet();
-                $createdLunches->setDate(new \DateTime($current_date));
-                $createdLunches->setMeal($lunches[0]);
-                $createdLunches->setDietRules($rule);
-
-                $createdDinners = new CreatedDiet();
-                $createdDinners->setDate(new \DateTime($current_date));
-                $createdDinners->setMeal($dinners[0]);
-                $createdDinners->setDietRules($rule);
-
-                $createdSuppers = new CreatedDiet();
-                $createdSuppers->setDate(new \DateTime($current_date));
-                $createdSuppers->setMeal($suppers[0]);
-                $createdSuppers->setDietRules($rule);
-
-                // SAVING OBIECTS IN DATABASE
-                $em = $this->getEntityManager();
-                $em->persist($createdBreakfasts);
-                $em->persist($createdBrunches);
-                $em->persist($createdLunches);
-                $em->persist($createdDinners);
-                $em->persist($createdSuppers);
-
-                $em->flush();
+            switch (count($meals)) {
+                case 5:
+                    $meals = $this->valueRequirementsFirst($meals, $costRulePerDay, 5);
+                    break;
+                case 30:
+                    $meals = $this->valueRequirementsSecond($meals, $costRulePerDay, $mealsToCorrect, 5);
+                    break;
             }
         }
 
-        //      REQUIREMENTS ABOUT MEAL CONDITIONS
         $mealConditionARule = $rule->getWhichMeal();
         $mealConditionBRule = $rule->getRepetition();
         $mealConditionCRule = $rule->getInInterval();
@@ -418,198 +521,19 @@ class CreatedDietRepository extends EntityRepository {
                 $mealConditionBRule != null &&
                 $mealConditionCRule != null) {
 
-            $em = $this->getEntityManager();
-            
-            //SELECT ALL RECORDS WITHOUT CHOOSEN MEAL
-            $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.type=:type AND meal.name<>:name');
-
-            $query->setParameter('name', $mealConditionARule);
-
-            $breakfasts = $query->setParameter('type', 'śniadanie')->getResult();
-            $brunches = $query->setParameter('type', 'brunch')->getResult();
-            $lunches = $query->setParameter('type', 'lunch')->getResult();
-            $dinners = $query->setParameter('type', 'obiad')->getResult();
-            $suppers = $query->setParameter('type', 'kolacja')->getResult();
-
-
-            //SELECT CHOOSEN MEAL FROM DATABASE
-            $query = $em->createQuery('SELECT meal FROM DSLBundle:Meal meal WHERE meal.name=:name');
-            $choosenMeal = $query->setParameter('name', $mealConditionARule)->getResult();
-            $choosenMealType = $choosenMeal[0]->getType();
-
-            $start_date = Date('Y-m-d');
-
-            $shuffledBreakfasts = [];
-            $shuffledBrunches = [];
-            $shuffledLunches = [];
-            $shuffledDinners = [];
-            $shuffledSuppers = [];
-
-            for ($i = 0; $i < 30; $i++) {
-                shuffle($breakfasts);
-                shuffle($brunches);
-                shuffle($lunches);
-                shuffle($dinners);
-                shuffle($suppers);
-
-                $shuffledBreakfasts[] = $breakfasts[0];
-                $shuffledBrunches[] = $brunches[0];
-                $shuffledLunches[] = $lunches[0];
-                $shuffledDinners[] = $dinners[0];
-                $shuffledSuppers[] = $suppers[0];
+            switch (count($meals)) {
+                case 5:
+                    $mealsWithout = $this->removeMealFirst($meals, $mealConditionARule);
+                    $meals = $this->createWithRepetitionsFirst($mealsWithout, $mealConditionARule, $mealConditionBRule, $mealConditionCRule);
+                    break;
+                case 30:
+                    $mealsWithout = $this->removeMealSecond($mealsToCorrect, $meals, $mealConditionARule);
+                    $meals = $this->createWithRepetitionsSecond($mealsWithout, $mealConditionARule, $mealConditionBRule, $mealConditionCRule);
+                    break;
             }
-            //DIVIDE CREATED ARRAYS IN GIVEN INTERVALS
-            $breakfastsInIntervals = array_chunk($shuffledBreakfasts, $mealConditionCRule);
-            $brunchesInIntervals = array_chunk($shuffledBrunches, $mealConditionCRule);
-            $lunchesInIntervals = array_chunk($shuffledLunches, $mealConditionCRule);
-            $dinnersInIntervals = array_chunk($shuffledDinners, $mealConditionCRule);
-            $suppersInIntervals = array_chunk($shuffledSuppers, $mealConditionCRule);
-
-            //COMPARING TYPES OF MEALS TO IDENTIFY PROPER GROUP WHICH HAVE TO BE CHANGED
-            if ($choosenMealType == $shuffledBreakfasts[0]->getType()) {
-                $mergedArray = [];
-                foreach ($breakfastsInIntervals as $singleInterval) {
-                    if (count($singleInterval) == $mealConditionCRule) {
-                        $clearedArray = array_splice($singleInterval, $mealConditionBRule);
-                        $fullfilledBreakfastsArray = array_pad($clearedArray, $mealConditionCRule, $choosenMeal[0]);
-                        shuffle($fullfilledBreakfastsArray);
-                        $mergedArray = array_merge($mergedArray, $fullfilledBreakfastsArray);
-                    }
-                }
-
-                while (count($mergedArray) != 30) {
-                    shuffle($shuffledBreakfasts);
-                    $mergedArray[] = $shuffledBreakfasts[0];
-                }
-                $shuffledBreakfasts = $mergedArray;
-            }
-
-            if ($choosenMealType == $shuffledBrunches[0]->getType()) {
-                $mergedArray = [];
-                foreach ($brunchesInIntervals as $singleInterval) {
-                    if (count($singleInterval) == $mealConditionCRule) {
-                        $clearedArray = array_splice($singleInterval, $mealConditionBRule);
-                        $fullfilledBrunchesArray = array_pad($clearedArray, $mealConditionCRule, $choosenMeal[0]);
-                        shuffle($fullfilledBrunchesArray);
-                        $mergedArray = array_merge($mergedArray, $fullfilledBrunchesArray);
-                    }
-                }
-                while (count($mergedArray) != 30) {
-                    shuffle($shuffledBrunches);
-                    $mergedArray[] = $shuffledBrunches[0];
-                }
-                $shuffledBrunches = $mergedArray;
-            }
-
-
-            if ($choosenMealType == $shuffledLunches[0]->getType()) {
-                $mergedArray = [];
-                foreach ($lunchesInIntervals as $singleInterval) {
-                    if (count($singleInterval) == $mealConditionCRule) {
-                        $clearedArray = array_splice($singleInterval, $mealConditionBRule);
-                        $fullfilledLunchesArray = array_pad($clearedArray, $mealConditionCRule, $choosenMeal[0]);
-                        shuffle($fullfilledLunchesArray);
-                        $mergedArray = array_merge($mergedArray, $fullfilledLunchesArray);
-                    }
-                }
-                while (count($mergedArray) != 30) {
-                    shuffle($shuffledLunches);
-                    $mergedArray[] = $shuffledLunches[0];
-                }
-                $shuffledLunches = $mergedArray;
-            }
-
-
-            if ($choosenMealType == $shuffledDinners[0]->getType()) {
-                $mergedArray = [];
-                foreach ($dinnersInIntervals as $singleInterval) {
-                    if (count($singleInterval) == $mealConditionCRule) {
-                        $clearedArray = array_splice($singleInterval, $mealConditionBRule);
-                        $fullfilledDinnersArray = array_pad($clearedArray, $mealConditionCRule, $choosenMeal[0]);
-                        shuffle($fullfilledDinnersArray);
-                        $mergedArray = array_merge($mergedArray, $fullfilledDinnersArray);
-                    }
-                }
-                while (count($mergedArray) != 30) {
-                    shuffle($shuffledDinners);
-                    $mergedArray[] = $shuffledDinners[0];
-                }
-                $shuffledDinners = $mergedArray;
-            }
-
-
-            if ($choosenMealType == $shuffledSuppers[0]->getType()) {
-                $mergedArray = [];
-                foreach ($suppersInIntervals as $singleInterval) {
-                    if (count($singleInterval) == $mealConditionCRule) {
-                        $clearedArray = array_splice($singleInterval, $mealConditionBRule);
-                        $fullfilledSuppersArray = array_pad($clearedArray, $mealConditionCRule, $choosenMeal[0]);
-                        shuffle($fullfilledSuppersArray);
-                        $mergedArray = array_merge($mergedArray, $fullfilledSuppersArray);
-                    }
-                }
-                while (count($mergedArray) != 30) {
-                    shuffle($shuffledSuppers);
-                    $mergedArray[] = $shuffledSuppers[0];
-                }
-                $shuffledSuppers = $mergedArray;
-            }
-
-            $current_date = date('Y-m-d', strtotime($start_date . ' + ' . $i . ' days'));
-
-            
-//                //CREATING AND SAVING OBIECTS OF SINGLE TYPE OF GENERATED MEALS
-            foreach ($shuffledBreakfasts as $breakfast) {
-                $createdBreakfasts = new CreatedDiet();
-                $createdBreakfasts->setDate(new \DateTime($current_date));
-                $createdBreakfasts->setMeal($breakfast);
-                $createdBreakfasts->setDietRules($rule);
-
-                $em->persist($createdBreakfasts);
-                $em->flush();
-            }
-
-            foreach ($shuffledBrunches as $brunch) {
-                $createdBrunches = new CreatedDiet();
-                $createdBrunches->setDate(new \DateTime($current_date));
-                $createdBrunches->setMeal($brunch);
-                $createdBrunches->setDietRules($rule);
-
-                $em->persist($createdBrunches);
-                $em->flush();
-            }
-            
-            foreach ($shuffledLunches as $lunch) {
-                $createdLunches = new CreatedDiet();
-                $createdLunches->setDate(new \DateTime($current_date));
-                $createdLunches->setMeal($lunch);
-                $createdLunches->setDietRules($rule);
-
-                $em->persist($createdLunches);
-                $em->flush();
-            }
-            
-            foreach ($shuffledDinners as $dinner) {
-                $createdDinners = new CreatedDiet();
-                $createdDinners->setDate(new \DateTime($current_date));
-                $createdDinners->setMeal($dinner);
-                $createdDinners->setDietRules($rule);
-
-                $em->persist($createdDinners);
-                $em->flush();
-            }
-            
-            foreach ($shuffledSuppers as $supper) {
-                $createdSuppers = new CreatedDiet();
-                $createdSuppers->setDate(new \DateTime($current_date));
-                $createdSuppers->setMeal($supper);
-                $createdSuppers->setDietRules($rule);
-
-                $em->persist($createdSuppers);
-                $em->flush();
-            }
-
         }
+        
+        $this->validateDiet($meals, $user, $rule);
+        die;
     }
-
 }
