@@ -1,16 +1,28 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_logged.html.twig' %}
 
-{% block body %}
-    <h1>Ingredient creation</h1>
+{% block content %}
+    <h1 class="content_header">Składniki dla posiłku: {{ mealName }}</h1>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+    <div>
+        <div>
+            {{ form_start(form) }}
+            {{ form_errors(form.productId) }}
+            {{ form_widget(form.productId, {'attr': {'placeholder': 'ID produktu', 'class':'fos_register_div'}}) }}
+            {{ form_errors(form.quantity) }}
+            {{ form_widget(form.quantity, {'attr': {'placeholder': 'ilość', 'class':'fos_register_div'}}) }}
+            {{ form_errors(form.meal) }}
+            {{ form_widget(form.meal) }}
+            {{ form_errors(form.product) }}
+            {{ form_widget(form.product) }}
+            <input type="submit" value="Dodaj" class="fos_register_div submit form_submit"/>
+            {{ form_end(form) }}
+        </div>
+    </div>
 
-    <ul>
+
+{#    <ul>
         <li>
             <a href="{{ path('ingredient_index') }}">Back to the list</a>
         </li>
-    </ul>
+    </ul>#}
 {% endblock %}

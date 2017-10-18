@@ -49,7 +49,7 @@ class MealController extends Controller
             $em->persist($meal);
             $em->flush($meal);
 
-            return $this->redirectToRoute('meal_show', array('id' => $meal->getId()));
+            return $this->redirectToRoute('ingredient_new', array('mealId' => $meal->getId()));
         }
 
         return $this->render('meal/new.html.twig', array(

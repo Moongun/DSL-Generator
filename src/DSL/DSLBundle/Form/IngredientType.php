@@ -5,6 +5,8 @@ namespace DSL\DSLBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class IngredientType extends AbstractType
 {
@@ -13,7 +15,21 @@ class IngredientType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('mealId')->add('productId')->add('quantity')->add('meal')->add('product')        ;
+        // TODO dorobić walidacje - sprawdzić czy jest w entity
+        //dokończyć
+        $builder
+                ->add('mealId', HiddenType::class, array(
+                    'data' => $options['mealId'],
+                    'required' => true
+                    )
+                )
+                ->add('productId')
+                ->add('quantity', NumberType::class, array(
+                    'required' => true
+                    )
+                )
+                ->add('meal')
+                ->add('product');
     }
     
     /**
@@ -22,7 +38,8 @@ class IngredientType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'DSL\DSLBundle\Entity\Ingredient'
+            'data_class' => 'DSL\DSLBundle\Entity\Ingredient',
+            'mealId' => null
         ));
     }
 

@@ -22,4 +22,11 @@ class DefaultController extends Controller
     {
         return $this->render('DSLBundle:Default:start.html.twig');
     }
+    /**
+     * @Route("thanks", name="thanks")
+     */
+    public function thanksAction()
+    {
+        return $this->render('DSLBundle:Default:thanks.html.twig');
+    }
 }

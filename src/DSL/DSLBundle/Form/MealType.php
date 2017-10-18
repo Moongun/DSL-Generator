@@ -16,7 +16,15 @@ class MealType extends AbstractType
     {
         $builder->add('name')
                 ->add('description')
-                ->add('type')
+                ->add('type', ChoiceType::class, array(
+                    'choices' => array(
+                        'śniadanie' => 'Śniadanie',
+                        'brunch'    => 'Brunch',
+                        'lunch'     => 'Lunch',
+                        'obiad'     => 'Obiad',
+                        'kolacja'   => 'Kolacja'
+                    )
+                ))
                 ->add('energyValueKcal')
                 ->add('proteinG')
                 ->add('carbohydratesG')

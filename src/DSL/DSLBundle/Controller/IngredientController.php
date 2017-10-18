@@ -5,7 +5,9 @@ namespace DSL\DSLBundle\Controller;
 use DSL\DSLBundle\Entity\Ingredient;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+
 
 /**
  * Ingredient controller.
@@ -34,13 +36,15 @@ class IngredientController extends Controller
     /**
      * Creates a new ingredient entity.
      *
-     * @Route("/new", name="ingredient_new")
+     * @Route("/new/{mealId}", name="ingredient_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, $mealId)
     {
+        $meal = $this->getDoctrine()->getRepository('DSLBundle:Meal')->find($mealId);
+                
         $ingredient = new Ingredient();
-        $form = $this->createForm('DSL\DSLBundle\Form\IngredientType', $ingredient);
+        $form = $this->createForm('DSL\DSLBundle\Form\IngredientType', $ingredient, ['mealId' => $mealId]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,12 +52,15 @@ class IngredientController extends Controller
             $em->persist($ingredient);
             $em->flush($ingredient);
 
-            return $this->redirectToRoute('ingredient_show', array('id' => $ingredient->getId()));
+            return $this->redirectToRoute('thanks', array(
+                'id' => $ingredient->getId()
+            ));
         }
 
         return $this->render('ingredient/new.html.twig', array(
             'ingredient' => $ingredient,
             'form' => $form->createView(),
+            'mealName' => $meal->getName()
         ));
     }
 
