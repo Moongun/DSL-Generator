@@ -34,7 +34,69 @@ class CreatedDietRepository extends EntityRepository {
         return $all;
     }
 
-    public function valueRequirementsFirst($meals, $rule, $whichRule = 0) {
+    public function shuffleMeals($meals, $rule, $whichRule = 0) {
+        $out = [];
+        //5 -it's number of repetitions of try to pass 'if' condition
+        //if 5th repetition fail, function returns new repetition without validating
+        for ($i = 0; $i <= 5; $i++) {
+            $temp = [];
+            $eValue = 0;
+            $pValue = 0;
+            $cValue = 0;
+            $fValue = 0;
+            $dayCost = 0;
+
+            foreach ($meals as $k => $type) {
+                shuffle($type);
+                $temp[$k] = $type[0];
+                $eValue+=$type[0]->getEnergyValueKcal();
+                $pValue+=$type[0]->getProteinG();
+                $cValue+=$type[0]->getCarbohydratesG();
+                $fValue+=$type[0]->getFatG();
+                $dayCost+=$type[0]->getAverageCost();
+            }
+
+            if ($i == 5) {
+                $out[] = $temp;
+                return $out[0];
+            }
+
+            switch ($whichRule) {
+                case 1:
+                    if ($eValue > ($rule - 100) && $eValue < ($rule + 100)) {
+                        $out[] = $temp;
+//                        return $out;
+                    }
+                    break;
+                case 2:
+                    if ($pValue > ($rule - 10) && $pValue < ($rule + 10)) {
+                        $out[] = $temp;
+//                        return $out;
+                    }
+                    break;
+                case 3:
+                    if ($cValue > ($rule - 10) && $cValue < ($rule + 10)) {
+                        $out[] = $temp;
+//                        return $out;
+                    }
+                    break;
+                case 4:
+                    if ($fValue > ($rule - 10) && $fValue < ($rule + 10)) {
+                        $out[] = $temp;
+//                        return $out;
+                    }
+                    break;
+                case 5:
+                    if ($dayCost > ($rule - 3.00) && $dayCost < ($rule + 3.00)) {
+                        $out[] = $temp;
+//                        return $out;
+                    }
+                    break;
+            }
+        }
+    }
+
+    public function valueRequirementsFirst($meals, $rule, $mealsFromDb, $whichRule = 0) {
         $out = [];
         for ($i = 0; $i < 30; $i++) {
             $eValue = 0;
@@ -66,11 +128,17 @@ class CreatedDietRepository extends EntityRepository {
                         if ($eValue > ($rule - 100) && $eValue < ($rule + 100)) {
                             $out[] = $temp;
                             break 2;
+                        } else {
+                            $out[] = $this->shuffleMeals($mealsFromDb, $rule, 1);
+                            break 2;
                         }
                         continue 2;
                     case 2:
                         if ($pValue > ($rule - 10) && $pValue < ($rule + 10)) {
                             $out[] = $temp;
+                            break 2;
+                        } else {
+                            $out[] = $this->shuffleMeals($mealsFromDb, $rule, 2);
                             break 2;
                         }
                         continue 2;
@@ -78,17 +146,26 @@ class CreatedDietRepository extends EntityRepository {
                         if ($cValue > ($rule - 10) && $cValue < ($rule + 10)) {
                             $out[] = $temp;
                             break 2;
+                        } else {
+                            $out[] = $this->shuffleMeals($mealsFromDb, $rule, 3);
+                            break 2;
                         }
                         continue 2;
                     case 4:
                         if ($fValue > ($rule - 10) && $fValue < ($rule + 10)) {
                             $out[] = $temp;
                             break 2;
+                        } else {
+                            $out[] = $this->shuffleMeals($mealsFromDb, $rule, 4);
+                            break 2;
                         }
                         continue 2;
                     case 5:
                         if ($dayCost > ($rule - 3.00) && $dayCost < ($rule + 3.00)) {
                             $out[] = $temp;
+                            break 2;
+                        } else {
+                            $out[] = $this->shuffleMeals($mealsFromDb, $rule, 5);
                             break 2;
                         }
                         continue 2;
@@ -98,65 +175,16 @@ class CreatedDietRepository extends EntityRepository {
         return $out;
     }
 
-    public function shuffleMeals($meals, $rule, $whichRule = 0) {
+    public function changeKeysInArray($day){
         $out = [];
-        for ($i = 0; $i <= 5; $i++) {
-            $temp = [];
-            $eValue = 0;
-            $pValue = 0;
-            $cValue = 0;
-            $fValue = 0;
-            $dayCost = 0;
-
-            foreach ($meals as $k => $type) {
-                shuffle($type);
-                $temp[$k] = $type[0];
-                $eValue+=$type[0]->getEnergyValueKcal();
-                $pValue+=$type[0]->getProteinG();
-                $cValue+=$type[0]->getCarbohydratesG();
-                $fValue+=$type[0]->getFatG();
-                $dayCost+=$type[0]->getAverageCost();
-            }
-
-            if ($i == 5) {
-                $out[] = $temp;
-                return $out;
-            }
-
-            switch ($whichRule) {
-                case 1:
-                    if ($eValue > ($rule - 100) && $eValue < ($rule + 100)) {
-                        $out[] = $temp;
-                        return $out;
-                    }
-                    break;
-                case 2:
-                    if ($pValue > ($rule - 10) && $pValue < ($rule + 10)) {
-                        $out[] = $temp;
-                        return $out;
-                    }
-                    break;
-                case 3:
-                    if ($cValue > ($rule - 10) && $cValue < ($rule + 10)) {
-                        $out[] = $temp;
-                        return $out;
-                    }
-                    break;
-                case 4:
-                    if ($fValue > ($rule - 10) && $fValue < ($rule + 10)) {
-                        $out[] = $temp;
-                        return $out;
-                    }
-                    break;
-                case 5:
-                    if ($dayCost > ($rule - 3.00) && $dayCost < ($rule + 3.00)) {
-                        $out[] = $temp;
-                        return $out;
-                    }
-                    break;
-            }
-        }
+        
+        foreach($day as $meal){
+            $out[$meal->getType()] = $meal;
+        };
+        
+        return $out;
     }
+        
 
     public function valueRequirementsSecond($diet, $rule, $mealsFromDb, $whichRule = 0) {
         $out = [];
@@ -168,7 +196,8 @@ class CreatedDietRepository extends EntityRepository {
             $fValue = 0;
             $dayCost = 0;
             foreach ($day as $meal) {
-                $temp[] = $meal;
+                $temp[$meal->getType()] = $meal;
+
                 $eValue+=$meal->getEnergyValueKcal();
                 $pValue+=$meal->getProteinG();
                 $cValue+=$meal->getCarbohydratesG();
@@ -215,31 +244,6 @@ class CreatedDietRepository extends EntityRepository {
         return $out;
     }
 
-//    
-//    public function proteinRequirements($meals, $rule){
-//                    for ($i = 0; $i < 30; $i++) {
-//                $allProteinValue = 0;
-//                $counter = 0;
-//                while ($allProteinValue < ($proteinRule - 10) || $allProteinValue > $proteinRule || $counter < 5) {
-//                    $allProteinValue = 0;
-//
-//                    shuffle($breakfasts);
-//                    shuffle($brunches);
-//                    shuffle($lunches);
-//                    shuffle($dinners);
-//                    shuffle($suppers);
-//
-//                    $allProteinValue+=$breakfasts[0]->getProteinG();
-//                    $allProteinValue+=$brunches[0]->getProteinG();
-//                    $allProteinValue+=$lunches[0]->getProteinG();
-//                    $allProteinValue+=$dinners[0]->getProteinG();
-//                    $allProteinValue+=$suppers[0]->getProteinG();
-//
-//                    $counter++;
-//                    }
-//                }
-//    }
-
     /**
      * 
      * @param type $meals - meal set without selected meal 
@@ -265,14 +269,18 @@ class CreatedDietRepository extends EntityRepository {
             }
             $out[$i] = $temp;
         }
+        
+        $out2 = [];
         foreach ($out as $k => $day) {
             foreach ($day as $kk => $single) {
                 if (($k + 1) % $inter == 0 && $k !== 0 && $single->getType() == $mealType) {
                     array_splice($out[$k], $kk, 1, $result);
                 }
             }
+            $temp = $this->changeKeysInArray($out[$k]);
+            $out2[$k] = $temp;
         }
-        return $out;
+        return $out2;
     }
 
     /**
@@ -291,6 +299,7 @@ class CreatedDietRepository extends EntityRepository {
         $objectMeal = $result[0];
         $mealType = $result[0]->getType();
 
+        $out = [];
         foreach ($meals as $k => $day) {
             foreach ($day as $kk => $single) {
                 if (($k + 1) % $inter == 0 && $k !== 0 && $single->getType() == $mealType) {
@@ -319,9 +328,12 @@ class CreatedDietRepository extends EntityRepository {
                             break;
                     }
                 }
+                $temp = $this->changeKeysInArray($meals[$k]);
+                $out[$k] = $temp;
             }
         }
-        return $meals;
+
+        return $out;
     }
 
     public function removeMealFirst($meals, $toRemove) {
@@ -348,6 +360,7 @@ class CreatedDietRepository extends EntityRepository {
     }
 
     public function replaceKey($array, $key1, $key2) {
+//        dump($array);
         $keys = array_keys($array);
         $index = array_search($key1, $keys);
 
@@ -355,6 +368,8 @@ class CreatedDietRepository extends EntityRepository {
             $keys[$index] = $key2;
             $array = array_combine($keys, $array);
         }
+//                dump($array);
+
 
         return $array;
     }
@@ -420,7 +435,7 @@ class CreatedDietRepository extends EntityRepository {
                 $item->setMeal($meal);
                 $item->setDietRules($rule);
                 $item->setUserId($user);
-                
+
                 $em = $this->getEntityManager();
                 $em->persist($item);
                 $em->flush();
@@ -440,14 +455,6 @@ class CreatedDietRepository extends EntityRepository {
         $ruleRepo = $this->getEntityManager()->getRepository('DSLBundle:Diet_rules');
         $rule = $ruleRepo->findOneById($ruleId);
 
-//        //ALL MEALS
-//        $mealRepo = $this->getEntityManager()->getRepository('DSLBundle:Meal');
-//        $meals = $mealRepo->findAll();
-//
-//        //GET TO THE CREATED DIET DATABASE 
-//        $dietRepo = $this->getEntityManager()->getRepository('DSLBundle:CreatedDiet');
-//        $em = $this->getEntityManager();
-
         $meals = $this->pickMeals();
         $mealsToCorrect = $meals;
         $start_date = Date('Y-m-d');
@@ -457,7 +464,7 @@ class CreatedDietRepository extends EntityRepository {
         if ($caloriesRule != null) {
             switch (count($meals)) {
                 case 5:
-                    $meals = $this->valueRequirementsFirst($meals, $caloriesRule, 1);
+                    $meals = $this->valueRequirementsFirst($meals, $caloriesRule, $mealsToCorrect, 1);
                     break;
                 case 30:
                     $meals = $this->valueRequirementsSecond($meals, $caloriesRule, $mealsToCorrect, 1);
@@ -469,7 +476,7 @@ class CreatedDietRepository extends EntityRepository {
         if ($proteinRule != null) {
             switch (count($meals)) {
                 case 5:
-                    $meals = $this->valueRequirementsFirst($meals, $proteinRule, 2);
+                    $meals = $this->valueRequirementsFirst($meals, $proteinRule, $mealsToCorrect, 2);
                     break;
                 case 30:
                     $meals = $this->valueRequirementsSecond($meals, $proteinRule, $mealsToCorrect, 2);
@@ -481,7 +488,7 @@ class CreatedDietRepository extends EntityRepository {
         if ($carbohydratesRule != null) {
             switch (count($meals)) {
                 case 5:
-                    $meals = $this->valueRequirementsFirst($meals, $carbohydratesRule, 3);
+                    $meals = $this->valueRequirementsFirst($meals, $carbohydratesRule, $mealsToCorrect, 3);
                     break;
                 case 30:
                     $meals = $this->valueRequirementsSecond($meals, $carbohydratesRule, $mealsToCorrect, 3);
@@ -493,7 +500,7 @@ class CreatedDietRepository extends EntityRepository {
         if ($fatsRule != null) {
             switch (count($meals)) {
                 case 5:
-                    $meals = $this->valueRequirementsFirst($meals, $fatsRule, 4);
+                    $meals = $this->valueRequirementsFirst($meals, $fatsRule, $mealsToCorrect, 4);
                     break;
                 case 30:
                     $meals = $this->valueRequirementsSecond($meals, $fatsRule, $mealsToCorrect, 4);
@@ -506,7 +513,7 @@ class CreatedDietRepository extends EntityRepository {
             $costRulePerDay = $costRule / 30;
             switch (count($meals)) {
                 case 5:
-                    $meals = $this->valueRequirementsFirst($meals, $costRulePerDay, 5);
+                    $meals = $this->valueRequirementsFirst($meals, $costRulePerDay, $mealsToCorrect, 5);
                     break;
                 case 30:
                     $meals = $this->valueRequirementsSecond($meals, $costRulePerDay, $mealsToCorrect, 5);
@@ -518,9 +525,10 @@ class CreatedDietRepository extends EntityRepository {
         $mealConditionBRule = $rule->getRepetition();
         $mealConditionCRule = $rule->getInInterval();
         if ($mealConditionARule != null &&
-                $mealConditionBRule != null &&
+//                $mealConditionBRule != null &&
                 $mealConditionCRule != null) {
 
+            dump($mealConditionARule, $mealConditionCRule);
             switch (count($meals)) {
                 case 5:
                     $mealsWithout = $this->removeMealFirst($meals, $mealConditionARule);
@@ -532,8 +540,7 @@ class CreatedDietRepository extends EntityRepository {
                     break;
             }
         }
-        
         $this->validateDiet($meals, $user, $rule);
-        die;
     }
+
 }

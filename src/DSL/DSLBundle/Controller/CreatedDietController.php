@@ -140,7 +140,7 @@ class CreatedDietController extends Controller {
                     break;
             };
         };
-
+        
         $energy = $energy / 30;
         $proteins = $proteins / 30;
         $fats = $fats / 30;

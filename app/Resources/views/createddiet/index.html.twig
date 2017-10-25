@@ -40,6 +40,7 @@
             {%set counter = counter + 1%}
             <tr class='table-row without-header'>
                 <td class='table-center'>{{ counter }}</td>
+                {% dump(diet) %}
                 <td class='table-center'>{{ diet[150]|date('Y-m-d') }}</td>
                 <td class='table-center'>
                     <ul class='table-links'>
