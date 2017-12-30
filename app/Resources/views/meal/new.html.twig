@@ -7,11 +7,11 @@
         <div class="div_paddings">
             {{ form_start(form) }}
             {{form_errors(form.name)}}
-            {{form_widget(form.name, {'attr': {'placeholder': 'nazwa', 'class':'fos_register_div'}})}}
+            {{form_widget(form.name, {'attr': {'placeholder': 'nazwa', 'class':'fos_register_div meal-name'}})}}
             {{ form_errors(form.description) }}
-            {{ form_widget(form.description, {'attr': {'placeholder': 'opis', 'class':'fos_register_div', 'rows':10}}) }}
+            {{ form_widget(form.description, {'attr': {'placeholder': 'opis', 'class':'fos_register_div meal-description', 'rows':10}}) }}
             {{ form_errors(form.type) }}
-            {{ form_widget(form.type, {'attr': {'placeholder': 'Typ posiłku', 'class':'fos_register_div'}}) }}
+            {{ form_widget(form.type, {'attr': {'placeholder': 'Typ posiłku', 'class':'fos_register_div select'}}) }}
             {{ form_errors(form.energyValueKcal) }}
             {{ form_widget(form.energyValueKcal, {'attr': {'placeholder': 'Wartość energetyczna', 'class':'fos_register_div'}}) }}
             {{ form_errors(form.proteinG) }}
@@ -23,7 +23,7 @@
             {{ form_errors(form.averageCost) }}
             {{ form_widget(form.averageCost, {'attr': {'placeholder': 'Średni koszt', 'class':'fos_register_div'}}) }}
             {{ form_errors(form.base) }}
-            {{ form_widget(form.base, {'attr': {'placeholder': 'Baza', 'class':'fos_register_div'}}) }}
+            {{ form_widget(form.base, {'attr': {'placeholder': 'Baza', 'class':'fos_register_div select'}}) }}
             {#{{ form_error(form) }}
             {{ form_widget(form) }}
             #}<input type="submit" value="Dodaj" class="fos_register_div submit form_submit" />

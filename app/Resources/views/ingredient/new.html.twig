@@ -9,7 +9,7 @@
             {{ form_errors(form.quantity) }}
             {{ form_widget(form.quantity, {'attr': {'placeholder': 'ilość', 'class':'fos_register_div'}}) }}
             {{ form_errors(form.product) }}
-            {{ form_widget(form.product) }}
+            {{ form_widget(form.product, {'attr': {'class': 'fos_register_div select'}}) }}
             <input type="submit" value="Dodaj" class="fos_register_div submit form_submit"/>
             {{ form_end(form) }}
         </div>

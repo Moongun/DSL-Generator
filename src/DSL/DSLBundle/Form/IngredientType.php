@@ -35,6 +35,7 @@ class IngredientType extends AbstractType {
                     ))
                 ->add('product', null, array(
                     'required'      => false,
+                    'placeholder'   => 'Wybierz składnik',
                     'constraints'   => array(
                         new NotBlank(array(
                             'message' => self::BLANK_MSG
