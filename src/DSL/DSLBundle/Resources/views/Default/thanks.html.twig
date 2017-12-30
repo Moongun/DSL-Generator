@@ -5,6 +5,10 @@
         <a href="{{path('meal_new')}}">Dodaj kolejny posiłek</a>
     </div>
     <div>
+        <a href="{{path('ingredient_new', {'mealId': meal.id }) }}">Dodaj kolejny składnik do posiłku {{ meal.name }}</a>
+    </div>
+    <div>
         <a href="{{path('start')}}">Wróć do strony głównej</a>
     </div>
+    
 {% endblock %}

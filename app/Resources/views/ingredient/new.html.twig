@@ -6,12 +6,8 @@
     <div>
         <div>
             {{ form_start(form) }}
-            {{ form_errors(form.productId) }}
-            {{ form_widget(form.productId, {'attr': {'placeholder': 'ID produktu', 'class':'fos_register_div'}}) }}
             {{ form_errors(form.quantity) }}
             {{ form_widget(form.quantity, {'attr': {'placeholder': 'ilość', 'class':'fos_register_div'}}) }}
-            {{ form_errors(form.meal) }}
-            {{ form_widget(form.meal) }}
             {{ form_errors(form.product) }}
             {{ form_widget(form.product) }}
             <input type="submit" value="Dodaj" class="fos_register_div submit form_submit"/>

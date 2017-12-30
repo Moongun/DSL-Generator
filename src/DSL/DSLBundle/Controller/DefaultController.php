@@ -4,6 +4,7 @@ namespace DSL\DSLBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class DefaultController extends Controller
 {
@@ -22,11 +23,17 @@ class DefaultController extends Controller
     {
         return $this->render('DSLBundle:Default:start.html.twig');
     }
+    
     /**
-     * @Route("thanks", name="thanks")
+     * @Route("thanks/{mealId}", name="thanks")
+     * @Method({"GET", "POST"})
      */
-    public function thanksAction()
+    public function thanksAction($mealId)
     {
-        return $this->render('DSLBundle:Default:thanks.html.twig');
+        $meal = $this->getDoctrine()->getRepository('DSLBundle:Meal')->find($mealId);
+        
+        return $this->render('DSLBundle:Default:thanks.html.twig', array(
+            'meal' => $meal
+        ));
     }
 }

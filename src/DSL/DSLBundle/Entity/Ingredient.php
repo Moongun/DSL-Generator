@@ -55,8 +55,8 @@ class Ingredient
      * @var type 
      */
     private $product;
-
-
+    
+    
     /**
      * Get id
      *
@@ -99,7 +99,7 @@ class Ingredient
     public function setProductId($productId)
     {
         $this->productId = $productId;
-
+        
         return $this;
     }
 

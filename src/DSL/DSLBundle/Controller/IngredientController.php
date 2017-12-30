@@ -8,28 +8,26 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-
 /**
  * Ingredient controller.
  *
  * @Route("ingredient")
  */
-class IngredientController extends Controller
-{
+class IngredientController extends Controller {
+
     /**
      * Lists all ingredient entities.
      *
      * @Route("/", name="ingredient_index")
      * @Method("GET")
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $ingredients = $em->getRepository('DSLBundle:Ingredient')->findAll();
 
         return $this->render('ingredient/index.html.twig', array(
-            'ingredients' => $ingredients,
+                    'ingredients' => $ingredients,
         ));
     }
 
@@ -39,28 +37,33 @@ class IngredientController extends Controller
      * @Route("/new/{mealId}", name="ingredient_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request, $mealId)
-    {
+    public function newAction(Request $request, $mealId) {
         $meal = $this->getDoctrine()->getRepository('DSLBundle:Meal')->find($mealId);
-                
+
         $ingredient = new Ingredient();
-        $form = $this->createForm('DSL\DSLBundle\Form\IngredientType', $ingredient, ['mealId' => $mealId]);
+        $form = $this->createForm('DSL\DSLBundle\Form\IngredientType', $ingredient, array(
+            'mealId' => $mealId,
+            'meal' => $meal
+        ));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ingredient->setMeal($meal);
+            $ingredient->setMealId($mealId);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($ingredient);
             $em->flush($ingredient);
 
             return $this->redirectToRoute('thanks', array(
-                'id' => $ingredient->getId()
+                        'mealId' => $mealId,
             ));
         }
 
         return $this->render('ingredient/new.html.twig', array(
-            'ingredient' => $ingredient,
-            'form' => $form->createView(),
-            'mealName' => $meal->getName()
+                    'ingredient' => $ingredient,
+                    'form' => $form->createView(),
+                    'mealName' => $meal->getName(),
         ));
     }
 
@@ -70,13 +73,12 @@ class IngredientController extends Controller
      * @Route("/{id}", name="ingredient_show")
      * @Method("GET")
      */
-    public function showAction(Ingredient $ingredient)
-    {
+    public function showAction(Ingredient $ingredient) {
         $deleteForm = $this->createDeleteForm($ingredient);
 
         return $this->render('ingredient/show.html.twig', array(
-            'ingredient' => $ingredient,
-            'delete_form' => $deleteForm->createView(),
+                    'ingredient' => $ingredient,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -86,8 +88,7 @@ class IngredientController extends Controller
      * @Route("/{id}/edit", name="ingredient_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Ingredient $ingredient)
-    {
+    public function editAction(Request $request, Ingredient $ingredient) {
         $deleteForm = $this->createDeleteForm($ingredient);
         $editForm = $this->createForm('DSL\DSLBundle\Form\IngredientType', $ingredient);
         $editForm->handleRequest($request);
@@ -99,9 +100,9 @@ class IngredientController extends Controller
         }
 
         return $this->render('ingredient/edit.html.twig', array(
-            'ingredient' => $ingredient,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'ingredient' => $ingredient,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -111,8 +112,7 @@ class IngredientController extends Controller
      * @Route("/{id}", name="ingredient_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Ingredient $ingredient)
-    {
+    public function deleteAction(Request $request, Ingredient $ingredient) {
         $form = $this->createDeleteForm($ingredient);
         $form->handleRequest($request);
 
@@ -132,41 +132,39 @@ class IngredientController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Ingredient $ingredient)
-    {
+    private function createDeleteForm(Ingredient $ingredient) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('ingredient_delete', array('id' => $ingredient->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('ingredient_delete', array('id' => $ingredient->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
-    
+
     /**
      * @Route ("/shoppinglist/{dietRuleId}", name="shopping_list")
      */
-    public function generateShoopingListAction($dietRuleId){
-        
+    public function generateShoopingListAction($dietRuleId) {
+
         $em = $this->getDoctrine()->getManager();
         $createdDiet = $em->getRepository('DSLBundle:CreatedDiet')->findByDietRules($dietRuleId);
-        
+
         $mealIds = [];
-        foreach($createdDiet as $meal){
+        foreach ($createdDiet as $meal) {
             array_push($mealIds, $meal->getMeal()->getId());
         };
 //        dump($mealIds);
-        
-        $ingredients =[];
-        foreach($mealIds as $mealId){
-                    $mealIngredients = $em->getRepository('DSLBundle:Ingredient')->findByMealId($mealId);
-                    $ingredients[] = $mealIngredients;
+
+        $ingredients = [];
+        foreach ($mealIds as $mealId) {
+            $mealIngredients = $em->getRepository('DSLBundle:Ingredient')->findByMealId($mealId);
+            $ingredients[] = $mealIngredients;
         };
 //        dump($ingredients);
-        
+
         return $this->render("ingredient/shoppingList.html.twig", array(
-            'dietRuleId'=> $dietRuleId,
-            'ingredients' => $ingredients
-                
+                    'dietRuleId' => $dietRuleId,
+                    'ingredients' => $ingredients
         ));
-        
     }
+
 }
