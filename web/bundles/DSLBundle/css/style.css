@@ -300,3 +300,20 @@ input[type=checkbox] {
     font-size: inherit;
     font-family: inherit;
 }
+
+.account {
+    position: absolute;
+    height: 32px;
+    right:10px;
+    top:0;
+    color: white;
+}
+
+.account > span {
+    line-height: 32px;
+}
+
+.account-a {
+    color: wheat;
+    font-weight:600;
+}

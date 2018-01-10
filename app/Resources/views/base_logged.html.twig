@@ -19,13 +19,16 @@
                     <div>
                         <ul class='menu-header'>
                             <li class='menu-header-options'><a href="{{ path('start') }}">Strona Główna</a></li>
-                            <li class='menu-header-options'><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
                             <li class='menu-header-options'><a href="{{ path('createddiet_index') }}">Historia</a></li>
                             <li class='menu-header-options'><a href="{{ path('diet_rules_new') }}">Stwórz dietę!</a></li>
                             <li class='menu-header-options'><a href="{{ path('meal_new') }}">Dodaj posiłek</a></li>
                             <li class='menu-header-options'><a href="{{ path('product_new') }}">Dodaj produkt</a></li>
                             <li class='menu-header-options'><a href="{{ path('start') }}">O mnie</a></li>
                         </ul>
+                    </div>
+                    <div class="account">
+                        <span>witaj, <a class="account-a" href="/profile"> {{ app.user.username }} </a></span>
+                        <span> | <a class="account-a" href="/logout">wyloguj</a></span>
                     </div>
                 {% endblock header %}
 
