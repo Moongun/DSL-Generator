@@ -10,6 +10,25 @@
             {% endstylesheets %}
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        
+{#        fix do logowania przez fb #}
+        <script type="text/javascript">
+            if (window.location.hash && window.location.hash == '#_=_') {
+                if (window.history && history.pushState) {
+                    window.history.pushState("", document.title, window.location.pathname);
+                } else {
+                    // Prevent scrolling by storing the page's current scroll offset
+                    var scroll = {
+                        top: document.body.scrollTop,
+                        left: document.body.scrollLeft
+                    };
+                    window.location.hash = '';
+                    // Restore the scroll offset, should be flicker free
+                    document.body.scrollTop = scroll.top;
+                    document.body.scrollLeft = scroll.left;
+                }
+            }
+        </script>
     </head>
     <body>
         <img src="{{asset('bundles/DSLBundle/img/still-life-2338824_1920.jpg')}}" alt='texr' class='bodyImg'>
@@ -48,7 +67,7 @@
     {% block javascripts %}
         {% javascripts  '@DSLBundle/Resources/public/js/jquery-3.2.1.min.js' 
                         '@DSLBundle/Resources/public/js/*' %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
+        <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
     {% endblock %}
 </body>

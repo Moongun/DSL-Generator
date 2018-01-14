@@ -3,7 +3,7 @@
     <type>org.netbeans.modules.php.project</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
-            <name>Diet_ShoppingList_Generator</name>
+            <name>DSL-Generator</name>
         </data>
     </configuration>
 </project>

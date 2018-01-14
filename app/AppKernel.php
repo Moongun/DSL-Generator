@@ -18,6 +18,9 @@ class AppKernel extends Kernel
             new DSL\DSLBundle\DSLBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            
+            new Http\HttplugBundle\HttplugBundle(), // If you require the php-http/httplug-bundle package.
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

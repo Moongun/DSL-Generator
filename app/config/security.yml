@@ -21,6 +21,20 @@ security:
                 default_target_path: /start
             logout: true
             anonymous: true
+            
+            #HWIOAuth
+            anonymous: ~
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                login_path:        /login
+                use_forward:       false
+                failure_path:      /login
+                default_target_path: /start
+                
+                oauth_user_provider:
+#                    service: my.oauth_aware.user_provider.service
+                    service: my_user_provider
     
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }

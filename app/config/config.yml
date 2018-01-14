@@ -78,3 +78,19 @@ assetic:
     use_controller: '%kernel.debug%'
     filters:
         cssrewrite: ~
+
+hwi_oauth:
+    connect:
+        confirmation: false
+        account_connector: my_user_provider
+    firewall_names: [main]
+    resource_owners:
+        facebook:
+            type:                facebook
+            client_id:           774856892698432
+            client_secret:       1cc1f638b63683f2c4902bd133605522
+            scope:               "email"
+            paths:
+                email:           email
+            options:
+                csrf: true

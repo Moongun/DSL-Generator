@@ -1,15 +1,43 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <a href ="/login">
-            <div class="homepage-divs">
-                ZALOGUJ
+    <style>
+        .start-icons {
+            font-size: 150px;
+            display: block;
+        }
+        
+        .start-spans {
+            font-size: 40px;
+            font-weight: 600;
+        }
+        
+        .fix-border {
+            border: 6px solid black;
+            width: 300px;
+        }
+        
+        .container-fix {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .start-a {
+            display:inline-block;
+        }
+    </style>
+    
+    <div class="container container-fix">
+        <a href ="/login" class="start-a">
+            <div class="homepage-divs fix-border">
+                <i class="fa fa-sign-in start-icons" aria-hidden="true"></i>
+                <span class="start-spans">ZALOGUJ</span>
             </div>
         </a>
-        <a href="/register">
-            <div class="homepage-divs">
-                ZAREJESTRUJ   
+        <a href="/register" class="start-a">
+            <div class="homepage-divs fix-border">
+                <i class="fa fa-users start-icons" aria-hidden="true"></i>
+                <span class="start-spans">ZAREJESTRUJ</span>   
             </div>
         </a>
         <div class='clearness'></div>

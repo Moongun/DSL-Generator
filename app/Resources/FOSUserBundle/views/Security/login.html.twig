@@ -1,54 +1,6 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <script>
-        {#        function checkLoginState() {
-                    FB.getLoginStatus(function (response) {
-                        console.log(response);
-                        statusChangeCallback(response);
-                    });
-                }#}
-
-                    var logByFacebook = function () {
-                        FB.login(function (response) {
-                            console.log(response);
-                        })
-                    }
-
-
-
-                    window.fbAsyncInit = function () {
-                        FB.init({
-                            appId: '774856892698432',
-                            cookie: true,
-                            xfbml: true,
-                            version: 'v2.11'
-                        });
-
-                        FB.AppEvents.logPageView();
-
-        {#            FB.getLoginStatus(function (response) {
-                        statusChangeCallback(response);
-                    });#}
-
-{#                            FB.login(function (response) {
-                                // handle the response
-                            }, {scope: 'public_profile,email'});#}
-
-                        };
-
-                        (function (d, s, id) {
-                            var js, fjs = d.getElementsByTagName(s)[0];
-                            if (d.getElementById(id)) {
-                                return;
-                            }
-                            js = d.createElement(s);
-                            js.id = id;
-                            js.src = "https://connect.facebook.net/en_US/sdk.js";
-                            fjs.parentNode.insertBefore(js, fjs);
-                        }(document, 'script', 'facebook-jssdk'));
-    </script>
-
     {{ include('FOSUserBundle:Security:login_content.html.twig') }}
 
     <style>
@@ -67,7 +19,7 @@
 
         .facebook-button:hover {
             cursor: default;
-                
+
             box-shadow: #bdbbbb 3px 3px 4px;
             animation-name: shadowing;
             animation-duration: 0.1s;
@@ -94,13 +46,17 @@
 
     </style>
 
-    <div class="facebook-button" onclick="logByFacebook()">
-        <i class="fa fa-facebook-official fb-i" aria-hidden="true"></i>
-        <span class="fb-span">Zaloguj przez Facebook</span>
-    </div>
+    <a href="/register" class="start-a">
+        <div class="">
+            <i class="fa fa-users start-icons" aria-hidden="true"></i>
+            <span class="">ZAREJESTRUJ</span>   
+        </div>
+    </a>
 
-    {#    <fb:login-button 
-            scope="public_profile,email"
-            onlogin="checkLoginState();">
-        </fb:login-button>#}
+    <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" alt="Sign in with Facebook">
+        <div class="facebook-button">
+            <i class="fa fa-facebook-official fb-i" aria-hidden="true"></i>
+            <span class="fb-span">Zaloguj przez Facebook</span>
+        </div>
+    </a>
 {% endblock body %}
