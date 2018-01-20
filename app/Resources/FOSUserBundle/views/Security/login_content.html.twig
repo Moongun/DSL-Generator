@@ -1,40 +1,63 @@
 {% trans_default_domain 'FOSUserBundle' %}
-{% block body%}
-    <div class='container'>
-        {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-
-        <form action="{{ path("fos_user_security_check") }}" method="post">
-            {% if csrf_token %}
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-            {% endif %}
-
-            {#    <label for="username">{{ 'username'|trans }}</label>#}
-            <div>
-                <input type="text" id="username"  class='fos_register_div' name="_username" value="{{ last_username }}" required="required" placeholder='Login' />
-            </div>
-            <div>
-                {#                <label for="password">{{ 'password'|trans }}</label>#}
-                <input type="password" id="password" class='fos_register_div' name="_password" required="required" placeholder ='Hasło' />
-            </div>
-            <div class='fos_register_div login'>
-                <div class='checkbox login-div'>
-                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-                    <label for="remember_me" class='login-div-label'></label><span>{{ 'remember me'|trans }}</span>
-                </div>
-
-            </div>
-            {#TODO: pamietaj o tłumaczeniach#}
-            <div>
-                <a href ="/login" class="start-a">
-                    <div class="">
-                        <i class="fa fa-sign-in start-icons" aria-hidden="true"></i>
-                        <input type="submit" id="_submit" class='' name="_submit" value="ZALOGUJ" />
+{% block body %}
+    <div class='container-fluid'>
+        <div class="container-auth-form container-background container-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% if error %}
+                            <div class="auth-form-error">
+                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                            </div>
+                        {% endif %}
                     </div>
-                </a>
+                </div>
+                    
+                <div class="row">
+                    <form action="{{ path("fos_user_security_check") }}" method="post" class="form-symfony">
+                        <div class="col-lg-12">
+                            {% if csrf_token %}
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                            {% endif %}
+                        </div>
 
-            </div>
-        </form>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" id="username"  class='auth-input' name="_username" value="{{ last_username }}" required="required" placeholder='Login' />
+                            </div>
+                        </div>     
+                            
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="password" id="password" class='auth-input' name="_password" required="required" placeholder ='Hasło' />
+                            </div>
+                        </div>
+                            
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                                <label for="remember_me" class='login-div-label'></label><span>{{ 'remember me'|trans }}</span>
+                            </div>
+                        </div>
+                            
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input class="submit-auth-form" type="submit" id="_submit" name="_submit" value="ZALOGUJ" />
+                                <label class="auth-links" for="_submit">
+                                    <div class="auth-element auth-div-i">
+                                        <i class="fa fa-sign-in start-icons auth-i" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="auth-element">
+                                        <span class="auth-span">ZALOGUJ</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                            
+                    </form>
+                </div>
+            
+            {% include 'FOSUserBundle/Security/anchors.html.twig' %}
+        </div>
     </div>
 {% endblock body %}
