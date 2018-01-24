@@ -1,33 +1,97 @@
-{#{% trans_default_domain 'FOSUserBundle' %}#}
+{% trans_default_domain 'FOSUserBundle' %}
 {% block body %}
-    {#{% block fos_user_content %}#}
-    <div class ='container'>
-        {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
-        <div>
-            {{form_errors(form.username)}} 
-            {#            <label for="fos_username">Login:</label>#}
-            {{form_widget(form.username, {'attr':{'id':'fos_username', 'placeholder':'Login', 'class':'fos_register_div'}})}}
-        </div>
-        <div>
-            {{form_errors(form.email)}}
-            {#            <label>Email:</label>#}
-            {{form_widget(form.email, {'attr':{'id':'fos_email', 'placeholder':'Email', 'class':'fos_register_div'}})}}
-        </div>
-        <div>
-            {{form_errors(form.plainPassword.first)}}
-            {#            <label for="fos_user_password_first">Hasło:</label>#}
-            {{form_widget(form.plainPassword.first, {'attr':{'id':'fos_user_password_first', 'placeholder':'Hasło', 'class':'fos_register_div'}})}}
-        </div>
-        <div>
-            {{form_errors(form.plainPassword.second)}}
-            {#            <label for="fos_user_password_second">Powtórz hasło:</label>#}
-            {{form_widget(form.plainPassword.second, {'attr':{'id':'fos_user_password_second', 'placeholder':'Powtórz hasło', 'class':'fos_register_div'}})}}
-        </div>
-        <div>
-            {#        <input type="submit" value="{{ 'registration.submit'|trans }}" />#}
-            <input type="submit" value="Rejestruj" , class='fos_register_div submit' />
-        </div>
+    <div class ='container-fluid'>
+        <div class="container-auth-form container-background container-content">
+            <div class="row">
+                {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'form-symfony'}}) }}
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% if form_errors(form.username) %}
+                            <div class="auth-form-error">{{form_errors(form.username)}} </div>
+                        {% endif %}
+                        {{form_widget(form.username, {'attr':{'id':'fos_username', 'placeholder':'Login', 'class':'auth-input'}})}}
+                    </div>
+                </div>
 
-        {{ form_end(form) }}
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% if form_errors(form.email) %}
+                            <div class="auth-form-error">{{form_errors(form.email)}} </div>
+                        {% endif %}
+                        {{form_widget(form.email, {'attr':{'id':'fos_email', 'placeholder':'Email', 'class':'auth-input'}})}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% if form_errors(form.plainPassword.first) %}
+                            <div class="auth-form-error">{{form_errors(form.plainPassword.first)}} </div>
+                        {% endif %}
+                        {{form_widget(form.plainPassword.first, {'attr':{'id':'fos_user_password_first', 'placeholder':'Hasło', 'class':'auth-input'}})}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% if form_errors(form.plainPassword.second) %}
+                            <div class="auth-form-error">{{form_errors(form.plainPassword.second)}}</div>
+                        {% endif %}
+                        {{form_widget(form.plainPassword.second, {'attr':{'id':'fos_user_password_second', 'placeholder':'Powtórz hasło', 'class':'auth-input'}})}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="submit" value="Rejestruj" id="_submit" name="_submit", class='submit-auth-form' />
+                        <label class="auth-links" for="_submit">
+                            <div class="auth-element auth-div-i">
+                                <i class="fa fa-users start-icons auth-i" aria-hidden="true"></i>
+                            </div>
+                            <div class="auth-element">
+                                <span class="auth-span">ZAŁÓŻ KONTO</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">   
+                        <a href="/login" class="auth-a">
+                            <div class="auth-links">
+                                <div class="auth-element auth-div-i">
+                                    <i class="fa fa-sign-in start-icons auth-i" aria-hidden="true"></i>
+                                </div>
+                                <div class="auth-element">
+                                    <span class="auth-span">ZALOGUJ</span>  
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            {#            <div>#}
+            {#                {{form_errors(form.username)}} #}
+            {#            <label for="fos_username">Login:</label>#}
+            {#                {{form_widget(form.username, {'attr':{'id':'fos_username', 'placeholder':'Login', 'class':'fos_register_div'}})}}#}
+            {#            </div>#}
+            <div>
+                {#{{form_errors(form.email)}}
+                {#            <label>Email:</label>#}
+                {#                {{form_widget(form.email, {'attr':{'id':'fos_email', 'placeholder':'Email', 'class':'fos_register_div'}})}}#}
+            </div>
+            {#<div>
+                {{form_errors(form.plainPassword.first)}}
+                {{form_widget(form.plainPassword.first, {'attr':{'id':'fos_user_password_first', 'placeholder':'Hasło', 'class':'fos_register_div'}})}}
+            </div>#}
+            {#            <div>
+                            {{form_errors(form.plainPassword.second)}}
+                            {{form_widget(form.plainPassword.second, {'attr':{'id':'fos_user_password_second', 'placeholder':'Powtórz hasło', 'class':'fos_register_div'}})}}
+                        </div>
+            #}            <div>
+                {#                <input type="submit" value="Rejestruj" , class='fos_register_div submit' />#}
+            </div>
+
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}
