@@ -11,7 +11,9 @@
 /composer.phar
 /nbproject
 /nbproject/*
-/web/bundles/*
+/web/bundles/framework/*
+/web/bundles/dsl/*
+/web/bundles/DSLBundle/*
 !/web/bundles/DSLBundle/css
 /nbproject0/
 /nbproject0/*
