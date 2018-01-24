@@ -12,6 +12,6 @@
 /nbproject
 /nbproject/*
 /web/bundles/
-!/web/bundles/css/*
+!/web/bundles/DSLBundle/css/*
 /nbproject0/
 /nbproject0/*
