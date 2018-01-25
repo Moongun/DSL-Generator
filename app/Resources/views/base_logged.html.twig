@@ -33,7 +33,10 @@
         </script>
     </head>
     <body>
-        <img src="{{asset('bundles/DSLBundle/images/background_logged.png')}}" alt='texr' class='background-img'>
+        <style> 
+            body {background-image: url("/bundles/DSLBundle/images/background_logged.jpg");}
+        </style>
+        <img src="{{asset('bundles/DSLBundle/images/plates.png')}}" alt='texr' class='top-img'>
 
         {% block body %}
             {% block header %}{% include 'block/top_menu.html.twig' %}{% endblock header %}
