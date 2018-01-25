@@ -1,0 +1,22 @@
+<div class="container-fluid top-menu">
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="row">
+                <div class='col-lg-2 text-center top-menu-tile'><a href="{{ path('start') }}">Strona Główna</a></div>
+                <div class='col-lg-2 text-center top-menu-tile'><a href="{{ path('createddiet_index') }}">Historia</a></div>
+                <div class='col-lg-2 text-center top-menu-tile'><a href="{{ path('diet_rules_new') }}">Stwórz dietę!</a></div>
+                <div class='col-lg-2 text-center top-menu-tile'><a href="{{ path('meal_new') }}">Dodaj posiłek</a></div>
+                <div class='col-lg-2 text-center top-menu-tile'><a href="{{ path('product_new') }}">Dodaj produkt</a></div>
+                <div class='col-lg-2 text-center top-menu-tile'><a href="{{ path('start') }}">O mnie</a></div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="row">
+                <div class="col-lg-12 text-right">
+                    <span>witaj, <a class="account-a" href="/profile"> {{ app.user.username }} </a></span>
+                    <span> | <a class="account-a" href="/logout">wyloguj</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

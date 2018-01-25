@@ -8,12 +8,12 @@
             {% stylesheets 'bundles/DSLBundle/css/*' filter='cssrewrite' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
             {% endstylesheets %}
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        
-{#        fix do logowania przez fb #}
+
+        {#        fix do logowania przez fb #}
         <script type="text/javascript">
             if (window.location.hash && window.location.hash == '#_=_') {
                 if (window.history && history.pushState) {
@@ -33,47 +33,22 @@
         </script>
     </head>
     <body>
-        <img src="{{asset('bundles/DSLBundle/img/still-life-2338824_1920.jpg')}}" alt='texr' class='bodyImg'>
-        <div id='container'>
-            {% block body %}
-                {% block header %}
-                    <div>
-                        <ul class='menu-header'>
-                            <li class='menu-header-options'><a href="{{ path('start') }}">Strona Główna</a></li>
-                            <li class='menu-header-options'><a href="{{ path('createddiet_index') }}">Historia</a></li>
-                            <li class='menu-header-options'><a href="{{ path('diet_rules_new') }}">Stwórz dietę!</a></li>
-                            <li class='menu-header-options'><a href="{{ path('meal_new') }}">Dodaj posiłek</a></li>
-                            <li class='menu-header-options'><a href="{{ path('product_new') }}">Dodaj produkt</a></li>
-                            <li class='menu-header-options'><a href="{{ path('start') }}">O mnie</a></li>
-                        </ul>
-                    </div>
-                    <div class="account">
-                        <span>witaj, <a class="account-a" href="/profile"> {{ app.user.username }} </a></span>
-                        <span> | <a class="account-a" href="/logout">wyloguj</a></span>
-                    </div>
-                {% endblock header %}
+        <img src="{{asset('bundles/DSLBundle/images/background_logged.png')}}" alt='texr' class='background-img'>
 
-                <div id='content'>
-                {% block content %}{% endblock content %}
-            </div>
-
-            {% block footer %}
-                <div class="footer">
-                    <div class="line"></div>
-                    <div>Diet & Shopping List Generator</div>
-                    <div>Michał Wiązek</div>
-                </div>
-            {% endblock footer%}
+        {% block body %}
+            {% block header %}{% include 'block/top_menu.html.twig' %}{% endblock header %}
+            {% block content %}{% endblock content %}
+            {% block footer %}{% include 'block/footer.html.twig' %}{% endblock footer%}
         {% endblock %}
-    </div>
-    {% block javascripts %}
-        {% javascripts  '@DSLBundle/Resources/public/js/jquery-3.2.1.min.js' 
-                        '@DSLBundle/Resources/public/js/*' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-        {% endjavascripts %}
-    {% endblock %}
+        
+        {% block javascripts %}
+            {% javascripts  '@DSLBundle/Resources/public/js/jquery-3.2.1.min.js' 
+                                '@DSLBundle/Resources/public/js/*' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+            {% endjavascripts %}
+        {% endblock %}
 </body>
 </html>
