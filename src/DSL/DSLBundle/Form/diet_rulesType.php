@@ -9,14 +9,20 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 
-class diet_rulesType extends AbstractType
-{
+class diet_rulesType extends AbstractType {
+
+    const BLANK_MSG = 'Pole nie może być puste';
+    const INVALID_NUM_MSG = 'Podana wartość musi być liczbą';
+    const GREATER_THAN_ZERO_MSG = 'Pole musi być większe od zera';
+    const MAX_LENGTH_NAME_MSG = 'Pole może zawierać maksymalnie 100 znaków';
+    const MAX_LENGTH_DESC_MSG = 'Pole może zawierać maksymalnie 3000 znaków';
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(FormBuilderInterface $builder, array $options) {
 //        $mealRepository = $this->getDoctrine()->getRepository('DSLBundle:Meal');
 ////        $meals = $mealRepository-> findAll();
 //        
@@ -32,31 +38,76 @@ class diet_rulesType extends AbstractType
 //        }
 //        var_dump($meals);
 //        
-        $builder->add('dailyCaloriesRequirementsKcal')
-                ->add('dailyProteinRequirementsG')
-                ->add('dailyCarbohydratesRequirementsG')
-                ->add('dailyFatRequirementsG')
-                ->add('monthlyCost')
+        $builder->add('dailyCaloriesRequirementsKcal', NumberType::class, array(
+            'required' => false,
+            'precision' => 0,
+            'constraints' => array(
+                new GreaterThan(array(
+                        'value' => 0,
+                        'message' => self::GREATER_THAN_ZERO_MSG
+                    ))
+            )
+        ))
+                ->add('dailyProteinRequirementsG', NumberType::class, array(
+            'required' => false,
+            'precision' => 0,
+            'constraints' => array(
+                new GreaterThan(array(
+                        'value' => 0,
+                        'message' => self::GREATER_THAN_ZERO_MSG
+                    ))
+            )
+        ))
+                ->add('dailyCarbohydratesRequirementsG', NumberType::class, array(
+            'required' => false,
+            'precision' => 0,
+            'constraints' => array(
+                new GreaterThan(array(
+                        'value' => 0,
+                        'message' => self::GREATER_THAN_ZERO_MSG
+                    ))
+            )
+        ))
+                ->add('dailyFatRequirementsG', NumberType::class, array(
+            'required' => false,
+            'precision' => 0,
+            'constraints' => array(
+                new GreaterThan(array(
+                        'value' => 0,
+                        'message' => self::GREATER_THAN_ZERO_MSG
+                    ))
+            )
+        ))
+                ->add('monthlyCost', NumberType::class, array(
+                    'required' => false,
+                    'precision' => 0,
+                    'constraints' => array(
+                        new GreaterThan(array(
+                            'value' => 0,
+                            'message' => self::GREATER_THAN_ZERO_MSG
+                                ))
+                    )
+                ))
                 ->add('whichMeal', EntityType::class, array(
-                    'class'=>'DSLBundle:Meal',
+                    'class' => 'DSLBundle:Meal',
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('meal')
-                            ->orderBy('meal.name', 'ASC');
-                },
-                    'choice_label'=>'name',
-                    'required'=>false,
+                                ->orderBy('meal.name', 'ASC');
+                    },
+                    'choice_label' => 'name',
+                    'required' => false,
                     'placeholder' => 'Wybierz posiłek',
-                    'empty_data'  => null))
+                    'empty_data' => null))
                 ->add('whichProduct', EntityType::class, array(
-                    'class'=>'DSLBundle:Product', 
+                    'class' => 'DSLBundle:Product',
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('product')
-                            ->orderBy('product.name', 'ASC');
-                },
-                    'choice_label'=>'name',
-                    'required'=>false,
+                                ->orderBy('product.name', 'ASC');
+                    },
+                    'choice_label' => 'name',
+                    'required' => false,
                     'placeholder' => 'wybierz produkt',
-                    'empty_data'  => null))
+                    'empty_data' => null))
                 ->add('repetition')
                 ->add('inInterval')
                 ->add('base', ChoiceType::class, array(
@@ -66,18 +117,25 @@ class diet_rulesType extends AbstractType
                         2 => 'Lidl'
                     ),
                     'placeholder' => 'Wybierz bazę posiłków',
-                    'expanded' => false,
+                    'expanded' => true,
                     'multiple' => false,
-                    
-                ));
+                    'choice_attr' => function($value, $key, $index) {
+                        if ($key != 0) {
+                            return [
+                                'class' => 'condition-four',
+                                'disabled' => 'disabled'
+                            ];
+                        } else {
+                            return ['class' => 'condition-four'];
+                        }
+                    }
+        ));
     }
 
-    
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'DSL\DSLBundle\Entity\diet_rules'
         ));
@@ -86,10 +144,8 @@ class diet_rulesType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
-    {
+    public function getBlockPrefix() {
         return 'dsl_dslbundle_diet_rules';
     }
-
 
 }
