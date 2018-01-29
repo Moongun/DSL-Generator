@@ -42,3 +42,7 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/start, role: ROLE_USER }
+        - {path: ^/diet_rules, role: ROLE_USER }
+        - {path: ^/product, role: ROLE_USER }
+        - {path: ^/meal, role: ROLE_USER }
+        - {path: ^/ingredient, role: ROLE_USER }
