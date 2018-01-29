@@ -1,64 +1,159 @@
 {% extends 'base_logged.html.twig' %}
 
 {% block content %}
-    <h1 class='content_header'>Wprowadź warunki diety</h1>
+    <div class="container content">
+        <div class="row pb-5">
+            <div class="col-lg-12 text-center">
+                <span class='content-header'>Wprowadź warunki diety</span>
+            </div>
+        </div>
 
-    {{ form_start(form) }}
-    <div class="form_div">
-        <p>a) Warunki dietetyczne:</p>
-        {{form_errors(form.dailyCaloriesRequirementsKcal)}}
-        {{form_widget(form.dailyCaloriesRequirementsKcal, {'attr':{'placeholder':'dzienne zapotrzebowanie kaloryczne', 'class':'fos_register_div'}})}}
-    </div>
-    <div class="form_div">
-        {{form_errors(form.dailyProteinRequirementsG)}}
-        {{form_widget(form.dailyProteinRequirementsG, {'attr':{'placeholder':'dzienne zapotrzebowanie na białko', 'class':'fos_register_div'}})}}
-    </div>
-    <div class="form_div">
-        {{form_errors(form.dailyCarbohydratesRequirementsG)}}
-        {{form_widget(form.dailyCarbohydratesRequirementsG, {'attr':{'placeholder':'dzienne zapotrzebowanie na węglowodany', 'class':'fos_register_div'}})}}
-    </div>
-    <div class="form_div">
-        {{form_errors(form.dailyFatRequirementsG)}}
-        {{form_widget(form.dailyFatRequirementsG, {'attr':{'placeholder':'dzienne zapotrzebowanie na tłuszcz', 'class':'fos_register_div'}})}}
-    </div>
-    <div class="form_div">
-        <p>b): Warunki finansowe:</p>
-        {{form_errors(form.monthlyCost)}}
-        {{form_widget(form.monthlyCost, {'attr':{'placeholder':'miesięczny koszt diety', 'class':'fos_register_div'}})}}
-    </div>
-    <div class="form_div">
-        <p>c) Warunki cykliczne:</p>
-        <span><p>Chcę zjeść
-        {{form_errors(form.whichMeal)}}
-        {{form_widget(form.whichMeal)}}
-        {{form_errors(form.repetition, {'attr':{'class':'repets_inters'}})}}
-        {{form_widget(form.repetition, {'attr':{'class':'repets_inters'}})}}
-        razy w ciągu
-        {{form_errors(form.inInterval, {'attr':{'class':'repets_inters'}})}}
-        {{form_widget(form.inInterval, {'attr':{'class':'repets_inters'}})}}
-        dni.</p>
-        </span>
-    </div>
-    <div class="form_div">
-        {{form_errors(form.whichProduct)}}
-        {{form_widget(form.whichProduct)}}
-        {{form_errors(form.repetition)}}
-        {{form_widget(form.repetition)}}
-        {{form_errors(form.inInterval)}}
-        {{form_widget(form.inInterval)}}
-    </div>
-    <div class="form_div">
-        {{form_errors(form.base)}}
-        {{form_widget(form.base, {'attr':{'class':'fos_register_div'}})}}
-    </div>
-    <div>
-        <input type="submit" value="Stwórz dietę", class="fos_register_div submit form_submit" />
-    </div>
-    {{ form_end(form) }}
+        {{ form_start(form) }}
+        <div class="row py-5">
+            <div class="col-lg-12">
+                <span>Warunki dietetyczne:</span>
+            </div>
+        </div>
+        <div class="row pb-4">
+            {% if(form_errors(form.dailyCaloriesRequirementsKcal)) %}
+                <div class="col-lg-3 col-md-6 py-2 error">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    {{form_errors(form.dailyCaloriesRequirementsKcal)}}
+                </div>
+            {% else %}
+                <div class="col-lg-3 col-md-6"></div>
+            {% endif %}
+            {% if(form_errors(form.dailyProteinRequirementsG)) %}
+                <div class="col-lg-3 col-md-6 py-2 error">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    {{form_errors(form.dailyProteinRequirementsG)}}
+                </div>
+            {% else %}
+                <div class="col-lg-3 col-md-6"></div>
+            {% endif %}
+            {% if(form_errors(form.dailyCarbohydratesRequirementsG)) %}
+                <div class="col-lg-3 col-md-6 py-2 error">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    {{form_errors(form.dailyCarbohydratesRequirementsG)}}
+                </div>
+            {% else %}
+                <div class="col-lg-3 col-md-6"></div>
+            {% endif %}
+            {% if(form_errors(form.dailyFatRequirementsG)) %}
+                <div class="col-lg-3 col-md-6 py-2 error">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    {{form_errors(form.dailyFatRequirementsG)}}
+                </div>
+            {% else %}
+                <div class="col-lg-3 col-md-6"></div>
+            {% endif %}
+        </div>
+        <div class="row text-center">
+            <div class="col-lg-3 col-md-6">
+                <div class="pb-4">energia</div>
+                <div>{{form_widget(form.dailyCaloriesRequirementsKcal, {'attr':{'placeholder':'kcal', 'class':'condition-one'}})}}</div>
+                {#dzienne zapotrzebowanie energetyczne            #}
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="pb-4">białko</div>
+                {{form_widget(form.dailyProteinRequirementsG, {'attr':{'placeholder':'g', 'class':'condition-one'}})}}
+                {#            dzienne zapotrzebowanie na białko#}
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="pb-4">węglowodany</div>
+                {{form_widget(form.dailyCarbohydratesRequirementsG, {'attr':{'placeholder':'g', 'class':'condition-one'}})}}
+                {#            dzienne zapotrzebowanie na węglowodany#}
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="pb-4">tłuszcze</div>
+                {#                {{form_widget(form.dailyFatRequirementsG, {'attr':{'placeholder':'dzienne zapotrzebowanie na tłuszcz', 'class':'condition-one'}})}}#}
+                {{form_widget(form.dailyFatRequirementsG, {'attr':{'placeholder':'g', 'class':'condition-one'}})}}
+                {#                dzienne zapotrzebowanie na tłuszcz#}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="row py-5">
+                    <div class="col-lg-12">
+                        <span>Warunek finansowy:</span>
+                    </div>
+                </div>
+                {% if(form_errors(form.monthlyCost)) %}
+                    <div class="row pb-4">
+                        <div class="col-lg-12 py-2 error">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            {{form_errors(form.monthlyCost)}}
+                        </div>
+                    </div>
+                {% endif%}
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        {{form_widget(form.monthlyCost, {'attr':{'placeholder':'zł', 'class':'condition-two text-right', 'novalidate': 'novalidate'}})}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="row py-5">
+                    <div class="col-lg-12">
+                        <span> Warunki cykliczne:</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        {{form_errors(form.whichMeal)}}
+                        {{form_errors(form.whichProduct)}}
+                        {{form_errors(form.repetition, {'attr':{'class':'repets_inters'}})}}
+                        {{form_errors(form.inInterval, {'attr':{'class':'repets_inters'}})}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <span> Chcę zjeść 
+                            {{form_widget(form.whichMeal, {'attr':{'class':'condition-three ct-meal-product'}})}} 
+                            {{form_widget(form.repetition, {'attr':{'class':'condition-three ct-num'}})}} 
+                            razy w ciągu 
+                            {{form_widget(form.inInterval, {'attr':{'class':'condition-three ct-num'}})}}
+                            dni.
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <span> Chcę zjeść 
+                            {{form_widget(form.whichProduct, {'attr':{'class':'condition-three ct-meal-product'}})}} 
+                            {{form_widget(form.repetition, {'attr':{'class':'condition-three ct-num'}})}} 
+                            razy w ciągu 
+                            {{form_widget(form.inInterval, {'attr':{'class':'condition-three ct-num'}})}}
+                            dni.
+                        </span>
+                    </div>
+                </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('diet_rules_index') }}">Back to the list</a>
-        </li>
-    </ul>
+            </div>
+        </div>
+
+        <div class="row py-5">
+            <div class="col-lg-12">
+                <span>Baza posiłków:</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {{form_errors(form.base)}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {{form_widget(form.base, {'attr':{'class':'fos_register_div'}})}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 text-right">
+                <input type="submit" value="Stwórz dietę", class="button" />
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
 {% endblock content %}
