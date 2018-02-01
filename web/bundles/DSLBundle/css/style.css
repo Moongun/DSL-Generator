@@ -433,8 +433,13 @@ select.ct-meal-product option {
 .form-field-meal-name {
     border: none;
     border-bottom: 3px solid;
-    /*font-weight: 600;*/
     font-size: 1.3em;
+    transition: border-bottom 0.3s;
+}
+
+.form-field-meal-name:focus {
+    outline: none;
+    border-bottom: 5px solid;
 }
 
 .form-field-enav {
@@ -445,6 +450,13 @@ select.ct-meal-product option {
     border-top: 3px solid;
     font-size:3em;
     text-align: center;
+    transition: border-bottom 0.3s, border-top 0.3s;
+}
+
+.form-field-enav:focus {
+    outline: none;
+    border-top: 5px solid;
+    border-bottom: 5px solid;
 }
 
 .form-field-pcf-row {
@@ -455,7 +467,20 @@ select.ct-meal-product option {
     width:100px !important;
     height: 80px;
     font-size: 2em;
-    /*border:none;*/
-    /*border-bottom: 3px solid;*/
     text-align: center;
+    transition: border 0.3s;
 }
+
+.form-field-pcf-row input:focus {
+    outline: none;
+    border:5px solid;
+} 
+
+.field-description {
+    transition: border 0.3s;
+}
+
+.field-description:focus {
+    outline:none;
+    border:5px solid;
+} 
