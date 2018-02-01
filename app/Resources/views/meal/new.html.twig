@@ -1,41 +1,196 @@
 {% extends 'base_logged.html.twig' %}
 
 {% block content %}
-    <h1 class="content_header">Dodaj posiłek</h1>
-    
-    <div class="form_div">
-        <div class="div_paddings">
-            {{ form_start(form) }}
-            {{form_errors(form.name)}}
-            {{form_widget(form.name, {'attr': {'placeholder': 'nazwa', 'class':'fos_register_div meal-name'}})}}
-            {{ form_errors(form.description) }}
-            {{ form_widget(form.description, {'attr': {'placeholder': 'opis', 'class':'fos_register_div meal-description', 'rows':10}}) }}
-            {{ form_errors(form.type) }}
-            {{ form_widget(form.type, {'attr': {'placeholder': 'Typ posiłku', 'class':'fos_register_div select'}}) }}
-            {{ form_errors(form.energyValueKcal) }}
-            {{ form_widget(form.energyValueKcal, {'attr': {'placeholder': 'Wartość energetyczna', 'class':'fos_register_div'}}) }}
-            {{ form_errors(form.proteinG) }}
-            {{ form_widget(form.proteinG, {'attr': {'placeholder': 'Białko', 'class':'fos_register_div'}}) }}
-            {{ form_errors(form.carbohydratesG) }}
-            {{ form_widget(form.carbohydratesG, {'attr': {'placeholder': 'Węglowodany', 'class':'fos_register_div'}}) }}
-            {{ form_errors(form.fatG) }}
-            {{ form_widget(form.fatG, {'attr': {'placeholder': 'Tłuszcze', 'class':'fos_register_div'}}) }}
-            {{ form_errors(form.averageCost) }}
-            {{ form_widget(form.averageCost, {'attr': {'placeholder': 'Średni koszt', 'class':'fos_register_div'}}) }}
-            {{ form_errors(form.base) }}
-            {{ form_widget(form.base, {'attr': {'placeholder': 'Baza', 'class':'fos_register_div select'}}) }}
-            {#{{ form_error(form) }}
-            {{ form_widget(form) }}
-            #}<input type="submit" value="Dodaj" class="fos_register_div submit form_submit" />
-            {{ form_end(form) }}
+
+    <div class="container content">
+        <div class="row pb-5">
+            <div class="col-lg-12 text-center">
+                <span class="content-header">Dodaj posiłek</span>
+            </div>
         </div>
+
+        {{ form_start(form, {'attr': {'class': 'form-add-meal'}}) }}
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row pb-3">
+                    {% if(form_errors(form.name)) %}
+                        <div class="col-lg-12 py-2 error">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            {{form_errors(form.name)}}
+                        </div>
+                    {% else %}
+                        <div class="col-lg-12"></div>
+                    {% endif %}
+                </div>
+                <div class="row pb-3">
+                    <div class="col-lg-3 text-right">
+                        <span class="">Nazwa</span>
+                    </div>
+                    <div class="col-lg-9 pb-4">
+                        {{form_widget(form.name, {'attr': {'placeholder': 'wpisz nazwę posiłku', 'class':'form-field form-field-meal-name'}})}}
+                    </div>
+                </div>
+
+                <div class="row pb-3">
+                    {% if(form_errors(form.type)) %}
+                        <div class="col-lg-12 py-2 error">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            {{form_errors(form.type)}}
+                        </div>
+                    {% else %}
+                        <div class="col-lg-12"></div>
+                    {% endif %}
+                </div>
+                <div class="row pb-3">
+                    <div class="col-lg-3 text-right">
+                        <span>Typ posiłku</span>
+                    </div>
+                    <div class="col-lg-9">
+                        {{ form_widget(form.type, {'attr': {'placeholder': 'Typ posiłku', 'class':'form-field'}}) }}
+                    </div>
+                </div>
+
+                <div class="row pb-3">
+                    {% if(form_errors(form.base)) %}
+                        <div class="col-lg-12 py-2 error">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            {{form_errors(form.base)}}
+                        </div>
+                    {% else %}
+                        <div class="col-lg-12"></div>
+                    {% endif %}
+                </div>
+                <div class="row pb-3">
+                    <div class="col-lg-3 text-right">
+                        <span>Baza</span>
+                    </div>
+                    <div class="col-lg-9">
+                        {{ form_widget(form.base, {'attr': {'placeholder': 'Baza', 'class':'form-field'}}) }}
+                    </div>
+                </div>
+
+                <div class="row pb-3">
+                    <div class="col-lg-12">
+                        <div class="row pb-3">
+                            {% if(form_errors(form.energyValueKcal)) %}
+                                <div class="col-lg-6 py-2 error">
+                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                    {{form_errors(form.energyValueKcal)}}
+                                </div>
+                            {% else %}
+                                <div class="col-lg-6"></div>
+                            {% endif %}
+                            {% if(form_errors(form.averageCost)) %}
+                                <div class="col-lg-6 py-2 error">
+                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                    {{form_errors(form.averageCost)}}
+                                </div>
+                            {% else %}
+                                <div class="col-lg-6"></div>
+                            {% endif %}
+                        </div>
+                        <div class="row pb-3 text-right">
+                            <div class="col-lg-6">
+                                {{ form_widget(form.energyValueKcal, {'attr': {'placeholder': 'kcal', 'class':'form-field form-field-enav'}}) }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ form_widget(form.averageCost, {'attr': {'placeholder': 'zł', 'class':'form-field form-field-enav'}}) }}
+                            </div>
+                        </div>
+                        <div class="row pb-3 text-right">
+                            <div class="col-lg-6">                        
+                                <span> Wartość energetyczna</span>
+                            </div>
+                            <div class="col-lg-6">
+                                <span>Średni koszt</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row pb-3 text-center form-field-pcf-row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            {% if(form_errors(form.proteinG)) %}
+                                <div class="col-lg-4 py-2 error">
+                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                    {{form_errors(form.proteinG)}}
+                                </div>
+                            {% else %}
+                                <div class="col-lg-4"></div>
+                            {% endif %}
+                            {% if(form_errors(form.carbohydratesG)) %}
+                                <div class="col-lg-4 py-2 error">
+                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                    {{form_errors(form.carbohydratesG)}}
+                                </div>
+                            {% else %}
+                                <div class="col-lg-4"></div>
+                            {% endif %}
+                            {% if(form_errors(form.fatG)) %}
+                                <div class="col-lg-4 py-2 error">
+                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                    {{form_errors(form.fatG)}}
+                                </div>
+                            {% else %}
+                                <div class="col-lg-4"></div>
+                            {% endif %}
+                        </div>
+                        <div class="row py-3">
+                            <div class="col-lg-4">
+                                {{ form_widget(form.proteinG, {'attr': {'placeholder': 'g', 'class':'form-field'}}) }}
+                            </div>
+                            <div class="col-lg-4">
+                                {{ form_widget(form.carbohydratesG, {'attr': {'placeholder': 'g', 'class':'form-field'}}) }}
+                            </div>
+                            <div class="col-lg-4">
+                                {{ form_widget(form.fatG, {'attr': {'placeholder': 'g', 'class':'form-field'}}) }}
+                            </div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-lg-4">
+                                <span>Białko</span>
+                            </div>
+                            <div class="col-lg-4">
+                                <span>Węglowodany</span>
+                            </div>
+                            <div class="col-lg-4">
+                                <span>Tłuszcze</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="row pb-3">
+                    {% if(form_errors(form.description)) %}
+                        <div class="col-lg-12 py-2 error">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            {{form_errors(form.description)}}
+                        </div>
+                    {% else %}
+                        <div class="col-lg-12"></div>
+                    {% endif %}
+                </div>
+                <div class="row pb-3">
+                    <div class="col-lg-12 text-center">
+                        <span>Opis</span>
+                    </div>
+                </div>
+                <div class="rowpb-3">
+                    <div class="col-lg-12">
+                        {#                        {{ form_widget(form.description, {'attr': {'placeholder': 'opis', 'class':'form-field', 'rows':10}}) }}#}
+                        {{ form_widget(form.description, {'attr': {'placeholder': 'Tu jest miejsce na wstawienie przepisu, przegotowania i innych notatek', 'class':'form-field field-description', 'rows':15}}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row text-right">
+            <div class="col-lg-12">
+                <input type="submit" value="Dodaj" class="button" />
+            </div>
+        </div>
+        {{ form_end(form) }}
     </div>
-
-    
-
-{#    <ul>
-        <li>
-            <a href="{{ path('meal_index') }}">Back to the list</a>
-        </li>
-    </ul>#}
 {% endblock %}
