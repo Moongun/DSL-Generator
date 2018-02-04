@@ -329,6 +329,7 @@ input[type=checkbox] {
     height: 55px;
     width: 200px;
     height: 55px;
+    line-height: 49px;
     border: 3px solid rgba(255, 255, 255, 1);
     background-color: rgba(255, 255, 255, 0);
     color: rgba(255, 255, 255, 1);
@@ -340,6 +341,23 @@ input[type=checkbox] {
     background-color: rgba(255, 255, 255, 1);
     color: rgba(1, 1, 1, 1);
     font-size: 1.2em;
+}
+
+
+.button a {
+    display: inline-block;
+    width: 100%;
+    color: rgba(255, 255, 255, 1);
+    transition: color 0.3s;
+    vertical-align: middle;
+}
+
+.button a:hover {
+    color: rgba(1, 1, 1, 1);
+}
+
+.button-center {
+    margin: 0 auto;
 }
 
 .condition-one {
@@ -487,4 +505,8 @@ select.ct-meal-product option {
 
 .product-fields {
     width:250px !important;
+}
+
+.border-right {
+    border-right: 2px solid;
 }
