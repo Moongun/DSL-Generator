@@ -1,25 +1,58 @@
 {% extends 'base_logged.html.twig' %}
 
 {% block content %}
-    <h1 class="content_header">Dodaj produkt</h1>
-    <div class="form_div">
-        <div class="div_paddings">
-    {{ form_start(form) }}
-    {{ form_errors(form.name) }}
-    {{ form_widget(form.name, {'attr':{'placeholder':'nazwa', 'class':'placeholders'}}) }}
-    {{ form_errors(form.averagePrice) }}
-    {{ form_widget(form.averagePrice, {'attr':{'placeholder':'średni koszt', 'class':'placeholders'}}) }}
-    {{ form_errors(form.countable) }}
-    {{ form_widget(form.countable, {'attr':{'placeholder':'policzalny?', 'class':'placeholders'}}) }}
-    <input type="submit" value="dodaj" />
-    {{ form_end(form) }}
+    <div class="container content">
+        <div class="row pb-4">
+            <div class="col-lg-12 text-center">
+                <span class="content-header">Dodaj produkt</span>
+            </div>
         </div>
+        {{ form_start(form) }}
+        <div class="row pb-4">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                {{ form_errors(form.name) }}
+            </div>
+        </div>
+        <div class="row pb-4">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4 text-right">
+                <span>nazwa</span>
+                {{ form_widget(form.name, {'attr':{'placeholder':'wpisz nazwę produktu', 'class':'form-field product-fields'}}) }}
+            </div>
+        </div>
+        <div class="row pb-4">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                {{ form_errors(form.averagePrice) }}
+            </div>
+        </div>
+        <div class="row pb-4">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4 text-right">
+                <span>średni koszt</span>
+                {{ form_widget(form.averagePrice, {'attr':{'placeholder':'wpisz koszt produktu', 'class':'form-field product-fields'}}) }}
+            </div>
+        </div>
+        <div class="row pb-4">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                {{ form_errors(form.countable) }}
+            </div>
+        </div>
+        <div class="row pb-4">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4 text-right">
+                <span>policzalność</span>
+                {{ form_widget(form.countable, {'attr':{'placeholder':'czy produkt jest policzalny?', 'class':'form-field product-fields'}}) }}            
+            </div>
+        </div>
+        <div class="row py-4">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4 text-right">
+                <input class="button text-center" type="submit" value="dodaj" />
+            </div>
+        </div>
+        {{ form_end(form) }}
     </div>
-
-    {#    <ul>
-            <li>
-                <a href="{{ path('product_index') }}">Back to the list</a>
-            </li>
-        </ul>#}
-{#    {% include 'product/index.html.twig' %}#}
 {% endblock %}

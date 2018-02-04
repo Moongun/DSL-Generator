@@ -363,7 +363,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
     -webkit-appearance: none;
     margin: 0;
 }
- 
+
 input[type="number"] {
     -moz-appearance: textfield;
 }
@@ -423,7 +423,7 @@ select.ct-meal-product option {
 }
 
 .form-add-meal .form-field {
-   width: inherit;
+    width: inherit;
 }
 
 /*.field-description {
@@ -460,7 +460,7 @@ select.ct-meal-product option {
 }
 
 .form-field-pcf-row {
-   border-top: 3px solid;
+    border-top: 3px solid;
 }
 
 .form-field-pcf-row input {
@@ -483,4 +483,8 @@ select.ct-meal-product option {
 .field-description:focus {
     outline:none;
     border:5px solid;
-} 
+}
+
+.product-fields {
+    width:250px !important;
+}
