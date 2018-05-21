@@ -510,3 +510,7 @@ select.ct-meal-product option {
 .border-right {
     border-right: 2px solid;
 }
+
+.values-summary {
+    font-size: 2em;
+}
