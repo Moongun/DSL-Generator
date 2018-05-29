@@ -5,12 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{% block title %}DSL Generator{% endblock %}</title>
         {% block stylesheets %}
-            {% stylesheets 'bundles/DSLBundle/css/*' filter='cssrewrite' %}
+            {% stylesheets '@DSLBundle/Resources/public/css/*' filter='cssrewrite' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
             {% endstylesheets %}
         {% endblock %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
@@ -34,10 +34,16 @@
         </script>
     </head>
     <body>
+        {% image '@DSLBundle/Resources/public/images/background_logged.jpeg'
+            output='/images/background_logged.jpg' %}
+{#            <img src="{{ asset_url }}" alt="Example" />#}
+        {% endimage %}
         <style> 
-            body {background-image: url("/bundles/DSLBundle/images/background_logged.jpg");}
+            body {background-image: url("/images/background_logged.jpg");}
         </style>
-        <img src="{{asset('bundles/DSLBundle/images/plates.png')}}" alt='texr' class='top-img'>
+        {% image '@DSLBundle/Resources/public/images/plates.jpeg'%}
+            <img src="{{ asset_url }}" alt='plates' class='top-img'>
+        {% endimage %}
 
         {% block body %}
             {% block header %}{% include 'block/top_menu.html.twig' %}{% endblock header %}
