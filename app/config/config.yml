@@ -69,6 +69,9 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: DSL\DSLBundle\Entity\User
+    from_email:
+        address: "%mailer_user%"
+        sender_name: "%mailer_user%"
 services:
     fos_user.doctrine_registy:
         alias: doctrine
