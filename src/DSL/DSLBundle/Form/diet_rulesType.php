@@ -40,7 +40,7 @@ class diet_rulesType extends AbstractType {
 //        
         $builder->add('dailyCaloriesRequirementsKcal', NumberType::class, array(
             'required' => false,
-            'precision' => 0,
+            'scale' => 0,
             'constraints' => array(
                 new GreaterThan(array(
                         'value' => 0,
@@ -50,7 +50,7 @@ class diet_rulesType extends AbstractType {
         ))
                 ->add('dailyProteinRequirementsG', NumberType::class, array(
             'required' => false,
-            'precision' => 0,
+            'scale' => 0,
             'constraints' => array(
                 new GreaterThan(array(
                         'value' => 0,
@@ -60,7 +60,7 @@ class diet_rulesType extends AbstractType {
         ))
                 ->add('dailyCarbohydratesRequirementsG', NumberType::class, array(
             'required' => false,
-            'precision' => 0,
+            'scale' => 0,
             'constraints' => array(
                 new GreaterThan(array(
                         'value' => 0,
@@ -70,7 +70,7 @@ class diet_rulesType extends AbstractType {
         ))
                 ->add('dailyFatRequirementsG', NumberType::class, array(
             'required' => false,
-            'precision' => 0,
+            'scale' => 0,
             'constraints' => array(
                 new GreaterThan(array(
                         'value' => 0,
@@ -80,7 +80,7 @@ class diet_rulesType extends AbstractType {
         ))
                 ->add('monthlyCost', NumberType::class, array(
                     'required' => false,
-                    'precision' => 0,
+                    'scale' => 0,
                     'constraints' => array(
                         new GreaterThan(array(
                             'value' => 0,
