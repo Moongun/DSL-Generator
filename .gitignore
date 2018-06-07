@@ -14,3 +14,6 @@
 /web/*
 /nbproject0/
 /nbproject0/*
+
+/app/config/application/*
+!/app/config/application/.gitkeep
