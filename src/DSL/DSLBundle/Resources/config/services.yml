@@ -1,4 +1,28 @@
 services:
-#    dsl.example:
-#        class: DSL\DSLBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    _defaults:
+        autowire: true 
+        autoconfigure: true
+        public: true
+
+    meal.fixtures:
+        class: DSL\DSLBundle\DataFixtures\MealFixtures
+#        tags: ['doctrine.fixture.orm']
+        
+    product.fixtures:
+        class: DSL\DSLBundle\DataFixtures\ProductFixtures
+#        tags: ['doctrine.fixture.orm']
+        
+    user.fixtures:
+        class: DSL\DSLBundle\DataFixtures\UserFixtures
+#        tags: ['doctrine.fixture.orm']
+        arguments:
+            $adminName: %admin_name%
+            $adminType: %admin_type%
+            $adminRole: %admin_role%
+            $adminPlainPassword: %admin_plain_password%
+            $adminPopulation: %admin_population%
+            $userName: %user_name%
+            $userType: %user_type%
+            $userRole: %user_role%
+            $userPlainPassword: %user_plain_password%
+            $userPopulation: %user_population%
