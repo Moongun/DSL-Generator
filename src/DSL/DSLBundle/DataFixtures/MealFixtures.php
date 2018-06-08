@@ -31,7 +31,7 @@ class MealFixtures extends Fixture
             $meal = new Meal();
             $meal->setName('meal_' .$set . '_' . $i);
             $meal->setDescription($description);
-            $meal->setAverageCost(mt_rand(5, 20));
+            $meal->setAverageCost(mt_rand(2, 10));
             $meal->setBase(0);
             $meal->setCarbohydratesG(mt_rand(20, 60));
             $meal->setEnergyValueKcal(mt_rand(200, 600));

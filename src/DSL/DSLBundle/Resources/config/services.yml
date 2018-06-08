@@ -26,3 +26,7 @@ services:
             $userRole: %user_role%
             $userPlainPassword: %user_plain_password%
             $userPopulation: %user_population%
+            
+    ingredient.fixtures:
+        class: DSL\DSLBundle\DataFixtures\IngredientFixtures
+    

@@ -4,7 +4,6 @@ namespace DSL\DSLBundle\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use DSL\DSLBundle\Entity\User;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Psr\Log\LoggerInterface;
 
