@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * diet_rules
  *
  * @ORM\Table(name="diet_rules")
- * @ORM\Entity(repositoryClass="DSL\DSLBundle\Repository\Diet_rulesRepository")
+ * @ORM\Entity(repositoryClass="DSL\DSLBundle\Repository\DietRulesRepository")
  */
-class Diet_rules
+class DietRules
 {
     /**
      * @var int

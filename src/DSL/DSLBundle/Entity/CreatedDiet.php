@@ -29,7 +29,7 @@ class CreatedDiet
     private $date;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Diet_rules", inversedBy="createdDiet")
+     * @ORM\ManyToOne(targetEntity="DietRules", inversedBy="createdDiet")
      * @ORM\JoinColumn(name="dietRules_id", referencedColumnName="id")
      * @var type 
      */
@@ -87,7 +87,7 @@ class CreatedDiet
      * @param \DSL\DSLBundle\Entity\Diet_rules $dietRules
      * @return CreatedDiet
      */
-    public function setDietRules(\DSL\DSLBundle\Entity\Diet_rules $dietRules = null)
+    public function setDietRules(\DSL\DSLBundle\Entity\DietRules $dietRules = null)
     {
         $this->dietRules = $dietRules;
 

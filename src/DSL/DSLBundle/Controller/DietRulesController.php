@@ -2,7 +2,7 @@
 
 namespace DSL\DSLBundle\Controller;
 
-use DSL\DSLBundle\Entity\Diet_rules;
+use DSL\DSLBundle\Entity\DietRules;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,22 +13,20 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("diet_rules")
  */
-class Diet_rulesController extends Controller
+class DietRulesController extends Controller
 {
     /**
-     * Lists all diet_rule entities.
+     * Lists all DietRule entities.
      *
      * @Route("/", name="diet_rules_index")
      * @Method("GET")
      */
     public function indexAction()
     {
-//        $em = $this->getDoctrine()->getManager();
+        $dietRules = $this->getDoctrine()->getRepository('DSLBundle:DietRules')->findAll();
 
-        $diet_rules = $this->getDoctrine()->getRepository('DSLBundle:Diet_rules')->findAll();
-
-        return $this->render('diet_rules/index.html.twig', array(
-            'diet_rules' => $diet_rules,
+        return $this->render('dietRules/index.html.twig', array(
+            'diet_rules' => $dietRules,
         ));
     }
 
@@ -40,19 +38,19 @@ class Diet_rulesController extends Controller
      */
     public function newAction(Request $request)
     {
-        $diet_rule = new Diet_rules();
-        $form = $this->createForm('DSL\DSLBundle\Form\diet_rulesType', $diet_rule);
+        $dietRule = new DietRules();
+        $form = $this->createForm('DSL\DSLBundle\Form\DietRulesType', $dietRule);
         $form->handleRequest($request);
      
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($diet_rule);
-            $em->flush($diet_rule);
-            return $this->redirectToRoute('createddiet_show', array('dietRuleId' => $diet_rule->getId()));
+            $em->persist($dietRule);
+            $em->flush($dietRule);
+            return $this->redirectToRoute('createddiet_show', array('dietRuleId' => $dietRule->getId()));
         }
 
-        return $this->render('diet_rules/new.html.twig', array(
-            'diet_rule' => $diet_rule,
+        return $this->render('dietRules/new.html.twig', array(
+            'diet_rule' => $dietRule,
             'form' => $form->createView(),
         ));
     }
@@ -63,12 +61,12 @@ class Diet_rulesController extends Controller
      * @Route("/{id}", name="diet_rules_show")
      * @Method("GET")
      */
-    public function showAction(diet_rules $diet_rule)
+    public function showAction($dietRule)
     {
-        $deleteForm = $this->createDeleteForm($diet_rule);
+        $deleteForm = $this->createDeleteForm($dietRule);
 
-        return $this->render('diet_rules/show.html.twig', array(
-            'diet_rule' => $diet_rule,
+        return $this->render('dietRules/show.html.twig', array(
+            'diet_rule' => $dietRule,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -79,20 +77,20 @@ class Diet_rulesController extends Controller
      * @Route("/{id}/edit", name="diet_rules_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, diet_rules $diet_rule)
+    public function editAction(Request $request, $dietRule)
     {
-        $deleteForm = $this->createDeleteForm($diet_rule);
-        $editForm = $this->createForm('DSL\DSLBundle\Form\diet_rulesType', $diet_rule);
+        $deleteForm = $this->createDeleteForm($dietRule);
+        $editForm = $this->createForm('DSL\DSLBundle\Form\dietRulesType', $dietRule);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('diet_rules_edit', array('id' => $diet_rule->getId()));
+            return $this->redirectToRoute('diet_rules_edit', array('id' => $dietRule->getId()));
         }
 
-        return $this->render('diet_rules/edit.html.twig', array(
-            'diet_rule' => $diet_rule,
+        return $this->render('dietRules/edit.html.twig', array(
+            'diet_rule' => $dietRule,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -104,15 +102,15 @@ class Diet_rulesController extends Controller
      * @Route("/{id}", name="diet_rules_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, diet_rules $diet_rule)
+    public function deleteAction(Request $request, $dietRule)
     {
-        $form = $this->createDeleteForm($diet_rule);
+        $form = $this->createDeleteForm($dietRule);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($diet_rule);
-            $em->flush($diet_rule);
+            $em->remove($dietRule);
+            $em->flush($dietRule);
         }
 
         return $this->redirectToRoute('diet_rules_index');
@@ -125,10 +123,10 @@ class Diet_rulesController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(diet_rules $diet_rule)
+    private function createDeleteForm($dietRule)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('diet_rules_delete', array('id' => $diet_rule->getId())))
+            ->setAction($this->generateUrl('diet_rules_delete', array('id' => $dietRule->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

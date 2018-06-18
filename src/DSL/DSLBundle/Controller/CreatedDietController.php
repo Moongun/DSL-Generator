@@ -74,7 +74,7 @@ class CreatedDietController extends Controller {
      */
     public function showAction($dietRuleId) {
         //getting to repo of diet_rules
-        $ruleRepo = $this->getDoctrine()->getRepository('DSLBundle:Diet_rules');
+        $ruleRepo = $this->getDoctrine()->getRepository('DSLBundle:DietRules');
         $user = $this->getUser();
 
         //finding single meal

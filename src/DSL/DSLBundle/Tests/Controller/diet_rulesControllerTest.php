@@ -4,7 +4,7 @@ namespace DSL\DSLBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class diet_rulesControllerTest extends WebTestCase
+class DietRulesControllerTest extends WebTestCase
 {
     /*
     public function testCompleteScenario()

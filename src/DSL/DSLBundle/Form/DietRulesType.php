@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 
-class diet_rulesType extends AbstractType {
+class DietRulesType extends AbstractType {
 
     const BLANK_MSG = 'Pole nie może być puste';
     const INVALID_NUM_MSG = 'Podana wartość musi być liczbą';
@@ -137,7 +137,7 @@ class diet_rulesType extends AbstractType {
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'DSL\DSLBundle\Entity\diet_rules'
+            'data_class' => 'DSL\DSLBundle\Entity\DietRules'
         ));
     }
 

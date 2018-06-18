@@ -3,7 +3,7 @@
 namespace DSL\DSLBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use DSL\DSLBundle\Entity\Diet_rules;
+use DSL\DSLBundle\Entity\DietRules;
 use DSL\DSLBundle\Entity\CreatedDiet;
 
 class CreatedDietRepository extends EntityRepository {
@@ -452,7 +452,7 @@ class CreatedDietRepository extends EntityRepository {
     public function calcDiet($ruleId, $user) {
 
         //CHOOSEN RULES
-        $ruleRepo = $this->getEntityManager()->getRepository('DSLBundle:Diet_rules');
+        $ruleRepo = $this->getEntityManager()->getRepository('DSLBundle:DietRules');
         $rule = $ruleRepo->findOneById($ruleId);
 
         $meals = $this->pickMeals();
