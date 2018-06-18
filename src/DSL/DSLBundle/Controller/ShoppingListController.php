@@ -30,7 +30,7 @@ class ShoppingListController extends Controller
         };
 //        dump($ingredients);
 
-        return $this->render("ingredient/shoppingList.html.twig", array(
+        return $this->render("shoppingList/index.html.twig", array(
                     'dietRuleId' => $dietRuleId,
                     'ingredients' => $ingredients
         ));
