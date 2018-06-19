@@ -96,6 +96,13 @@ class DietRules
      * @ORM\Column(name="base", type="integer", nullable=false)
      */
     private $base;
+    
+    /**
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="created_date", type="date")
+     */
+    private $createdDate;
 
     /**
      * Get id
@@ -324,6 +331,7 @@ class DietRules
     public function __construct()
     {
         $this->createdDiet = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdDate = new \DateTime();
     }
 
     /**
@@ -357,5 +365,15 @@ class DietRules
     public function getCreatedDiet()
     {
         return $this->createdDiet;
+    }
+    
+    /**
+     * get createdDate
+     * 
+     * @return \DateTime
+     */
+    public function getCreatedDate()
+    {
+        return $this->createdDate;
     }
 }
