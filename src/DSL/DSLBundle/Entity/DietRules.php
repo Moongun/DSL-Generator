@@ -20,6 +20,16 @@ class DietRules
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+     *
+     * @var int
+     * 
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *
+     */
+    private $user;
 
     /**
      * @var int
@@ -112,6 +122,24 @@ class DietRules
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get user
+     *
+     * @return integer 
+     */
+    function getUser() {
+        return $this->user;
+    }
+
+    /**
+     * Set user
+     *
+     * @return integer 
+     */
+    function setUser($user) {
+        $this->user = $user;
     }
 
     /**
