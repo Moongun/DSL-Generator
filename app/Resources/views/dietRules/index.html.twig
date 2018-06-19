@@ -1,55 +1,45 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_logged.html.twig' %}
 
-{% block body %}
-    <h1>Diet_rules list</h1>
+{% block content %}
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Dailycaloriesrequirementskcal</th>
-                <th>Dailyproteinrequirementsg</th>
-                <th>Dailycarbohydratesrequirementsg</th>
-                <th>Dailyfatrequirementsg</th>
-                <th>Monthlycost</th>
-                <th>Whichmeal</th>
-                <th>Whichproduct</th>
-                <th>Repetition</th>
-                <th>Ininterval</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for diet_rule in diet_rules %}
-            <tr>
-                <td><a href="{{ path('diet_rules_show', { 'id': diet_rule.id }) }}">{{ diet_rule.id }}</a></td>
-                <td>{{ diet_rule.dailyCaloriesRequirementsKcal }}</td>
-                <td>{{ diet_rule.dailyProteinRequirementsG }}</td>
-                <td>{{ diet_rule.dailyCarbohydratesRequirementsG }}</td>
-                <td>{{ diet_rule.dailyFatRequirementsG }}</td>
-                <td>{{ diet_rule.monthlyCost }}</td>
-                <td>{{ diet_rule.whichMeal }}</td>
-                <td>{{ diet_rule.whichProduct }}</td>
-                <td>{{ diet_rule.repetition }}</td>
-                <td>{{ diet_rule.inInterval }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('diet_rules_show', { 'id': diet_rule.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('diet_rules_edit', { 'id': diet_rule.id }) }}">edit</a>
-                        </li>
+    <div class="container content">
+        <div class="row pb-4">
+            <div class="col-lg-12 text-center">
+                <span class='content-header'>Lista diet</span>
+            </div>
+        </div>
+
+        {% set counter = 0 %}
+        <div class="row pb-4">
+            <div class="col-lg-4 text-right">lp</div>
+            <div class="col-lg-4 text-center">Data stworzenia</div>
+            <div class="col-lg-4 text-left">akcje</div>
+        </div>
+        {% for diet in diets %}
+            {%set counter = counter + 1%}
+            <div class="row pb-3">
+                <div class="col-lg-4 border-right text-right">
+                    <span>{{ counter }}</span>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <span>{{ diet.createdDate|date('Y-m-d') }}</span>
+                </div>
+                <div class="col-lg-4 text-left">
+                    <ul class='table-links'>
+                        <li><a class='table-links-color' href='{{ path("createddiet_show", { 'dietRuleId': diet.id })}}'>Pokaż</a></li>
+                        <li><a class='table-links-color' href='{{ path("createddiet_delete", { 'id': diet.id })}}'>Usuń</a></li>
                     </ul>
-                </td>
-            </tr>
+                </div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('diet_rules_new') }}">Create a new diet_rule</a>
-        </li>
-    </ul>
-{% endblock %}
+        <div class="row py-4">
+            <div class="col-lg-4 offset-lg-4 text-center">
+                <div class="button button-center">
+                    <a href="{{ path('diet_rules_new') }}" class="form_submit link-create-diet">stwórz nową dietę</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -23,10 +23,21 @@ class DietRulesController extends Controller
      */
     public function indexAction()
     {
-        $dietRules = $this->getDoctrine()->getRepository('DSLBundle:DietRules')->findAll();
+        $em = $this->getDoctrine()->getManager();
+        $user=$this->getUser();
 
+//        $dietsRepo = $em->getRepository('DSLBundle:CreatedDiet')->findAll();
+        $diets = $em->getRepository('DSLBundle:DietRules')->findByUser($user);
+//        $chunkedDiets = array_chunk($dietsRepo, 150);
+//        $diets = [];
+//        foreach ($chunkedDiets as $singleDiet) {
+//            $date = $singleDiet[0]->getDate();
+//            $dietRule = $singleDiet[0]->getDietRules()->getId();
+//            array_push($singleDiet, $date, $dietRule);
+//            $diets[] = $singleDiet;
+//        }
         return $this->render('dietRules/index.html.twig', array(
-            'diet_rules' => $dietRules,
+                    'diets' => $diets,
         ));
     }
 
@@ -44,6 +55,7 @@ class DietRulesController extends Controller
      
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $dietRule->setUser($this->getUser());
             $em->persist($dietRule);
             $em->flush($dietRule);
             return $this->redirectToRoute('createddiet_show', array('dietRuleId' => $dietRule->getId()));

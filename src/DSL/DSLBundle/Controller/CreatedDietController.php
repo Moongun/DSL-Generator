@@ -17,31 +17,6 @@ use DSL\DSLBundle\Entity\Meal;
 class CreatedDietController extends Controller {
 
     /**
-     * Lists all createdDiet entities.
-     *
-     * @Route("/", name="createddiet_index")
-     * @Method("GET")
-     */
-    public function indexAction() {
-        $em = $this->getDoctrine()->getManager();
-        $user=$this->getUser();
-
-//        $dietsRepo = $em->getRepository('DSLBundle:CreatedDiet')->findAll();
-        $dietsRepo = $em->getRepository('DSLBundle:CreatedDiet')->findByUserId($user);
-        $chunkedDiets = array_chunk($dietsRepo, 150);
-        $diets = [];
-        foreach ($chunkedDiets as $singleDiet) {
-            $date = $singleDiet[0]->getDate();
-            $dietRule = $singleDiet[0]->getDietRules()->getId();
-            array_push($singleDiet, $date, $dietRule);
-            $diets[] = $singleDiet;
-        }
-        return $this->render('createddiet/index.html.twig', array(
-                    'diets' => $diets,
-        ));
-    }
-
-    /**
      * Creates a new createdDiet entity.
      *
      * @Route("/new", name="createddiet_new")
