@@ -425,9 +425,9 @@ class CreatedDietRepository extends EntityRepository {
 
     public function saveDiet($diet, $user, $rule) {
         $startDate = Date('Y-m-d');
+            $i = 1;
 
         foreach ($diet as $day) {
-            $i = 1;
             $currentDate = date('Y-m-d', strtotime($startDate . ' + ' . $i . ' days')); //zeby utworzyc date dnia danego posilku diety
             foreach ($day as $meal) {
                 $item = new CreatedDiet();
@@ -440,6 +440,7 @@ class CreatedDietRepository extends EntityRepository {
                 $em->persist($item);
                 $em->flush();
             }
+            $i++;
         }
     }
 
@@ -528,7 +529,6 @@ class CreatedDietRepository extends EntityRepository {
 //                $mealConditionBRule != null &&
                 $mealConditionCRule != null) {
 
-            dump($mealConditionARule, $mealConditionCRule);
             switch (count($meals)) {
                 case 5:
                     $mealsWithout = $this->removeMealFirst($meals, $mealConditionARule);
