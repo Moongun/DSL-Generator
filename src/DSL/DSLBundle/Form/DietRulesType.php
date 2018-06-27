@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class DietRulesType extends AbstractType {
 
@@ -129,7 +130,7 @@ class DietRulesType extends AbstractType {
                             return ['class' => 'condition-four'];
                         }
                     }
-        ));
+                ));
     }
 
     /**

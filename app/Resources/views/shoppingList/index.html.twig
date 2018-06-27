@@ -1,58 +1,159 @@
 {%extends "base_logged.html.twig"%}
 
 {% block content %}
-    <div class="sidebar">
-        <ul>
-            <li>kontener jeszcze nie wiem</li>
-            <li>
-                <button id='printShoppingList' onclick='printDiv2()' hidden>drukuj listę zakupową</button>
-                <label for='printShoppingList'>drukuj listę zakupową</label>
-            </li>
-        </ul>
-    </div>
-    <h1 class='content_header'>Lista zakupów</h1>
-    <div id="shoppingList">
-        <table class='table-diet summary-table shoppinglist-table'>
-            {% for key, mealIngredients in ingredients %}
-                {% if key == 0 %}
-                    {% set counterMeal = 0 %}
-                    <tr class='table-row summary-table-header'>
-                        <th class='table-center shoppinglist-th-header' colspan="8">tydzień 1 (szacowany wydatek to: 000zł)</th>
-                    </tr>
-                {% elseif key == 35 %}
-                    {% set counterMeal = 0 %}
-                    <tr class='table-row summary-table-header'>
-                        <th class='table-center shoppinglist-th-header' colspan="8">tydzień 2 (szacowany wydatek to: 000zł)</th>
-                    </tr>
-                {% elseif key == 70 %}
-                    {% set counterMeal = 0 %}
-                    <tr class='table-row summary-table-header'>
-                        <th class='table-center shoppinglist-th-header' colspan="8">tydzień 3 (szacowany wydatek to: 000zł)</th>
-                    </tr>
-                {% elseif key == 105 %}
-                    {% set counterMeal = 0 %}
-                    <tr class='table-row summary-table-header'>
-                        <th class='table-center shoppinglist-th-header' colspan="8">tydzień 4 (szacowany wydatek to: 000zł)</th>
-                    </tr>
-                {% elseif key == 140 %}
-                    {% set counterMeal = 0 %}
-                    <tr class='table-row summary-table-header'>
-                        <th class='table-center shoppinglist-th-header' colspan="8">reszta miesiąca (szacowany wydatek to: 000zł)</th>
-                    </tr>
-                {% endif %}
-                {% for meal in mealIngredients %}
-                    {% set counterMeal = counterMeal + 1 %}
-                    {% if counterMeal == 1 %}
-                        <tr class='table-row shoppinglist-row'>
-                        {% endif %}
-                        <td class='summary-table-td-padding shoppinglist-row-td'>{{ meal.quantity }}</td>
-                        <td class='summary-table-td-padding shoppinglist-row-td'>{{ meal.product }}</td>
-                        {% if counterMeal == 4 %}
-                        </tr>
+    <div class="container content">
+        <div class="sidebar">
+            <ul>
+                <li>kontener jeszcze nie wiem</li>
+                <li>
+                    <button id='printShoppingList' onclick='printDiv2()' hidden>drukuj listę zakupową</button>
+                    <label for='printShoppingList'>drukuj listę zakupową</label>
+                </li>
+            </ul>
+        </div>
+        <div class="row pb-4">
+            <div class="col-lg-12 text-center">
+                <span class='content-header'>Lista Zakupów</span>
+            </div>
+        </div>
+        {#<div class="table-responsive">
+            <table class="table table-sm">
+                {% for key, mealIngredients in ingredients %}
+                    {% if key == 0 %}
                         {% set counterMeal = 0 %}
+                        <tr class='table-row summary-table-header'>
+                            <th class='table-center shoppinglist-th-header' colspan="8">tydzień 1 (szacowany wydatek to: 000zł)</th>
+                        </tr>
+                    {% elseif key == 35 %}
+                        {% set counterMeal = 0 %}
+                        <tr class='table-row summary-table-header'>
+                            <th class='table-center shoppinglist-th-header' colspan="8">tydzień 2 (szacowany wydatek to: 000zł)</th>
+                        </tr>
+                    {% elseif key == 70 %}
+                        {% set counterMeal = 0 %}
+                        <tr class='table-row summary-table-header'>
+                            <th class='table-center shoppinglist-th-header' colspan="8">tydzień 3 (szacowany wydatek to: 000zł)</th>
+                        </tr>
+                    {% elseif key == 105 %}
+                        {% set counterMeal = 0 %}
+                        <tr class='table-row summary-table-header'>
+                            <th class='table-center shoppinglist-th-header' colspan="8">tydzień 4 (szacowany wydatek to: 000zł)</th>
+                        </tr>
+                    {% elseif key == 140 %}
+                        {% set counterMeal = 0 %}
+                        <tr class='table-row summary-table-header'>
+                            <th class='table-center shoppinglist-th-header' colspan="8">reszta miesiąca (szacowany wydatek to: 000zł)</th>
+                        </tr>
+                    {% endif %}
+                    {% for meal in mealIngredients %}
+                        {% set counterMeal = counterMeal + 1 %}
+                        {% if counterMeal == 1 %}
+                            <tr class='table-row shoppinglist-row'>
+                            {% endif %}
+                            <td class='summary-table-td-padding shoppinglist-row-td'>{{ meal.quantity }}</td>
+                            <td class='summary-table-td-padding shoppinglist-row-td'>{{ meal.product }}</td>
+                            {% if counterMeal == 4 %}
+                            </tr>
+                            {% set counterMeal = 0 %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </table>
+        </div>#}
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <tr class="table-row">
+                    <th colspan="12">Tydzień pierwszy</th>
+                </tr>
+                {% set counter = 1 %}
+
+                {%for ingredient in firstWeek %}
+                    {% if counter is same as(1) %}
+                        <tr class="table-row">
+                    {% endif %}
+                        <td collspan="1">{{ingredient.ProductCount}}</td>
+                        <td collspan="2">{{ingredient.ProductName}}</td>
+                    {% if counter is same as(4) %}
+                        </tr>
+                    {% endif %}
+                    {% set counter = counter + 1%}
+                    {% if counter is same as(5)  %}
+                        {% set counter = 1%}    
                     {% endif %}
                 {% endfor %}
-            {% endfor %}
-        </table>
+            </table>    
+        </div>
+            
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <tr class="table-row">
+                    <th colspan="12">Tydzień drugi</th>
+                </tr>
+                {% set counter = 1 %}
+
+                {%for ingredient in secondWeek %}
+                    {% if counter is same as(1) %}
+                        <tr class="table-row">
+                    {% endif %}
+                        <td collspan="1">{{ingredient.ProductCount}}</td>
+                        <td collspan="2">{{ingredient.ProductName}}</td>
+                    {% if counter is same as(4) %}
+                        </tr>
+                    {% endif %}
+                    {% set counter = counter + 1%}
+                    {% if counter is same as(5)  %}
+                        {% set counter = 1%}    
+                    {% endif %}
+                {% endfor %}
+            </table>    
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <tr class="table-row">
+                    <th colspan="12">Tydzień trzeci</th>
+                </tr>
+                {% set counter = 1 %}
+
+                {%for ingredient in thirdWeek %}
+                    {% if counter is same as(1) %}
+                        <tr class="table-row">
+                    {% endif %}
+                        <td collspan="1">{{ingredient.ProductCount}}</td>
+                        <td collspan="2">{{ingredient.ProductName}}</td>
+                    {% if counter is same as(4) %}
+                        </tr>
+                    {% endif %}
+                    {% set counter = counter + 1%}
+                    {% if counter is same as(5)  %}
+                        {% set counter = 1%}    
+                    {% endif %}
+                {% endfor %}
+            </table>    
+        </div>
+            
+            <div class="table-responsive">
+            <table class="table table-sm">
+                <tr class="table-row">
+                    <th colspan="12">Reszta miesiąca</th>
+                </tr>
+                {% set counter = 1 %}
+
+                {%for ingredient in rest %}
+                    {% if counter is same as(1) %}
+                        <tr class="table-row">
+                    {% endif %}
+                        <td collspan="1">{{ingredient.ProductCount}}</td>
+                        <td collspan="2">{{ingredient.ProductName}}</td>
+                    {% if counter is same as(4) %}
+                        </tr>
+                    {% endif %}
+                    {% set counter = counter + 1%}
+                    {% if counter is same as(5)  %}
+                        {% set counter = 1%}    
+                    {% endif %}
+                {% endfor %}
+            </table>    
+        </div>
     </div>
 {% endblock content %}

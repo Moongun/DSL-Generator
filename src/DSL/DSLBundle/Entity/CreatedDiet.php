@@ -84,7 +84,7 @@ class CreatedDiet
     /**
      * Set dietRules
      *
-     * @param \DSL\DSLBundle\Entity\Diet_rules $dietRules
+     * @param \DSL\DSLBundle\Entity\DietRules $dietRules
      * @return CreatedDiet
      */
     public function setDietRules(\DSL\DSLBundle\Entity\DietRules $dietRules = null)
@@ -97,7 +97,7 @@ class CreatedDiet
     /**
      * Get dietRules
      *
-     * @return \DSL\DSLBundle\Entity\Diet_rules 
+     * @return \DSL\DSLBundle\Entity\DietRules 
      */
     public function getDietRules()
     {

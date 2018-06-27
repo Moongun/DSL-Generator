@@ -1,11 +1,7 @@
 {% extends 'base_logged.html.twig' %}
 
 {% block content %}
-
-
-
     <div class="container content">
-
         <div class="sidebar">
             <ul>
                 <li><a class="sidebar-a" href="{{ path('shopping_list', {'dietRuleId': dietRuleId })}}">generuj listę zakupową</a></li>
@@ -15,9 +11,6 @@
                 </li>
             </ul>
         </div>
-
-
-
         <div class="row pb-4">
             <div class="col-lg-12 text-center">
                 <span class='content-header'>Stworzona dieta</span>
@@ -100,7 +93,6 @@
                 <span class='table-center summary-table-td-padding'>{{ restOfMonth | number_format(0, '.', ' ') }} zł</span>
             </div>
         </div>
-
 
         <div id="diet">
             <div class="row pt-5">

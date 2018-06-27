@@ -359,7 +359,7 @@ class DietRules
     public function __construct()
     {
         $this->createdDiet = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->createdDate = new \DateTime();
+        $this->createdDate = new \DateTime;
     }
 
     /**
@@ -398,7 +398,7 @@ class DietRules
     /**
      * get createdDate
      * 
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreatedDate()
     {
