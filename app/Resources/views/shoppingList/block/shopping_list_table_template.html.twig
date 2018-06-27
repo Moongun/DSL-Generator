@@ -1,0 +1,23 @@
+<div class="table-responsive pb-5">
+    <table class="table table-sm">
+        <tr class="table-row">
+            <th colspan="12">{{ title }}</th>
+        </tr>
+        {% set counter = 1 %}
+
+        {%for ingredient in ingredients %}
+            {% if counter is same as(1) %}
+                <tr class="table-row">
+            {% endif %}
+                <td collspan="1">{{ingredient.ProductCount}}</td>
+                <td collspan="2">{{ingredient.ProductName}}</td>
+            {% if counter is same as(4) %}
+                </tr>
+            {% endif %}
+            {% set counter = counter + 1%}
+            {% if counter is same as(5)  %}
+                {% set counter = 1%}    
+            {% endif %}
+        {% endfor %}
+    </table>    
+</div>

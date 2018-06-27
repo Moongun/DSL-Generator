@@ -36,92 +36,16 @@ class ShoppingListController extends Controller
         $ingredientsRest = $em->getRepository(CreatedDiet::class)
                 ->findIngredientsByRuleIdInGivenTime($dietRuleId, $dateWeek3);
         
-//        dump($ingredientsWeek1);
-
-
-//        $mealIds = [];
-//        $week1 = [];
-//        $week2 = [];
-//        $week3 = [];
-//        $week4 = [];
-//        $rest = [];
-//        
-//        foreach ($createdDiet as $k => $meal) {
-//            $consumptionDate = $meal->getDate()->format('Y-m-d H:i:s');
-//            switch($consumptionDate) {
-//                case $consumptionDate <= $dateWeek1:
-//                array_push($week1, $meal->getMeal()->getId());
-//                break;
-//                case $consumptionDate <= $dateWeek2:
-//                array_push($week2, $meal->getMeal()->getId());
-//                break;
-//                case $consumptionDate <= $dateWeek3:
-//                array_push($week3, $meal->getMeal()->getId());
-//                break;
-//                case $consumptionDate <= $dateWeek4:
-//                array_push($week4, $meal->getMeal()->getId());
-//                break;
-//                case $consumptionDate > $dateWeek4:
-//                array_push($rest, $meal->getMeal()->getId());
-//                break;
-//            }
-//        };
-////dump(array_count_values($week1));
-////        dump($week1);
-////        dump($week2);
-////        dump($week3);
-////        dump($week4);
-////        dump($rest);
-//
-//        $ingredientWeek1=[];
-//        $ingredientWeek2=[];
-//        $ingredientWeek3=[];
-//        $ingredientWeek4=[];
-//        $ingredientRest=[];
-//        
-//        foreach($week1 as $mealId) {
-//            $mealIngredients = $em->getRepository('DSLBundle:Ingredient')->findByMealId($mealId);
-//            $ingredientWeek1 = array_merge($ingredientWeek1, $mealIngredients);
-//        }
-//        foreach($week2 as $mealId) {
-//            $mealIngredients = $em->getRepository('DSLBundle:Ingredient')->findByMealId($mealId);
-//            $ingredientWeek2 = array_merge($ingredientWeek2, $mealIngredients);
-//        }
-//        foreach($week3 as $mealId) {
-//            $mealIngredients = $em->getRepository('DSLBundle:Ingredient')->findByMealId($mealId);
-//            $ingredientWeek3 = array_merge($ingredientWeek3, $mealIngredients);
-//        }
-//        foreach($week4 as $mealId) {
-//            $mealIngredients = $em->getRepository('DSLBundle:Ingredient')->findByMealId($mealId);
-//            $ingredientWeek4 = array_merge($ingredientWeek4, $mealIngredients);
-//        }
-//        foreach($rest as $mealId) {
-//            $mealIngredients = $em->getRepository('DSLBundle:Ingredient')->findByMealId($mealId);
-//            $ingredientRest = array_merge($ingredientRest, $mealIngredients);
-//        }
-//        dump($ingredientWeek1);
-//        dump($ingredientWeek2);
-//        dump($ingredientWeek3);
-//        dump($ingredientWeek4);
-//        dump($ingredientRest);
-
-//        $occuranceWeek1 = array_count_values($ingredientWeek1);
-//        dump($occuranceWeek1);
-//        
-//        $ingredients = [];
-//        foreach ($mealIds as $mealId) {
-//            $mealIngredients = $em->getRepository('DSLBundle:Ingredient')->findByMealId($mealId);
-//            $ingredients[] = $mealIngredients;
-//        };
-////        dump($ingredients);
-
+        $month = [
+            ['title' => 'Tydzień pierwszy', 'ingredients' => $ingredientsWeek1],
+            ['title' => 'Tydzień drugi', 'ingredients' => $ingredientsWeek2],
+            ['title' => 'Tydzień trzeci', 'ingredients' => $ingredientsWeek3],
+            ['title' => 'Reszta miesiąca', 'ingredients' => $ingredientsRest]
+        ];
+        
         return $this->render("shoppingList/index.html.twig", array(
                     'dietRuleId' => $dietRuleId,
-//                    'ingredients' => $ingredients,
-                    'firstWeek' => $ingredientsWeek1,
-                    'secondWeek' => $ingredientsWeek2,
-                    'thirdWeek' => $ingredientsWeek3,
-                    'rest'  => $ingredientsRest
+                    'month' => $month
             
         ));
     }
