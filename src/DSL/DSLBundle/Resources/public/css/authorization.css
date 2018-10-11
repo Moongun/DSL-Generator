@@ -38,11 +38,19 @@
 }
 
 .container-auth-form {
-    width: 400px;
-    margin-top: 100px;
+    max-width: 400px;
+    min-width: 275px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     margin-right: 125px;
     margin-left: auto;
     color: rgba(245, 245, 245, 1);
+    border: 2px solid;
+}
+@media only screen and (max-width: 768px) {
+    .container-auth-form {
+        margin-right: 0;
+    }
 }
 
 .auth-form-error {
