@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace DSL\DSLBundle\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -21,21 +21,21 @@ class IngredientFixtures extends Fixture
     
     public function load (ObjectManager $manager)
     {
-//        $meals = $this->entityManager->getRepository(Meal::class)->findAll();
-//        $products = $this->entityManager->getRepository(Product::class)->findAll();
-//        
-//        foreach ($meals as $meal) {
-//            for ($i = 1; $i <= 3; $i++) {
-//                $randomProduct = array_rand($products);
-//                
-//                $ingredient = new Ingredient();
-//                $ingredient->setMeal($meal);
-//                $ingredient->setProduct($products[$randomProduct]);
-//                $ingredient->setQuantity(mt_rand(1,3));
-//                $manager->persist($ingredient);
-//            }
-//        }
-//        $manager->flush();
+        $meals = $this->entityManager->getRepository(Meal::class)->findAll();
+        $products = $this->entityManager->getRepository(Product::class)->findAll();
+        
+        foreach ($meals as $meal) {
+            for ($i = 1; $i <= 3; $i++) {
+                $randomProduct = array_rand($products);
+                
+                $ingredient = new Ingredient();
+                $ingredient->setMeal($meal);
+                $ingredient->setProduct($products[$randomProduct]);
+                $ingredient->setQuantity(mt_rand(1,3));
+                $manager->persist($ingredient);
+            }
+        }
+        $manager->flush();
     }
     
     public function getDependencies()

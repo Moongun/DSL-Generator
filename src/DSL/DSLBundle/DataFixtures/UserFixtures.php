@@ -61,37 +61,37 @@ class UserFixtures extends Fixture
     
     private function userCreate(ObjectMAnager $manager, string $userType, int $quantity, bool $enabled = true)
     {     
-//        $sufix = '@test.pl';
-//        
-//        switch ($userType) {
-//            case $this->adminType:
-//                for ($i=1; $i<=$quantity; $i++) {
-//                    $user = $this->userManager->createUser();
-//                    $user->setUsername($this->adminName. $i);
-//                    $user->setSuperAdmin(true);
-//                    $user->setEmail($this->adminName . $i . $sufix);
-//                    $password = $this->encoder->encodePassword($user, $this->adminPlainPassword);
-//                    $user->setPassword($password);
-//                    $user->setEnabled($enabled);
-//                    $manager->persist($user);
-//                }
-//                break;
-//            case $this->userType:
-//                for ($i=1; $i<=$quantity; $i++) {
-//                    $user = $this->userManager->createUser();
-//                    $user->setUsername($this->userName . $i);
-//                    $user->setSuperAdmin(false);
-//                    $user->setEmail($this->userName . $i . $sufix);
-//                    $password = $this->encoder->encodePassword($user, $this->userPlainPassword);
-//                    $user->setPassword($password);
-//                    $user->setEnabled($enabled);
-//                    $manager->persist($user);
-//                }
-//                break;
-//            default:
-//                $message = sprintf('Typ uzytkownika "%s" nie istnieje.', $userType);
-//                $this->logger->addError($message);
-//        }
-//        $manager->flush();
+        $sufix = '@test.pl';
+        
+        switch ($userType) {
+            case $this->adminType:
+                for ($i=1; $i<=$quantity; $i++) {
+                    $user = $this->userManager->createUser();
+                    $user->setUsername($this->adminName. $i);
+                    $user->setSuperAdmin(true);
+                    $user->setEmail($this->adminName . $i . $sufix);
+                    $password = $this->encoder->encodePassword($user, $this->adminPlainPassword);
+                    $user->setPassword($password);
+                    $user->setEnabled($enabled);
+                    $manager->persist($user);
+                }
+                break;
+            case $this->userType:
+                for ($i=1; $i<=$quantity; $i++) {
+                    $user = $this->userManager->createUser();
+                    $user->setUsername($this->userName . $i);
+                    $user->setSuperAdmin(false);
+                    $user->setEmail($this->userName . $i . $sufix);
+                    $password = $this->encoder->encodePassword($user, $this->userPlainPassword);
+                    $user->setPassword($password);
+                    $user->setEnabled($enabled);
+                    $manager->persist($user);
+                }
+                break;
+            default:
+                $message = sprintf('Typ uzytkownika "%s" nie istnieje.', $userType);
+                $this->logger->addError($message);
+        }
+        $manager->flush();
     }
 }

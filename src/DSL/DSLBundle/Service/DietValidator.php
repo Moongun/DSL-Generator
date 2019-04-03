@@ -2,39 +2,18 @@
 namespace DSL\DSLBundle\Service;
 
 use DSL\DSLBundle\Entity\DietRules;
-use DSL\DSLBundle\Service\MealReplacer;
 
 class DietValidator {
     
     private $rule;
     private $diet;
-    private $mealReplacer;
     
-    public function __construct(MealReplacer $mealReplacer) 
-    {
-        $this->mealReplacer = $mealReplacer;
-    }
-    
-    public function setDietRule(DietRules $rule)
+    public function __construct(DietRules $rule, array $diet) 
     {
         $this->rule = $rule;
-        return $this;
-    }
-    
-    public function setDiet(array $diet)
-    {
         $this->diet = $diet;
-        return $this;
     }
-    
-//    /**
-//     * @required
-//     */
-//    public function setMealReplacer(MealReplacer $mealReplacer)
-//    {
-//        $this->mealReplacer = $mealReplacer;
-//    }
-    
+
     /**
      * Validation of generated diet upon rule criteria.
      * 
@@ -47,23 +26,19 @@ class DietValidator {
         $dailyRequirements = [
             [
                 'limit' => $rule->getDailyCaloriesRequirementsKcal(),
-                'method' => 'getEnergyKcal',
-                'target' => 'Energy' 
+                'method' => 'getEnergyValueKcal'
             ],
             [
                 'limit' => $rule->getDailyCarbohydratesRequirementsG(),
-                'method' => 'getCarbohydratesG',
-                'target' => 'Carbohydrates'
+                'method' => 'getCarbohydratesG'
             ],
             [
                 'limit' => $rule->getDailyFatRequirementsG(),
-                'method' => 'getFatG',
-                'target' => 'Fat'
+                'method' => 'getFatG'
             ],
             [
                 'limit' => $rule->getDailyProteinRequirementsG(),
-                'method' => 'getProteinG',
-                'target' => 'Protein'
+                'method' => 'getProteinG'
             ]
         ];
         
@@ -71,12 +46,10 @@ class DietValidator {
             if($dailyRequirement['limit']){
                 $isValid = $this->validateDailyRequirement(
                         $dailyRequirement['limit'], 
-                        $dailyRequirement['method'],
-                        $dailyRequirement['target']
+                        $dailyRequirement['method']
                         );
             }
         }
-        
         return $isValid;
     }
     
@@ -84,26 +57,21 @@ class DietValidator {
      * Checks if daily requirement(calories, protein, carbo, fat [g]) are under
      * the given rule limit.
      *  
-     * @param int    $limit  Value of requirement limit.
+     * @param int    $limit  Value of calory limit.
      * @param string $method Name method to get value from meal entity.
-     * @param sting  $target Target of requirement.
      *  
      * @return boolean
      */
-    private function validateDailyRequirement(int $limit, string $method, string $target)
+    private function validateDailyRequirement(int $limit, string $method)
     {
         foreach($this->diet as $dayset) {
             $dayValue = 0;
             foreach ($dayset as $meal) {
+//                dump($meal);
                 $dayValue += $meal->$method();
             }
-            
             if ($dayValue > $limit) {
-                $replacer = $this->mealReplacer;
-                $newDayset = $replacer->replace($target, $limit);    
-                dump($dayset, $dayValue, $limit, $method);
-
-//                return false;
+                return false;
             }
         }
         return true;    

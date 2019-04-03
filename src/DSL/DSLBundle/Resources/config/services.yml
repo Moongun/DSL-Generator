@@ -3,15 +3,18 @@ services:
         autowire: true 
         autoconfigure: true
         public: true
-        
+
     meal.fixtures:
         class: DSL\DSLBundle\DataFixtures\MealFixtures
+#        tags: ['doctrine.fixture.orm']
         
     product.fixtures:
         class: DSL\DSLBundle\DataFixtures\ProductFixtures
+#        tags: ['doctrine.fixture.orm']
         
     user.fixtures:
         class: DSL\DSLBundle\DataFixtures\UserFixtures
+#        tags: ['doctrine.fixture.orm']
         arguments:
             $adminName: %admin_name%
             $adminType: %admin_type%
@@ -26,43 +29,4 @@ services:
             
     ingredient.fixtures:
         class: DSL\DSLBundle\DataFixtures\IngredientFixtures
-
-    repository.meal:
-        class: DSL\DSLBundle\Repository\MealRepository
-        factory: ["@doctrine.orm.entity_manager", getRepository]
-        arguments:
-            - DSL\DSLBundle\Entity\Meal
-    DSL\DSLBundle\Repository\MealRepository: '@repository.meal'
     
-    repository.created_diet:
-        class: DSL\DSLBundle\Repository\CreatedDietRepository
-        factory: ["@doctrine.orm.entity_manager", getRepository]
-#        calls:
-#            - method: setDietValidator
-#              arguments: 
-#                - '@service.diet_validator' 
-        arguments:
-            - DSL\DSLBundle\Entity\CreatedDiet
-    DSL\DSLBundle\Repository\CreatedDietRepository: '@repository.created_diet'
-
-    service.meal_replacer:
-        class: DSL\DSLBundle\Service\MealReplacer
-        arguments:
-            - '@repository.meal'
-            - '@doctrine.orm.entity_manager'
-    DSL\DSLBundle\Service\MealReplacer: '@service.meal_replacer'
-            
-    service.diet_validator:
-        class: DSL\DSLBundle\Service\DietValidator
-#        calls:
-#            - method: setMealReplacer
-#              arguments: 
-#                - '@service.meal_replacer'
-        arguments:
-            - '@service.meal_replacer'
-        
-    service.diet_generator:
-        class: DSL\DSLBundle\Service\DietGenerator
-        arguments:
-            - '@repository.created_diet'
-            - '@repository.meal'

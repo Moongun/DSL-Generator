@@ -1,86 +1,9 @@
 {% extends 'base_logged.html.twig' %}
 
 {% block content %}
-    
-        <div class="container content">
-            <div class="row pb-5">
-                <div class="col-lg-12 text-center">
-                    <span class="content-header">Składniki dla posiłku: {{ mealName }}</span>
-                </div>
-            </div>
-                
-            {{ form_start(form) }}
-            <div class="row">
-                <div class="col-lg-4">
-                    {% if(form_errors(form.quantity)) %}
-                    <div class="col-lg-12 py-2 error">
-                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                        {{form_errors(form.quantity)}}
-                    </div>
-                    {% else %}
-                    <div class="col-lg-12"></div>
-                    {% endif %}
-                    <div class="pb-4">
-                        {{form_widget(form.quantity, {'attr': {'placeholder': 'ilość', 'class':'form-field form-field-meal-name'}})}}
-                    </div>
-                </div>
-                
-                <div class="col-lg-4">
-                    {% if(form_errors(form.product)) %}
-                    <div class="col-lg-12 py-2 error">
-                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                        {{form_errors(form.product)}}
-                    </div>
-                    {% else %}
-                    <div class="col-lg-12"></div>
-                    {% endif %}
-                    <div class="pb-4">
-                        {{form_widget(form.product, {'attr': {'placeholder': 'Wybierz produkt', 'class':'form-field form-field-meal-name'}})}}
-                    </div>
-                </div>
-            </div>
-            
+    <h1 class="content_header">Składniki dla posiłku: {{ mealName }}</h1>
 
-        <div class="row">
-            <div class="col-lg-12">
-                <input type="submit" value="zapisz">
-            </div>
-        </div>
-        {{ form_end(form) }}
-
-                
-                {#<div class="col-lg-4">
-                    {% if(form_errors(form.quantity)) %}
-                    <div class="col-lg-12 py-2 error">
-                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                        {{form_errors(form.quantity)}}
-                    </div>
-                    {% else %}
-                    <div class="col-lg-12"></div>
-                    {% endif %}
-                </div>#}
-{#                <div class="row pb-3">#}
-                    {#<div class="col-lg-3 text-right">
-                        <span class="">Ilość</span>
-                    </div>#}
-                    {#<div class="col-lg-3 pb-4">
-                        {{form_widget(form.quantity, {'attr': {'placeholder': 'ilość', 'class':'form-field form-field-meal-name'}})}}
-                    </div>
-                    <div class="col-lg-3 pb-4">
-                        {{form_widget(form.product, {'attr': {'placeholder': 'ilość', 'class':'form-field form-field-meal-name'}})}}
-                    </div>#}
-{#                    <div class="col-lg-3 pb-4">#}
-                    {#    <input type="submit" value="Dodaj składnik">
-                    </div>
-                </div>
-                </div>
-            </div>#}
-                
-                
-        </div>
-{#    <h1 class="content_header">Składniki dla posiłku: {{ mealName }}</h1>#}
-
-    {#<div>
+    <div>
         <div>
             {{ form_start(form) }}
             {{ form_errors(form.quantity) }}
@@ -90,7 +13,7 @@
             <input type="submit" value="Dodaj" class="fos_register_div submit form_submit"/>
             {{ form_end(form) }}
         </div>
-    </div>#}
+    </div>
 
 
 {#    <ul>

@@ -45,9 +45,9 @@ class Meal
     /**
      * @var int
      *
-     * @ORM\Column(name="energy_kcal", type="integer")
+     * @ORM\Column(name="energy_Value_kcal", type="integer")
      */
-    private $energyKcal;
+    private $energyValueKcal;
 
     /**
      * @var int
@@ -176,26 +176,26 @@ class Meal
     }
 
     /**
-     * Set energyKcal
+     * Set energyValueKcal
      *
-     * @param integer $energyKcal
+     * @param integer $energyValueKcal
      * @return Meal
      */
-    public function setEnergyKcal($energyKcal)
+    public function setEnergyValueKcal($energyValueKcal)
     {
-        $this->energyKcal = $energyKcal;
+        $this->energyValueKcal = $energyValueKcal;
 
         return $this;
     }
 
     /**
-     * Get energyKcal
+     * Get energyValueKcal
      *
      * @return integer 
      */
-    public function getEnergyKcal()
+    public function getEnergyValueKcal()
     {
-        return $this->energyKcal;
+        return $this->energyValueKcal;
     }
 
     /**

@@ -198,7 +198,3 @@ select.ct-meal-product option {
 .values-summary {
     font-size: 2em;
 }
-
-select > option {
-    color: black;
-}

@@ -2,8 +2,10 @@
 
 namespace DSL\DSLBundle\Controller;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
 use Symfony\Component\HttpFoundation\Request;
+//use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 class RegistrationController extends BaseController {
