@@ -23,7 +23,7 @@ class CreatedDietController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
-        $createdDiet = new Createddiet();
+        $createdDiet = new CreatedDiet();
         $form = $this->createForm('DSL\DSLBundle\Form\CreatedDietType', $createdDiet);
         $form->handleRequest($request);
 
@@ -49,18 +49,27 @@ class CreatedDietController extends Controller {
      */
     public function showAction($dietRuleId) {
         //getting to repo of diet_rules
-        $ruleRepo = $this->getDoctrine()->getRepository('DSLBundle:DietRules');
+        $ruleRepository = $this->getDoctrine()->getRepository('DSLBundle:DietRules');
         $user = $this->getUser();
 
         //finding single meal
-        $rule = $ruleRepo->findOneById($dietRuleId);
+        $rule = $ruleRepository->findOneById($dietRuleId);
 
         $createdDiet = $rule->getCreatedDiet();
 //        
         //creating new diet
         if (!count($createdDiet)) {
-            $repoCreate = $this->getDoctrine()->getRepository('DSLBundle:CreatedDiet');
-            $repoCreate->calcDiet($dietRuleId, $user);
+            $createdDietRepository = $this->getDoctrine()->getRepository('DSLBundle:CreatedDiet');
+            $dietGenerator = $this->get('service.diet_generator');
+            $newDiet = $dietGenerator->calcDiet($rule, $user);
+            $dietValidator = $this->get('service.diet_validator')
+                    ->setDietRule($rule)
+                    ->setDiet($newDiet)
+                    ->validate();
+            die;
+            
+            
+//            $createdDietRepository->calcDiet($dietRuleId, $user);
 
             $createdDiet = $rule->getCreatedDiet();
         }
