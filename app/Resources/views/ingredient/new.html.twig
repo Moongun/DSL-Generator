@@ -1,24 +1,46 @@
 {% extends 'base_logged.html.twig' %}
 
 {% block content %}
-    <h1 class="content_header">Składniki dla posiłku: {{ mealName }}</h1>
+<div class="container content">
+    <div class="row pb-5">
+        <div class="col-lg-12 text-center">
+            <span class="content-header">Składniki dla posiłku: {{ mealName }}</span>
+        </div>
+    </div>
 
-    <div>
-        <div>
-            {{ form_start(form) }}
-            {{ form_errors(form.quantity) }}
-            {{ form_widget(form.quantity, {'attr': {'placeholder': 'ilość', 'class':'fos_register_div'}}) }}
-            {{ form_errors(form.product) }}
-            {{ form_widget(form.product, {'attr': {'class': 'fos_register_div select'}}) }}
-            <input type="submit" value="Dodaj" class="fos_register_div submit form_submit"/>
-            {{ form_end(form) }}
+    {{ form_start(form) }}
+    <div class="row flex flex-jc-se">
+        <div class="item-fb-25">
+            {% if(form_errors(form.quantity)) %}
+                <div class="py-2 error">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    {{form_errors(form.quantity)}}
+                </div>
+            {% endif %}
+            <div class="">
+                {{form_widget(form.quantity, {'attr': {'placeholder': 'ilość', 'class':'form-field form-field-meal-name w-100'}})}}
+            </div>
+        </div>
+
+        <div class="item-fb-25">
+            {% if(form_errors(form.product)) %}
+                <div class="py-2 error">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    {{form_errors(form.product)}}
+                </div>
+            {% endif %}
+            <div class="">
+                {{form_widget(form.product, {'attr': {'placeholder': 'Wybierz produkt', 'class':'form-field form-field-meal-name w-100'}})}}
+            </div>
         </div>
     </div>
 
 
-{#    <ul>
-        <li>
-            <a href="{{ path('ingredient_index') }}">Back to the list</a>
-        </li>
-    </ul>#}
+    <div class="row mt-5">
+        <div class="col-lg-12 text-center">
+            <input type="submit" value="zapisz" class="button">
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
 {% endblock %}
