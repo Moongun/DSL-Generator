@@ -1,14 +1,25 @@
 {% extends 'base_logged.html.twig' %}
 
 {% block content %}
-    <div>
-        <a href="{{path('meal_new')}}">Dodaj kolejny posiłek</a>
+    <div class="container content">
+        <div class="row text-center">
+            <div class="col-lg-4">
+                <a class="basis-color" href="{{path('meal_new')}}">
+                    <div class="thanks-i"><i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+                    Dodaj kolejny posiłek
+                </a>
+            </div>
+            <div class="col-lg-4">
+                <a class="basis-color" href="{{path('ingredient_new', {'mealId': meal.id }) }}">
+                    <div class="thanks-i"><i class="fa fa-repeat" aria-hidden="true"></i></div>
+                    Dodaj kolejny składnik do posiłku {{ meal.name }}
+                </a>
+            </div>
+            <div class="col-lg-4">
+                <a class="basis-color" href="{{path('start')}}">
+                    <div class="thanks-i"><i class="fa fa-home" aria-hidden="true"></i></div>
+                Wróć do strony głównej</a>
+            </div>
+        </div>
     </div>
-    <div>
-        <a href="{{path('ingredient_new', {'mealId': meal.id }) }}">Dodaj kolejny składnik do posiłku {{ meal.name }}</a>
-    </div>
-    <div>
-        <a href="{{path('start')}}">Wróć do strony głównej</a>
-    </div>
-    
 {% endblock %}

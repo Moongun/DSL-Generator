@@ -198,3 +198,27 @@ select.ct-meal-product option {
 .values-summary {
     font-size: 2em;
 }
+
+select > option {
+    color: black;
+}
+
+.flex {
+    display:flex;
+}
+
+.flex-jc-se {
+    justify-content: space-evenly;
+}
+
+.flex > .item-fb-25 {
+    flex-basis: 25%;
+}
+
+.basis-color {
+    color: white;
+}
+
+.thanks-i {
+    font-size: 3em;
+}
