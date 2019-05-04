@@ -1,0 +1,135 @@
+    {% extends 'base_logged.html.twig' %}
+
+{% block content %}
+    <div class="container content">
+        <div class="sidebar">
+            <ul>
+                <li><a class="sidebar-a" href="{{ path('shopping_list', {'dietRuleId': dietRuleId })}}">generuj listę zakupową</a></li>
+                <li>
+                    <button id='printDiet' onclick='printDiv()' hidden>drukuj dietę</button>
+                    <label for='printDiet'>drukuj dietę</label>
+                </li>
+            </ul>
+        </div>
+        <div class="row pb-4">
+            <div class="col-lg-12 text-center">
+                <span class='content-header'>Stworzona dieta</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <span> Podsumowanie:</span>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-lg-3">
+                <span class='table-center'>średnie wartość energetyczna/dzień</span>
+            </div>
+            <div class="col-lg-3">
+                <span class='table-center'>szacowany koszt/miesiąc</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center'>średnie białko/dzień</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center'>średnie tłuszcz/dzień</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center'>średnie węglowodany/dzień</span>
+            </div>
+        </div>
+        <div class="row py-4 text-center values-summary">
+            <div class="col-lg-3">
+                <span class='table-center summary-table-td-padding'>{{ energy | number_format(0, '.', ' ') }} kcal</span>
+            </div>
+            <div class="col-lg-3">
+                <span class='table-center summary-table-td-padding'>{{ costs | number_format(0, '.', ' ') }} zł</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center summary-table-td-padding'>{{ proteins | number_format(0, '.', ' ') }} g</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center summary-table-td-padding'>{{ fats | number_format(0, '.', ' ') }} g</span>
+            </div>
+            <div class="col-lg-2"> 
+                <span class='table-center summary-table-td-padding'>{{ carbohydrates | number_format(0, '.', ' ') }} g</span>
+            </div>
+        </div>
+        <div class="row text-right">
+            <div class="col-lg-2">
+                <span class='table-center'>koszty tygodniowe</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center'>1 tydzień</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center'>2 tydzień</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center'>3 tydzień</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center'>4 tydzień</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center'>reszta miesiąca</span>
+            </div>
+        </div>
+        <div class="row text-right text-bold pb-5">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-2">
+                <span class='table-center summary-table-td-padding'>{{ firstWeek | number_format(0, '.', ' ') }} zł</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center summary-table-td-padding'>{{ secondWeek | number_format(0, '.', ' ') }} zł</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center summary-table-td-padding'>{{ thirdWeek | number_format(0, '.', ' ') }} zł</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center summary-table-td-padding'>{{ fourthWeek | number_format(0, '.', ' ') }} zł</span>
+            </div>
+            <div class="col-lg-2">
+                <span class='table-center summary-table-td-padding'>{{ restOfMonth | number_format(0, '.', ' ') }} zł</span>
+            </div>
+        </div>
+
+        <div id="diet">
+            <div class="row pt-5">
+                <div class="col-lg-2">
+                    <span class='table-center'>Dzień</span>
+                </div>
+                <div class="col-lg-2">
+                    <span class='table-center'>śniadanie</span>
+                </div>
+                <div class="col-lg-2">
+                    <span class='table-center'>brunch</span>
+                </div>
+                <div class="col-lg-2">
+                    <span class='table-center'>lunch</span>
+                </div>
+                <div class="col-lg-2">
+                    <span class='table-center'>obiad</span>
+                </div>
+                <div class="col-lg-2">
+                    <span class='table-center'>kolacja</span>
+                </div>
+            </div>
+            {% set counterMeal = 0 %}
+            {% for i in 1..30 %}
+                <div class="row">
+                    <div class="col-lg-2">
+                        <span>{{ i }}</span>
+                    </div>
+                    {% for meal in meals |slice(counterMeal, 5) %}
+                        <div class="col-lg-2">
+                            <span>{{ meal.name }}</span>
+                        </div>
+                    {% endfor %}
+                    {% set counterMeal = counterMeal + 5 %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock content %}
