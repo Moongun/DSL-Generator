@@ -24,3 +24,6 @@ fos_user:
 homepage:
     path: /home
     defaults: { _controller: DSLBundle:Default:index }
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
