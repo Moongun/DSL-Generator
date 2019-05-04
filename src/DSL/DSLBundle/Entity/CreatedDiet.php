@@ -22,11 +22,11 @@ class CreatedDiet
     private $id;
 
     /**
-     * @var \DateTime
+     * @var int
      *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="day", type="integer")
      */
-    private $date;
+    private $day;
     
     /**
      * @ORM\ManyToOne(targetEntity="DietRules", inversedBy="createdDiet")
@@ -43,12 +43,6 @@ class CreatedDiet
     private $meal;
     
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    private $userId;
-    
-    /**
      * Get id
      *
      * @return integer 
@@ -59,26 +53,26 @@ class CreatedDiet
     }
 
     /**
-     * Set date
+     * Set day
      *
-     * @param \DateTime $date
-     * @return CreatedDiet
+     * @param integer $day
+     * @return this
      */
-    public function setDate($date)
+    public function setDay($day)
     {
-        $this->date = $date;
+        $this->day = $day;
 
         return $this;
     }
 
     /**
-     * Get date
+     * Get day
      *
-     * @return \DateTime 
+     * @return integer
      */
-    public function getDate()
+    public function getDay()
     {
-        return $this->date;
+        return $this->day;
     }
 
     /**
@@ -87,7 +81,7 @@ class CreatedDiet
      * @param \DSL\DSLBundle\Entity\DietRules $dietRules
      * @return CreatedDiet
      */
-    public function setDietRules(\DSL\DSLBundle\Entity\DietRules $dietRules = null)
+    public function setDietRules(\DSL\DSLBundle\Entity\DietRules $dietRules)
     {
         $this->dietRules = $dietRules;
 
@@ -110,7 +104,7 @@ class CreatedDiet
      * @param \DSL\DSLBundle\Entity\Meal $meal
      * @return CreatedDiet
      */
-    public function setMeal(\DSL\DSLBundle\Entity\Meal $meal = null)
+    public function setMeal(\DSL\DSLBundle\Entity\Meal $meal)
     {
         $this->meal = $meal;
 
@@ -126,16 +120,4 @@ class CreatedDiet
     {
         return $this->meal;
     }
-  
-    function getUserId() {
-        return $this->userId;
-    }
-
-    function setUserId($userId) {
-        $this->userId = $userId;
-    }
-
-
-
-
 }
