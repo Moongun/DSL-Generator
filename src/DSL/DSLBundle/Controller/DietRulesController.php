@@ -49,7 +49,8 @@ class DietRulesController extends Controller
             $dietRule->setUser($this->getUser());
             $em->persist($dietRule);
             $em->flush($dietRule);
-            return $this->redirectToRoute('createddiet_show', array('dietRuleId' => $dietRule->getId()));
+//            return $this->redirectToRoute('createddiet_show', array('dietRuleId' => $dietRule->getId()));
+            return $this->redirectToRoute('createddiet_generate', array('id' => $dietRule->getId()));
         }
 
         return $this->render('dietRules/new.html.twig', array(
@@ -64,13 +65,10 @@ class DietRulesController extends Controller
      * @Route("/{id}", name="diet_rules_show")
      * @Method("GET")
      */
-    public function showAction($dietRule)
+    public function showAction(DietRules $dietRule)
     {
-        $deleteForm = $this->createDeleteForm($dietRule);
-
         return $this->render('dietRules/show.html.twig', array(
-            'diet_rule' => $dietRule,
-            'delete_form' => $deleteForm->createView(),
+            'diet_rule' => $dietRule
         ));
     }
 
@@ -102,36 +100,14 @@ class DietRulesController extends Controller
     /**
      * Deletes a diet_rule entity.
      *
-     * @Route("/{id}", name="diet_rules_delete")
-     * @Method("DELETE")
+     * @Route("/delete/{id}", name="diet_rules_delete")
      */
-    public function deleteAction(Request $request, $dietRule)
+    public function deleteAction(Request $request, DietRules $dietRule)
     {
-        $form = $this->createDeleteForm($dietRule);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($dietRule);
-            $em->flush($dietRule);
-        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($dietRule);
+        $entityManager->flush();
 
         return $this->redirectToRoute('diet_rules_index');
-    }
-
-    /**
-     * Creates a form to delete a diet_rule entity.
-     *
-     * @param diet_rules $diet_rule The diet_rule entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($dietRule)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('diet_rules_delete', array('id' => $dietRule->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
     }
 }
