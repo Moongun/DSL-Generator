@@ -3,9 +3,12 @@
 namespace DSL\DSLBundle\Controller;
 
 use DSL\DSLBundle\Entity\CreatedDiet;
+use DSL\DSLBundle\Entity\DietRules;
+use GuzzleHttp\Psr7\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use DSL\DSLBundle\Entity\Meal;
 
@@ -23,7 +26,7 @@ class CreatedDietController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
-        $createdDiet = new Createddiet();
+        $createdDiet = new CreatedDiet();
         $form = $this->createForm('DSL\DSLBundle\Form\CreatedDietType', $createdDiet);
         $form->handleRequest($request);
 
@@ -42,30 +45,97 @@ class CreatedDietController extends Controller {
     }
 
     /**
+     * Generate diet
+     *
+     * @Route("/generate/{id}", name="createddiet_generate")
+     */
+    public function generateAction(DietRules $dietRule) {
+        $createdDietRepository = $this->getDoctrine()->getRepository('DSLBundle:CreatedDiet');
+        $createdDiet = $createdDietRepository->findBy(['dietRules' => $dietRule]);
+
+        if($createdDiet) {
+            $this->redirectToRoute('createddiet_show', ['dietRuleId' => $dietRule->getId()]);
+        }
+
+        $dietGenerator = $this->get('service.diet_generator');
+        $createdDiet = $dietGenerator->generate($dietRule);
+
+        return $this->render('createddiet\generate.html.twig', [
+            'diet' => $createdDiet,
+            'dietRule' => $dietRule
+        ]);
+
+die;
+//        $dietValidator = $this->get('service.diet_validator')
+//            ->setDietRule($dietRule)
+//            ->setDiet($createdDiet)
+//            ->validate();
+//        die;
+//
+//        $createdDietRepository->calcDiet($dietRuleId, $user);
+//
+//        $createdDiet = $rule->getCreatedDiet();
+    }
+
+    /**
+     * Save diet.
+     *
+     * @Route("/save/", options={"expose"=true}, name="createddiet_save")
+     */
+    public function saveAction(Request $request) {
+        $ruleId = (int) $request->request->get('rule');
+
+        $em = $this->getDoctrine()->getManager();
+        $dietRulesRepository = $this->getDoctrine()->getRepository('DSLBundle:DietRules');
+        $dietRule = $dietRulesRepository->find($ruleId);
+        $createdDietRepository = $this->getDoctrine()->getRepository('DSLBundle:CreatedDiet');
+        $createdDiet = $createdDietRepository->findBy(['dietRules' => $dietRule]);
+        if ($createdDiet) {
+            throw new \Exception(sprintf('There is created diet for this rule (id = %s)', $ruleId));
+        }
+
+        $diet = $request->request->get('diet');
+        $mealRepository = $this->getDoctrine()->getRepository('DSLBundle:Meal');
+
+        foreach($diet as $day => $mealIds) {
+            foreach($mealIds as $mealId){
+                $meal = $mealRepository->find((int) $mealId);
+
+                $createdDiet = new CreatedDiet();
+                $createdDiet->setDietRules($dietRule)
+                    ->setMeal($meal)
+                    ->setDay((int) $day);
+
+                $em->persist($createdDiet);
+            }
+        }
+        $em->flush();
+
+        return new JsonResponse('ok', 200);
+    }
+
+    /**
      * Finds and displays a createdDiet entity.
      *
-     * @Route("/{dietRuleId}", name="createddiet_show")
+     * @Route("/{dietRuleId}", options={"expose"=true}, name="createddiet_show")
      * @Method("GET")
      */
     public function showAction($dietRuleId) {
-        //getting to repo of diet_rules
-        $ruleRepo = $this->getDoctrine()->getRepository('DSLBundle:DietRules');
+        $ruleRepository = $this->getDoctrine()->getRepository('DSLBundle:DietRules');
         $user = $this->getUser();
 
-        //finding single meal
-        $rule = $ruleRepo->findOneById($dietRuleId);
+        $rule = $ruleRepository->findOneBy([
+            'id' => $dietRuleId,
+            'user' => $user
+        ]);
 
         $createdDiet = $rule->getCreatedDiet();
-//        
-        //creating new diet
-        if (!count($createdDiet)) {
-            $repoCreate = $this->getDoctrine()->getRepository('DSLBundle:CreatedDiet');
-            $repoCreate->calcDiet($dietRuleId, $user);
 
-            $createdDiet = $rule->getCreatedDiet();
+        if (!count($createdDiet)) {
+            throw $this->createNotFoundException(sprintf('There is no created diet for given rule (rule_id = %s)', $dietRuleId));
         }
 
-        $repoMeal = $this->getDoctrine()->getRepository('DSLBundle:Meal');
+        $mealRepository = $this->getDoctrine()->getRepository('DSLBundle:Meal');
 
         $arrayWithMealIds = [];
         foreach ($createdDiet as $meal) {
@@ -73,6 +143,7 @@ class CreatedDietController extends Controller {
             $arrayWithMealIds[] = $mealId;
         }
 
+        dump($createdDiet);
         $meals = [];
         $energy = 0;
         $proteins = 0;
@@ -88,10 +159,10 @@ class CreatedDietController extends Controller {
         foreach ($arrayWithMealIds as $singleId) {
             $counter++;
 
-            $meal = $repoMeal->findOneById($singleId);
+            $meal = $mealRepository->findOneById($singleId);
             $meals[] = $meal;
 
-            $energy = $energy + $meal->getEnergyValueKcal();
+            $energy = $energy + $meal->getEnergyKcal();
             $proteins = $proteins + $meal->getProteinG();
             $fats = $fats + $meal->getFatG();
             $carbohydrates = $carbohydrates + $meal->getCarbohydratesG();
@@ -168,25 +239,28 @@ class CreatedDietController extends Controller {
      * 
      */
     public function deleteAction(Request $request, $id) {
-//        $repo = $this->getDoctrine()->getRepository('DSLBundle:CreatedDiet');
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery("SELECT diet FROM DSLBundle:CreatedDiet diet WHERE diet.dietRules=$id");
-        $results = $query->getResult();
-        foreach ($results as $result) {
-            $em->remove($result);
-            $em->flush($result);
-        }
+//        $createdDiet =
 
-//        $form = $this->createDeleteForm($createdDiet);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-////            $em = $this->getDoctrine()->getManager();
-//            $em->remove($createdDiet);
-//            $em->flush($createdDiet);
+//        $query = $em->createQuery("SELECT diet FROM DSLBundle:CreatedDiet diet WHERE diet.dietRules=$id");
+//        $results = $query->getResult();
+//        foreach ($results as $result) {
+//            $em->remove($result);
+//            $em->flush($result);
 //        }
 
-        return $this->redirectToRoute('createddiet_index');
+//        $createdDiets = $query->getResult();
+//        foreach ($createdDiets as $createdDiet) {
+//            $form = $this->createDeleteForm($createdDiet);
+//            $form->handleRequest($request);
+//            if ($form->isSubmitted() && $form->isValid()) {
+//                $em = $this->getDoctrine()->getManager();
+//                $em->remove($createdDiet);
+//                $em->flush($createdDiet);
+//            }
+//        }
+
+        return $this->redirectToRoute('diet_rules_index');
     }
 
     /**

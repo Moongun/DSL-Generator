@@ -2,134 +2,224 @@
 
 {% block content %}
     <div class="container content">
-        <div class="sidebar">
-            <ul>
-                <li><a class="sidebar-a" href="{{ path('shopping_list', {'dietRuleId': dietRuleId })}}">generuj listę zakupową</a></li>
-                <li>
-                    <button id='printDiet' onclick='printDiv()' hidden>drukuj dietę</button>
-                    <label for='printDiet'>drukuj dietę</label>
-                </li>
-            </ul>
-        </div>
         <div class="row pb-4">
             <div class="col-lg-12 text-center">
-                <span class='content-header'>Stworzona dieta</span>
+                <span class='content-header'>Propozycja diety</span>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
-                <span> Podsumowanie:</span>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col-lg-3">
-                <span class='table-center'>średnie wartość energetyczna/dzień</span>
-            </div>
-            <div class="col-lg-3">
-                <span class='table-center'>szacowany koszt/miesiąc</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>średnie białko/dzień</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>średnie tłuszcz/dzień</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>średnie węglowodany/dzień</span>
-            </div>
-        </div>
-        <div class="row py-4 text-center values-summary">
-            <div class="col-lg-3">
-                <span class='table-center summary-table-td-padding'>{{ energy | number_format(0, '.', ' ') }} kcal</span>
-            </div>
-            <div class="col-lg-3">
-                <span class='table-center summary-table-td-padding'>{{ costs | number_format(0, '.', ' ') }} zł</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ proteins | number_format(0, '.', ' ') }} g</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ fats | number_format(0, '.', ' ') }} g</span>
-            </div>
-            <div class="col-lg-2"> 
-                <span class='table-center summary-table-td-padding'>{{ carbohydrates | number_format(0, '.', ' ') }} g</span>
-            </div>
-        </div>
-        <div class="row text-right">
-            <div class="col-lg-2">
-                <span class='table-center'>koszty tygodniowe</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>1 tydzień</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>2 tydzień</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>3 tydzień</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>4 tydzień</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>reszta miesiąca</span>
-            </div>
-        </div>
-        <div class="row text-right text-bold pb-5">
-            <div class="col-lg-2"></div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ firstWeek | number_format(0, '.', ' ') }} zł</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ secondWeek | number_format(0, '.', ' ') }} zł</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ thirdWeek | number_format(0, '.', ' ') }} zł</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ fourthWeek | number_format(0, '.', ' ') }} zł</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ restOfMonth | number_format(0, '.', ' ') }} zł</span>
+            <div class="col-lg-12 text-center">
+                <span> Poniżej została wygenerowana dla ciebie dieta. Sprawdź czy ci się podoba, poustawiaj dni według
+                    własnej kolejności i potwierdź. Klikając w posiłek podejrzysz jego szczegóły a najeżdżając na dzień,
+                    wyświetlisz dzienne podsumowanie.</span>
             </div>
         </div>
 
-        <div id="diet">
-            <div class="row pt-5">
-                <div class="col-lg-2">
-                    <span class='table-center'>Dzień</span>
-                </div>
-                <div class="col-lg-2">
-                    <span class='table-center'>śniadanie</span>
-                </div>
-                <div class="col-lg-2">
-                    <span class='table-center'>brunch</span>
-                </div>
-                <div class="col-lg-2">
-                    <span class='table-center'>lunch</span>
-                </div>
-                <div class="col-lg-2">
-                    <span class='table-center'>obiad</span>
-                </div>
-                <div class="col-lg-2">
-                    <span class='table-center'>kolacja</span>
+        <style>
+            .vertical-align-middle {
+                vertical-align: middle !important;
+            }
+
+            .ui-dialog .ui-dialog-content {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            /*tr.day {*/
+            /*    cursor: grab;*/
+            /*}*/
+        </style>
+
+        <table id="diet" class="table" data-rule="{{ dietRule.id }}">
+            <thead class="text-center">
+            <tr>
+                <th rowspan="2" class="vertical-align-middle">dzień</th>
+                <th colspan="5">posiłek</th>
+            </tr>
+            <tr>
+                <th>śniadanie</th>
+                <th>brunch</th>
+                <th>lunch</th>
+                <th>obiad</th>
+                <th>kolacja</th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for day, meals in diet %}
+                <tr class="day">
+                    <td data-day = {{ day }} class="day-td" title="">{{ day }}</td>
+                    {% for meal in meals %}
+                        {%  set details = {
+                            'id': meal.id,
+                            'name': meal.name,
+                            'type': meal.type,
+                            'energy': meal.energyKcal,
+                            'protein': meal.proteinG,
+                            'carbohydrates': meal.carbohydratesG,
+                            'fat': meal.fatG,
+                            'description': meal.description
+                        } %}
+                    <td data-meal="{{ meal.id }}"  data-details="{{ details | json_encode() }}" class="meal">{{ meal.name }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="row py-4 text-center">
+            <div class="col-lg-3 offset-lg-3">
+                <div id="save-diet" class="button button-center">
+                    {#                    <a href="#" class="form_submit link-create-diet">#}
+                    Jest ok, zapisujemy
+                    {#                    </a>#}
                 </div>
             </div>
-            {% set counterMeal = 0 %}
-            {% for i in 1..30 %}
-                <div class="row">
-                    <div class="col-lg-2">
-                        <span>{{ i }}</span>
-                    </div>
-                    {% for meal in meals |slice(counterMeal, 5) %}
-                        <div class="col-lg-2">
-                            <span>{{ meal.name }}</span>
-                        </div>
-                    {% endfor %}
-                    {% set counterMeal = counterMeal + 5 %}
+            <div class="col-lg-3">
+                <div id="refresh-diet" class="button button-center">
+                    {#                    <a href="#" class="form_submit link-create-diet">#}
+                    Spróbujmy inną
+                    {#                    </a>#}
                 </div>
-            {% endfor %}
+            </div>
         </div>
     </div>
 
+    <div id="dialog"></div>
 {% endblock content %}
+
+    {% block javascripts %}
+        {{ parent() }}
+
+        <script>
+            $(document).ready(function(){
+                var dietTable = $('table#diet');
+                var BodyDietTable = $('table#diet tbody');
+
+                BodyDietTable .sortable();
+
+                var refresh = $('#refresh-diet');
+
+                refresh.on('click', function(e) {
+                    location.reload();
+                })
+
+                var rule = dietTable.data('rule');
+                var save = $('#save-diet');
+
+                save.on('click', function (e) {
+                    var days = dietTable.find('.day');
+                    var state = getState(days);
+
+                    $.ajax({
+                        method: 'POST',
+                        url: Routing.generate('createddiet_save'),
+                        data: {
+                            rule: rule,
+                            diet: state
+                        }
+                    }).done(function(msg){
+                        location.href = Routing.generate('createddiet_show', {'dietRuleId': rule})
+                    }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+                        console.error(textStatus + ' ' + errorThrown);
+                    })
+                })
+
+                function getState(days) {
+                    var state = {};
+
+                    days.each(function(index){
+                        var dayTr = $(days[index]);
+                        var day = index+1;
+
+                        var meals = dayTr.find('.meal')
+
+                        // daysMealsIds (position in array): 0-breakfast, 1-brunch, 2-lunch, 3-dinner, 4-supper
+                        var dayMealIds = [];
+                        meals.each(function(i){
+                            var mealTd = $(meals[i]);
+                            var meal = mealTd.data('meal');
+                            dayMealIds[i] = meal
+                        })
+                        state[day] = dayMealIds
+                    })
+
+                    return state
+                }
+
+                var meals = $('.meal');
+
+                meals.on('click', function (e) {
+                    var meal = $(this);
+                    var details = meal.data('details');
+                    var dialog = $(document.createElement('div'));
+
+                    dialog.html(function(){
+                        return `<div class="container">
+                                <div class="row">
+                                    <div class="col-lg-5">typ:</div>
+                                    <div class="col-lg-7">${details.type}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-5">wartość energetyczna [kcal]:</div>
+                                    <div class="col-lg-7">${details.energy}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-5">białko [g]:</div>
+                                    <div class="col-lg-7">${details.protein}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-5">węglowodany [g]:</div>
+                                    <div class="col-lg-7">${details.carbohydrates}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-5">tłuszcze [g]:</div>
+                                    <div class="col-lg-7">${details.fat}</div>
+                                </div>
+                                <div class="pt-4">przygotowanie:</div>
+                                <div>${details.description}</div>
+                            </div>`
+                        });
+                    dialog.dialog({
+                        'modal':true,
+                        'title':details.name,
+                        'width': 600
+                    });
+                })
+
+                var dayTds = $('.day').children('.day-td');
+                dayTds.hover(
+                    function() {
+                        var dayMeals = $(this).parent().children('.meal');
+                        var summary = getDaySummary(dayMeals)
+                        $(this).attr('title',
+`Podsumowanie dnia:
+wartość energetyczna: ${summary.energy} kcal/dzień
+białko: ${summary.protein} g/dzień
+węglowodany: ${summary.carbohydrates} g/dzień
+tłuszcze: ${summary.fat} g/dzień`);
+
+                        $(this).tooltip({
+                            "track": true
+                        })
+
+                    }, function() {
+                        return;
+                });
+
+                function getDaySummary(meals) {
+
+                    var summary = {'energy': 0, 'protein': 0, 'carbohydrates': 0, 'fat': 0};
+                    meals.each(function(i) {
+                        var meal = $(meals[i]);
+                        var details = meal.data('details');
+                        summary.energy += details.energy;
+                        summary.protein += details.protein;
+                        summary.carbohydrates += details.carbohydrates;
+                        summary.fat += details.fat;
+                    })
+                    return summary;
+                }
+            })
+
+        </script>
+    {% endblock javascripts %}
