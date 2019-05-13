@@ -1,16 +1,3 @@
-$(function () {
-    console.log("DOM załadowany");
-
-//load full info about meal
-    $('.expand').on('click', function () {
-        $(this).find('div').fadeToggle('slow');
-    });
-
-
-
-
-});
-
 //JAVASCRIPT
 function printDiv()
 {
