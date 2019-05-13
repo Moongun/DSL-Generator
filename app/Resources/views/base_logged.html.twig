@@ -1,45 +1,45 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>{% block title %}DSL Generator{% endblock %}</title>
-        {% block stylesheets %}
-            {% stylesheets '@DSLBundle/Resources/public/css/*' filter='cssrewrite' %}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}DSL Generator{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    {% block stylesheets %}
+        {% stylesheets '@DSLBundle/Resources/public/css/*' filter='cssrewrite' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
-            {% endstylesheets %}
-        {% endblock %}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {% endstylesheets %}
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
-        {#        fix do logowania przez fb #}
-        <script type="text/javascript">
-            if (window.location.hash && window.location.hash == '#_=_') {
-                if (window.history && history.pushState) {
-                    window.history.pushState("", document.title, window.location.pathname);
-                } else {
-                    // Prevent scrolling by storing the page's current scroll offset
-                    var scroll = {
-                        top: document.body.scrollTop,
-                        left: document.body.scrollLeft
-                    };
-                    window.location.hash = '';
-                    // Restore the scroll offset, should be flicker free
-                    document.body.scrollTop = scroll.top;
-                    document.body.scrollLeft = scroll.left;
-                }
+    {#        fix do logowania przez fb #}
+    <script type="text/javascript">
+        if (window.location.hash && window.location.hash == '#_=_') {
+            if (window.history && history.pushState) {
+                window.history.pushState("", document.title, window.location.pathname);
+            } else {
+                // Prevent scrolling by storing the page's current scroll offset
+                var scroll = {
+                    top: document.body.scrollTop,
+                    left: document.body.scrollLeft
+                };
+                window.location.hash = '';
+                // Restore the scroll offset, should be flicker free
+                document.body.scrollTop = scroll.top;
+                document.body.scrollLeft = scroll.left;
             }
-        </script>
-    </head>
-    <body>
+        }
+    </script>
+</head>
+<body>
         {% image '@DSLBundle/Resources/public/images/background_logged.jpeg'
-            output='/images/background_logged.jpg' %}
+            output='/images/background_logged.jpeg' %}
 {#            <img src="{{ asset_url }}" alt="Example" />#}
         {% endimage %}
-        <style> 
-            body {background-image: url("/images/background_logged.jpg");}
+        <style>
+            body {background-image: url("/images/background_logged.jpeg");}
         </style>
         {% image '@DSLBundle/Resources/public/images/plates.jpeg'%}
             <img src="{{ asset_url }}" alt='plates' class='top-img'>
@@ -50,18 +50,15 @@
             {% block content %}{% endblock content %}
             {% block footer %}{% include 'block/footer.html.twig' %}{% endblock footer %}
         {% endblock %}
-        
-        {% block javascripts %}
-{#            {% javascripts  '@DSLBundle/Resources/public/js/jquery-3.2.1.min.js' #}
-{#                                '@DSLBundle/Resources/public/js/*' %}#}
-            {% javascripts  '@DSLBundle/Resources/public/js/*' %}
 
-            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-            <script type="text/javascript" src="{{ asset_url }}"></script>
-            <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
-            <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+        {% block javascripts %}
+            {% javascripts
+                '@DSLBundle/Resources/public/js/jquery-3.4.1.min.js'
+                '@DSLBundle/Resources/public/js/jquery-ui.min.js'
+                '@DSLBundle/Resources/public/js/*' %}
+                <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+                <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+                <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
 </body>
