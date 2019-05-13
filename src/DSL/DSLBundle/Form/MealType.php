@@ -69,7 +69,7 @@ class MealType extends AbstractType
                         ))
                     )
                 ))
-                ->add('energyValueKcal', NumberType::class, array(
+                ->add('energyKcal', NumberType::class, array(
                     'required'          => false,
                     'invalid_message'   => self::INVALID_NUM_MSG,
                     'constraints'   => array(
