@@ -72,10 +72,10 @@
                 <div class="row pb-3">
                     <div class="col-lg-12">
                         <div class="row pb-3">
-                            {% if(form_errors(form.energyValueKcal)) %}
+                            {% if(form_errors(form.energyKcal)) %}
                                 <div class="col-lg-6 py-2 error">
                                     <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                    {{form_errors(form.energyValueKcal)}}
+                                    {{form_errors(form.energyKcal)}}
                                 </div>
                             {% else %}
                                 <div class="col-lg-6"></div>
@@ -91,7 +91,7 @@
                         </div>
                         <div class="row pb-3 text-right">
                             <div class="col-lg-6">
-                                {{ form_widget(form.energyValueKcal, {'attr': {'placeholder': 'kcal', 'class':'form-field form-field-enav'}}) }}
+                                {{ form_widget(form.energyKcal, {'attr': {'placeholder': 'kcal', 'class':'form-field form-field-enav'}}) }}
                             </div>
                             <div class="col-lg-6">
                                 {{ form_widget(form.averageCost, {'attr': {'placeholder': 'zł', 'class':'form-field form-field-enav'}}) }}
