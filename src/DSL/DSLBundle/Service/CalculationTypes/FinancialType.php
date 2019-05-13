@@ -6,13 +6,8 @@ use DSL\DSLBundle\Form\MealType;
 use DSL\DSLBundle\Service\CalculationTypes\CalculationTypeInterface;
 use DSL\DSLBundle\Service\MealTypes;
 
-class CompositionType implements CalculationTypeInterface
+class FinancialType implements CalculationTypeInterface
 {
-    const ENERGY        = 'energy';
-    const PROTEIN       = 'protein';
-    const CARBOHYDRATES ='carbohydrates';
-    const FAT           = 'fat';
-
     private $meals;
     private $dietRule;
     private $diet;
@@ -33,31 +28,21 @@ class CompositionType implements CalculationTypeInterface
 
     public function calculate()
     {
-        $rules = $this->getFilledRules();
+        $rule = $this->dietRule->getMonthlyCost();
         $diet = [];
         $day = 1;
         do {
             $dayMeals = $this->getDayMeals();
 
-            $dayValues = [
-                self::ENERGY        => 0,
-                self::PROTEIN       => 0,
-                self::CARBOHYDRATES => 0,
-                self::FAT           => 0
-            ];
+            $financialValues = 0;
 
             foreach($dayMeals as $dayMeal) {
-                $dayValues[self::ENERGY]        += $dayMeal->getEnergyKcal();
-                $dayValues[self::PROTEIN]       += $dayMeal->getProteinG();
-                $dayValues[self::CARBOHYDRATES] += $dayMeal->getCarbohydratesG();
-                $dayValues[self::FAT]           += $dayMeal->getFatG();
+                $financialValues += $dayMeal->getAverageCost();
             }
 
             $validDayMeals = true;
-            foreach ($rules as $rule => $value) {
-                if ($value < $dayValues[$rule]) {
-                    $validDayMeals = false;
-                }
+            if ($rule < $financialValues) {
+                $validDayMeals = false;
             }
 
             if ($validDayMeals) {
@@ -102,23 +87,5 @@ class CompositionType implements CalculationTypeInterface
             4 => $meals[MealTypes::DINNER][0],
             5 => $meals[MealTypes::SUPPER][0]
         ];
-    }
-
-    private function getFilledRules()
-    {
-        $rules = [];
-        if ($this->dietRule->getDailyCaloriesRequirementsKcal()) {
-            $rules[self::ENERGY] = $this->dietRule->getDailyCaloriesRequirementsKcal();
-        }
-        if ($this->dietRule->getDailyProteinRequirementsG()) {
-            $rules[self::PROTEIN] = $this->dietRule->getDailyProteinRequirementsG();
-        }
-        if ($this->dietRule->getDailyCarbohydratesRequirementsG()) {
-            $rules[self::CARBOHYDRATES] = $this->dietRule->getDailyCarbohydratesRequirementsG();
-        }
-        if ($this->dietRule->getDailyFatRequirementsG()) {
-            $rules[self::FAT] = $this->dietRule->getDailyFatRequirementsG();
-        }
-        return $rules;
     }
 }

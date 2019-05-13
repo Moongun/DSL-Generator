@@ -82,6 +82,10 @@ $(document).ready(function(){
                                     <div class="col-lg-5">tłuszcze [g]:</div>
                                     <div class="col-lg-7">${details.fat}</div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-5">średni koszt [zł]:</div>
+                                    <div class="col-lg-7">${details.avgCost}</div>
+                                </div>
                                 <div class="pt-4">przygotowanie:</div>
                                 <div>${details.description}</div>
                             </div>`
@@ -103,7 +107,8 @@ $(document).ready(function(){
 wartość energetyczna: ${summary.energy} kcal/dzień
 białko: ${summary.protein} g/dzień
 węglowodany: ${summary.carbohydrates} g/dzień
-tłuszcze: ${summary.fat} g/dzień`);
+tłuszcze: ${summary.fat} g/dzień
+średni koszt: ${summary.avgCost} zł`);
 
             $(this).tooltip({
                 "track": true
@@ -115,7 +120,7 @@ tłuszcze: ${summary.fat} g/dzień`);
 
     function getDaySummary(meals) {
 
-        var summary = {'energy': 0, 'protein': 0, 'carbohydrates': 0, 'fat': 0};
+        var summary = {'energy': 0, 'protein': 0, 'carbohydrates': 0, 'fat': 0, 'avgCost': 0};
         meals.each(function(i) {
             var meal = $(meals[i]);
             var details = meal.data('details');
@@ -123,6 +128,7 @@ tłuszcze: ${summary.fat} g/dzień`);
             summary.protein += details.protein;
             summary.carbohydrates += details.carbohydrates;
             summary.fat += details.fat;
+            summary.avgCost = (parseFloat(summary.avgCost)+parseFloat(details.avgCost)).toFixed(2);
         })
         return summary;
     }
