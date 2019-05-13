@@ -95,7 +95,7 @@ class DietRules
     private $inInterval;
     
     /**
-     * @ORM\OneToMany(targetEntity="CreatedDiet", mappedBy="dietRules")
+     * @ORM\OneToMany(targetEntity="CreatedDiet", mappedBy="dietRules", cascade={"remove"   })
      * @var type 
      */
     private $createdDiet;
