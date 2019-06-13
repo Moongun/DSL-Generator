@@ -101,13 +101,6 @@ class DietRules
     private $createdDiet;
     
     /**
-     * @var int
-     * 
-     * @ORM\Column(name="base", type="integer", nullable=false)
-     */
-    private $base;
-    
-    /**
      * @var \DateTime
      * 
      * @ORM\Column(name="created_date", type="date")
@@ -345,14 +338,6 @@ class DietRules
         return $this->inInterval;
     }
     
-    function getBase() {
-        return $this->base;
-    }
-
-    function setBase($base) {
-        $this->base = $base;
-    }
-
     /**
      * Constructor
      */

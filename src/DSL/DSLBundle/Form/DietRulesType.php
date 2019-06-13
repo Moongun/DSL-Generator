@@ -110,27 +110,7 @@ class DietRulesType extends AbstractType {
                     'placeholder' => 'wybierz produkt',
                     'empty_data' => null))
                 ->add('repetition')
-                ->add('inInterval')
-                ->add('base', ChoiceType::class, array(
-                    'choices' => array(
-                        0 => 'Baza podstawowa',
-                        1 => 'Biedronka',
-                        2 => 'Lidl'
-                    ),
-                    'placeholder' => 'Wybierz bazę posiłków',
-                    'expanded' => true,
-                    'multiple' => false,
-                    'choice_attr' => function($value, $key, $index) {
-                        if ($key != 0) {
-                            return [
-                                'class' => 'condition-four',
-                                'disabled' => 'disabled'
-                            ];
-                        } else {
-                            return ['class' => 'condition-four'];
-                        }
-                    }
-                ));
+                ->add('inInterval');
     }
 
     /**
