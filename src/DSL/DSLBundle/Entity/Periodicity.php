@@ -107,14 +107,26 @@ class Periodicity
     {
         return $this->dietRule;
     }
-    
+
+    /**
+     * Set cycle.
+     *
+     * @param int $cycle
+     *
+     * @return $this
+     */
     public function setCycle(int $cycle)
     {
         $this->cycle = $cycle;
         
         return $this;
     }
-    
+
+    /**
+     * Get cycle.
+     *
+     * @return int
+     */
     public function getCycle()
     {
         return $this->cycle;
