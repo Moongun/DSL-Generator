@@ -49,7 +49,6 @@ class DietRulesController extends Controller
             $dietRule->setUser($this->getUser());
             $em->persist($dietRule);
             $em->flush($dietRule);
-//            return $this->redirectToRoute('createddiet_show', array('dietRuleId' => $dietRule->getId()));
             return $this->redirectToRoute('createddiet_generate', array('id' => $dietRule->getId()));
         }
 
