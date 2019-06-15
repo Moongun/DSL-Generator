@@ -2,6 +2,7 @@
 
 namespace DSL\DSLBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -95,6 +96,17 @@ class Meal
      * @ORM\Column(name="base", type="integer", nullable=false)
      */
     private $base;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Periodicity", mappedBy="product")
+     */
+    private $periodicities;
+
+    public function __construct()
+    {
+        $this->ingredients = new ArrayCollection();
+        $this->periodicities = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -288,13 +300,6 @@ class Meal
     public function getAverageCost()
     {
         return $this->averageCost;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->ingredients = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

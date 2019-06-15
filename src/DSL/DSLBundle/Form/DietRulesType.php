@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use DSL\DSLBundle\Form\PeriodicityType;
 
 class DietRulesType extends AbstractType {
 
@@ -24,21 +26,7 @@ class DietRulesType extends AbstractType {
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-//        $mealRepository = $this->getDoctrine()->getRepository('DSLBundle:Meal');
-////        $meals = $mealRepository-> findAll();
-//        
-//        $em = $this->getDoctrine()->getManager();
-//
-//        $meals = $em->getRepository('DSLBundle:Meal')->findAll();
-////        $mealsRepo-> $this->getDoctrine()->getEntityManager()-> getRepository('DSLBundle:Meal')->findAll();
-//        $mealNames=[];
-//
-//        foreach($mealsRepo as $meal){
-//            $mealName = $meal->getName();
-//            $mealNames[]=$mealName;
-//        }
-//        var_dump($meals);
-//        
+
         $builder->add('dailyCaloriesRequirementsKcal', NumberType::class, array(
             'required' => false,
             'scale' => 0,
@@ -89,28 +77,13 @@ class DietRulesType extends AbstractType {
                                 ))
                     )
                 ))
-                ->add('whichMeal', EntityType::class, array(
-                    'class' => 'DSLBundle:Meal',
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('meal')
-                                ->orderBy('meal.name', 'ASC');
-                    },
-                    'choice_label' => 'name',
-                    'required' => false,
-                    'placeholder' => 'Wybierz posiłek',
-                    'empty_data' => null))
-                ->add('whichProduct', EntityType::class, array(
-                    'class' => 'DSLBundle:Product',
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('product')
-                                ->orderBy('product.name', 'ASC');
-                    },
-                    'choice_label' => 'name',
-                    'required' => false,
-                    'placeholder' => 'wybierz produkt',
-                    'empty_data' => null))
-                ->add('repetition')
-                ->add('inInterval');
+                ->add('periodicities', CollectionType::class, [
+                    'entry_type' => PeriodicityType::class,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false
+                ])
+                            ;
     }
 
     /**

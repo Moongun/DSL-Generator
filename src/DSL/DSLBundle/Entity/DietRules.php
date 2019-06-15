@@ -3,6 +3,8 @@
 namespace DSL\DSLBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use DSL\DSLBundle\Entity\Periodicity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * diet_rules
@@ -67,35 +69,7 @@ class DietRules
     private $monthlyCost;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="which_meal", type="string", length=255, nullable=true)
-     */
-    private $whichMeal;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="which_product", type="string", length=255, nullable=true)
-     */
-    private $whichProduct;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="repetition", type="integer", nullable=true)
-     */
-    private $repetition;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="in_interval", type="integer", nullable=true)
-     */
-    private $inInterval;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="CreatedDiet", mappedBy="dietRules", cascade={"remove"   })
+     * @ORM\OneToMany(targetEntity="CreatedDiet", mappedBy="dietRules", cascade={"remove"})
      * @var type 
      */
     private $createdDiet;
@@ -106,7 +80,22 @@ class DietRules
      * @ORM\Column(name="created_date", type="date")
      */
     private $createdDate;
-
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Periodicity", mappedBy="dietRule", cascade={"persist", "remove"})
+     */
+    private $periodicities;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->createdDiet = new ArrayCollection();
+        $this->createdDate = new \DateTime;
+        $this->periodicities = new ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -213,7 +202,7 @@ class DietRules
         $this->dailyFatRequirementsG = $dailyFatRequirementsG;
     }
 
-        /**
+    /**
      * Get dailyCarbohydratesRequirementsG
      *
      * @return integer 
@@ -247,107 +236,6 @@ class DietRules
     }
 
     /**
-     * Set whichMeal
-     *
-     * @param string $whichMeal
-     * @return diet_rules
-     */
-    public function setWhichMeal($whichMeal)
-    {
-        $this->whichMeal = $whichMeal;
-
-        return $this;
-    }
-
-    /**
-     * Get whichMeal
-     *
-     * @return string 
-     */
-    public function getWhichMeal()
-    {
-        return $this->whichMeal;
-    }
-
-    /**
-     * Set whichProduct
-     *
-     * @param string $whichProduct
-     * @return diet_rules
-     */
-    public function setWhichProduct($whichProduct)
-    {
-        $this->whichProduct = $whichProduct;
-
-        return $this;
-    }
-
-    /**
-     * Get whichProduct
-     *
-     * @return string 
-     */
-    public function getWhichProduct()
-    {
-        return $this->whichProduct;
-    }
-
-    /**
-     * Set repetition
-     *
-     * @param integer $repetition
-     * @return diet_rules
-     */
-    public function setRepetition($repetition)
-    {
-        $this->repetition = $repetition;
-
-        return $this;
-    }
-
-    /**
-     * Get repetition
-     *
-     * @return integer 
-     */
-    public function getRepetition()
-    {
-        return $this->repetition;
-    }
-
-    /**
-     * Set inInterval
-     *
-     * @param string $inInterval
-     * @return diet_rules
-     */
-    public function setInInterval($inInterval)
-    {
-        $this->inInterval = $inInterval;
-
-        return $this;
-    }
-
-    /**
-     * Get inInterval
-     *
-     * @return integer 
-     */
-    public function getInInterval()
-    {
-        return $this->inInterval;
-    }
-    
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->createdDiet = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->createdDate = new \DateTime;
-    }
-
-    /**
      * Add createdDiet
      *
      * @param \DSL\DSLBundle\Entity\CreatedDiet $createdDiet
@@ -368,6 +256,26 @@ class DietRules
     public function removeCreatedDiet(\DSL\DSLBundle\Entity\CreatedDiet $createdDiet)
     {
         $this->createdDiet->removeElement($createdDiet);
+    }
+    
+    public function addPeriodicity(Periodicity $periodicity)
+    {
+        if (!$this->periodicities->contains($periodicity)) {
+            $periodicity->setDietRule($this);
+            $this->periodicities->add($periodicity);
+        }
+
+        return $this;
+    }
+
+    public function removePeriodicity(Periodicity $periodicity)
+    {
+        $this->periodicities->removeElement($periodicity);
+    }
+    
+    public function getPeriodicities()
+    {
+        return $this->periodicities;
     }
 
     /**
