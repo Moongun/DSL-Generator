@@ -252,3 +252,28 @@ select > option {
 .ui-button:hover .ui-icon {
     background-image: url(/images/ui-icons_555555_256x240.png);
 }
+
+.condition-three {
+    background: inherit;
+    border-radius: 50%;
+    height: 4em;
+    width: 4em;
+    border: 3px solid rgba(255,255,255,1);
+    background-color: rgba(255,255,255,0);
+    color: rgba(255,255,255,1);
+    /*font-size: 1em;*/
+    text-align: center;
+    transition: border 0.2s;
+}
+
+.condition-three:focus {
+    outline: none;
+    border:7px solid rgba(255,255,255,1);
+}
+
+.periodicity-btn {
+    width: 4em;
+    height: 4em;
+    padding: 0;
+    border-radius: 50%;
+}

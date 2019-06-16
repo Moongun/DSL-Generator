@@ -1,0 +1,32 @@
+{% block _dsl_dslbundle_diet_rules_periodicities_entry_widget %}
+    <div>
+        {{ form_errors(form.meal) }}
+        {{ form_errors(form.product) }}
+        {{ form_errors(form.cycle) }}
+        {{ form_errors(form.startDay) }}
+        <div>
+            <span>Powtarzaj </span>
+            <span>
+                {{ form_widget(form.meal, {attr:{'class': 'form-field'}}) }} i/lub
+                {{ form_widget(form.product, {attr:{'class': 'form-field'}}) }}
+            </span>
+            <span>co {{ form_widget(form.cycle, {attr:{'class': 'condition-three'}}) }} dni </span>
+            <span>licząc od {{ form_widget(form.startDay, {attr:{'class': 'condition-three'}}) }} dnia diety.</span>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block form_errors %}
+    {%- if errors|length > 0 -%}
+        <div class="my-2">
+            {%- for error in errors -%}
+                <div class="error py-2 px-3">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    <span>{{ error.message }}</span>
+
+                </div>
+            {%- endfor -%}
+        </div>
+    {%- endif -%}
+{% endblock %}

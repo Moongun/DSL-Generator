@@ -1,6 +1,6 @@
 var $collectionHolder;
 
-var $addPeriodicityButton = $('<button type="button" class="add-periodicity">Add periodicity</button>');
+var $addPeriodicityButton = $('<button type="button" class="button periodicity-btn" title="Dodaj warunek cykliczny">+</button>');
 var $newElement = $('<div></div>').append($addPeriodicityButton);
 
 $collectionHolder = $('div#dsl_dslbundle_diet_rules_periodicities');
@@ -32,7 +32,7 @@ function addPeriodicityForm($collectionHolder, $newElement) {
 }
 
 function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button type="button">Delete this periodicity</button>');
+    var $removeFormButton = $('<button type="button" class="button periodicity-btn" title="usuń warunek cykliczny">-</button>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {

@@ -27,63 +27,64 @@ class DietRulesType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
-        $builder->add('dailyCaloriesRequirementsKcal', NumberType::class, array(
-            'required' => false,
-            'scale' => 0,
-            'constraints' => array(
-                new GreaterThan(array(
-                        'value' => 0,
-                        'message' => self::GREATER_THAN_ZERO_MSG
-                    ))
-            )
-        ))
-                ->add('dailyProteinRequirementsG', NumberType::class, array(
-            'required' => false,
-            'scale' => 0,
-            'constraints' => array(
-                new GreaterThan(array(
-                        'value' => 0,
-                        'message' => self::GREATER_THAN_ZERO_MSG
-                    ))
-            )
-        ))
-                ->add('dailyCarbohydratesRequirementsG', NumberType::class, array(
-            'required' => false,
-            'scale' => 0,
-            'constraints' => array(
-                new GreaterThan(array(
-                        'value' => 0,
-                        'message' => self::GREATER_THAN_ZERO_MSG
-                    ))
-            )
-        ))
-                ->add('dailyFatRequirementsG', NumberType::class, array(
-            'required' => false,
-            'scale' => 0,
-            'constraints' => array(
-                new GreaterThan(array(
-                        'value' => 0,
-                        'message' => self::GREATER_THAN_ZERO_MSG
-                    ))
-            )
-        ))
-                ->add('monthlyCost', NumberType::class, array(
-                    'required' => false,
-                    'scale' => 0,
-                    'constraints' => array(
-                        new GreaterThan(array(
+        $builder
+            ->add('dailyCaloriesRequirementsKcal', NumberType::class, array(
+                'required' => false,
+                'scale' => 0,
+                'constraints' => array(
+                    new GreaterThan(array(
                             'value' => 0,
                             'message' => self::GREATER_THAN_ZERO_MSG
-                                ))
+                        ))
                     )
                 ))
-                ->add('periodicities', CollectionType::class, [
-                    'entry_type' => PeriodicityType::class,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'by_reference' => false
-                ])
-                            ;
+            ->add('dailyProteinRequirementsG', NumberType::class, array(
+                'required' => false,
+                'scale' => 0,
+                'constraints' => array(
+                    new GreaterThan(array(
+                            'value' => 0,
+                            'message' => self::GREATER_THAN_ZERO_MSG
+                        ))
+                    )
+                ))
+            ->add('dailyCarbohydratesRequirementsG', NumberType::class, array(
+                'required' => false,
+                'scale' => 0,
+                'constraints' => array(
+                    new GreaterThan(array(
+                            'value' => 0,
+                            'message' => self::GREATER_THAN_ZERO_MSG
+                        ))
+                    )
+                ))
+            ->add('dailyFatRequirementsG', NumberType::class, array(
+                'required' => false,
+                'scale' => 0,
+                'constraints' => array(
+                    new GreaterThan(array(
+                            'value' => 0,
+                            'message' => self::GREATER_THAN_ZERO_MSG
+                        ))
+                    )
+                ))
+            ->add('monthlyCost', NumberType::class, array(
+                'required' => false,
+                'scale' => 0,
+                'constraints' => array(
+                    new GreaterThan(array(
+                        'value' => 0,
+                        'message' => self::GREATER_THAN_ZERO_MSG
+                        ))
+                    )
+                ))
+            ->add('periodicities', CollectionType::class, [
+                'entry_type' => PeriodicityType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'label' =>false
+            ]);
     }
 
     /**
@@ -91,7 +92,7 @@ class DietRulesType extends AbstractType {
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'DSL\DSLBundle\Entity\DietRules'
+            'data_class' => 'DSL\DSLBundle\Entity\DietRules',
         ));
     }
 
