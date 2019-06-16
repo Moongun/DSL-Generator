@@ -297,4 +297,41 @@ class DietRules
     {
         return $this->createdDate;
     }
+
+    /**
+     * Check if entity has data for periodicity rule.
+     *
+     * @return bool
+     */
+    public function hasPeriodicityRule()
+    {
+        return $this->periodicities->isEmpty() ? false : true;
+    }
+
+    /**
+     * Check if entity has data for financial rule.
+     *
+     * @return bool
+     */
+    public function hasFinancialRule()
+    {
+        return $this->getMonthlyCost() ? true : false;
+    }
+
+    /**
+     * Check if entity has data for composition rule.
+     *
+     * @return bool
+     */
+    public function hasCompositionRule()
+    {
+        if ($this->getDailyCaloriesRequirementsKcal() ||
+            $this->getDailyProteinRequirementsG() ||
+            $this->getDailyCarbohydratesRequirementsG() ||
+            $this->getDailyFatRequirementsG()
+        ) {
+            return true;
+        }
+        return false;
+    }
 }

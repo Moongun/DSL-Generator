@@ -64,17 +64,6 @@ class CreatedDietController extends Controller {
             'diet' => $createdDiet,
             'dietRule' => $dietRule
         ]);
-
-die;
-//        $dietValidator = $this->get('service.diet_validator')
-//            ->setDietRule($dietRule)
-//            ->setDiet($createdDiet)
-//            ->validate();
-//        die;
-//
-//        $createdDietRepository->calcDiet($dietRuleId, $user);
-//
-//        $createdDiet = $rule->getCreatedDiet();
     }
 
     /**
@@ -143,7 +132,6 @@ die;
             $arrayWithMealIds[] = $mealId;
         }
 
-        dump($createdDiet);
         $meals = [];
         $energy = 0;
         $proteins = 0;
