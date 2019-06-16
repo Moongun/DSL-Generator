@@ -22,6 +22,9 @@ class PeriodicityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+                ->add('startDay', NumberType::class, array(
+                    'required'      => true,
+                ))
                 ->add('cycle', NumberType::class, array(
                     'required'      => true,
                 ))

@@ -42,10 +42,17 @@ class Periodicity
      * @ORM\JoinColumn(name="dietRules_id", referencedColumnName="id")
      */
     private $dietRule;
-    
+
     /**
      * @var int
-     * 
+     *
+     * @ORM\Column(name="start_day", type="integer", nullable=false)
+     */
+    private $startDay;
+
+    /**
+     * @var int
+     *
      * @ORM\Column(name="cycle", type="integer", nullable=false)
      */
     private $cycle;
@@ -130,5 +137,29 @@ class Periodicity
     public function getCycle()
     {
         return $this->cycle;
+    }
+
+    /**
+     * Set startDay.
+     *
+     * @param int $startDay
+     *
+     * @return $this
+     */
+    public function setStartDay(int $startDay)
+    {
+        $this->startDay = $startDay;
+
+        return $this;
+    }
+
+    /**
+     * Get startDay.
+     *
+     * @return int
+     */
+    public function getStartDay()
+    {
+        return $this->startDay;
     }
 }
