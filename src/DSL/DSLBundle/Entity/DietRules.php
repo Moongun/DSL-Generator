@@ -334,4 +334,18 @@ class DietRules
         }
         return false;
     }
+
+    /**
+     * Returns array with names of active rules.
+     *
+     * @return array
+     */
+    public function getActiveRules()
+    {
+        return [
+            'composition' => $this->hasCompositionRule(),
+            'financial' => $this->hasFinancialRule(),
+            'periodicity' => $this->hasPeriodicityRule()
+        ];
+    }
 }
