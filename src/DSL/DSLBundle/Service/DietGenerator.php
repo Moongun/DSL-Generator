@@ -31,6 +31,15 @@ class DietGenerator
     public function generate(DietRules $rule) {
         $meals = $this->mealRepository->pickMeals();
 
+        $activeRules = array_filter($rule->getActiveRules(), function($rule){
+            return $rule;
+        });
+
+//        TODO Do rozbudowy w przyszłości o połączenie regół.
+        if(1 < count($activeRules)) {
+            throw new \Exception(sprintf('Zdefiniowano więcej niż jeden typ kalkulacji dla reguły (id = %s)', $rule->getId()));
+        }
+
         if ($rule->hasCompositionRule()) {
             $calculationType = new CompositionType();
         } elseif ($rule->hasFinancialRule()) {
