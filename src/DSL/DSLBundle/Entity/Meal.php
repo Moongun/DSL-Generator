@@ -79,7 +79,7 @@ class Meal
     private $averageCost;
     
     /**
-     * @ORM\OneToMany(targetEntity="Ingredient", mappedBy="meal")
+     * @ORM\OneToMany(targetEntity="Ingredient", mappedBy="meal", cascade={"persist"})
      * @var type 
      */
     private $ingredients;
@@ -308,9 +308,14 @@ class Meal
      * @param \DSL\DSLBundle\Entity\Ingredient $ingredients
      * @return Meal
      */
-    public function addIngredient(\DSL\DSLBundle\Entity\Ingredient $ingredients)
+    public function addIngredient(Ingredient $ingredient)
     {
-        $this->ingredients[] = $ingredients;
+        if (!$this->ingredients->contains($ingredient)) {
+            $ingredient->setMeal($this);
+            $this->ingredients->add($ingredient);
+        }
+
+        return $this;
 
         return $this;
     }

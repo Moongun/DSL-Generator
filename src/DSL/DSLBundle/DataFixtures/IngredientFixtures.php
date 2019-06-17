@@ -2,6 +2,7 @@
 namespace DSL\DSLBundle\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use DSL\DSLBundle\DataFixtures\MealFixtures;
 use DSL\DSLBundle\DataFixtures\ProductFixtures;
@@ -29,10 +30,11 @@ class IngredientFixtures extends Fixture
                 $randomProduct = array_rand($products);
                 
                 $ingredient = new Ingredient();
-                $ingredient->setMeal($meal);
                 $ingredient->setProduct($products[$randomProduct]);
                 $ingredient->setQuantity(mt_rand(1,3));
-                $manager->persist($ingredient);
+
+                $meal->addIngredient($ingredient);
+                $manager->persist($meal);
             }
         }
         $manager->flush();
