@@ -13,14 +13,6 @@ interface CalculationTypeInterface
      */
     public function calculate();
 
-    /**Setter for base meals.
-     *
-     * @param array $meals Array of meals grouped by type.
-     *
-     * @return mixed
-     */
-    public function setMeals(array $meals);
-
     /**
      * Setter for DietRule.
      *

@@ -2,32 +2,33 @@
 namespace DSL\DSLBundle\Service\CalculationTypes;
 
 use DSL\DSLBundle\Entity\DietRules;
-use DSL\DSLBundle\Service\MealTypes;
 
-class PeriodicityType implements CalculationTypeInterface 
+class PeriodicityType extends AbstractCalculationType implements CalculationTypeInterface
 {
-    private $meals;
     private $dietRule;
     private $diet;
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public function getDiet() 
     {
         return $this->diet;
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public function setRule(DietRules $dietRule) 
     {
         $this->dietRule = $dietRule;
         return $this;
     }
-    
-    public function setMeals(array $meals) 
-    {
-        $this->meals = $meals;
-        return $this;
-    }
-    
-    public function calculate() 
+
+    /**
+     * {@inheritDoc}
+     */
+    public function calculate()
     {
         $periodicities = $this->dietRule->getPeriodicities();
         $diet = [];
@@ -38,12 +39,17 @@ class PeriodicityType implements CalculationTypeInterface
             $day++;
         } while ($day <= 30);
 
+
 //        TODO dorobić dla prodktu
         foreach ($periodicities as $periodicity) {
             $daysToModify = $this->getDaysToModify($periodicity->getStartDay(), $periodicity->getCycle());
             foreach ($daysToModify as $dayToModify) {
                 array_walk($diet[$dayToModify], function(&$meal) use($periodicity){
-                    if($meal->getType() === $periodicity->getMeal()->getType()) {
+                    $wantedProduct = $periodicity->getProduct();
+                    if ($wantedProduct) {
+                    }
+
+                    if($periodicity->getMeal() && $meal->getType() === $periodicity->getMeal()->getType()) {
                         $meal = $periodicity->getMeal();
                     }
                 });
@@ -55,6 +61,14 @@ class PeriodicityType implements CalculationTypeInterface
         return $this;
     }
 
+    /**
+     * Return days which meals needed to verify/modify.
+     *
+     * @param $start
+     * @param $cycle
+     *
+     * @return array
+     */
     private function getDaysToModify($start, $cycle)
     {
         $day = $start;
@@ -67,33 +81,5 @@ class PeriodicityType implements CalculationTypeInterface
 
         return $result;
     }
-
-//    TODO zrobić porządek z tymi metodami, bo są takie same w innych miejscach
-    private function shuffleMealsByType(string $type = null)
-    {
-        $meals = $this->meals;
-
-        if ($type) {
-            shuffle($meals[$type]);
-        } else {
-            foreach($meals as $k => $v) {
-                shuffle($meals[$k]);
-            }
-        }
-
-        return $meals;
-    }
-
-    private function getDayMeals()
-    {
-        $meals = $this->shuffleMealsByType();
-
-        return [
-            1 => $meals[MealTypes::BREAKFAST][0],
-            2 => $meals[MealTypes::BRUNCH][0],
-            3 => $meals[MealTypes::LUNCH][0],
-            4 => $meals[MealTypes::DINNER][0],
-            5 => $meals[MealTypes::SUPPER][0]
-        ];
-    }
 }
+

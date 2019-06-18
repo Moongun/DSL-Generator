@@ -29,8 +29,6 @@ class DietGenerator
      * @return array|\DSL\DSLBundle\Repository\type
      */
     public function generate(DietRules $rule) {
-        $meals = $this->mealRepository->pickMeals();
-
         $activeRules = array_filter($rule->getActiveRules(), function($rule){
             return $rule;
         });
@@ -50,7 +48,9 @@ class DietGenerator
             throw new \Exception(sprintf('No rule parameter defined for rule_id = %s', $rule->getId()));
         }
 
-        $diet = $calculationType->setMeals($meals)
+        $meals = $this->mealRepository->pickMeals();
+        $diet = $calculationType
+            ->setMeals($meals)
             ->setRule($rule)
             ->calculate()
             ->getDiet();

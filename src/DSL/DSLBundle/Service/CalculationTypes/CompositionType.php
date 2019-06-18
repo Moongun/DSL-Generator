@@ -2,28 +2,20 @@
 namespace DSL\DSLBundle\Service\CalculationTypes;
 
 use DSL\DSLBundle\Entity\DietRules;
-use DSL\DSLBundle\Form\MealType;
-use DSL\DSLBundle\Service\CalculationTypes\CalculationTypeInterface;
-use DSL\DSLBundle\Service\MealTypes;
 
-class CompositionType implements CalculationTypeInterface
+class CompositionType extends AbstractCalculationType implements CalculationTypeInterface
 {
     const ENERGY        = 'energy';
     const PROTEIN       = 'protein';
     const CARBOHYDRATES ='carbohydrates';
     const FAT           = 'fat';
 
-    private $meals;
     private $dietRule;
     private $diet;
 
-    public function setMeals(array $meals)
-    {
-        $this->meals = $meals;
-
-        return $this;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public function setRule(DietRules $dietRule)
     {
         $this->dietRule = $dietRule;
@@ -31,6 +23,9 @@ class CompositionType implements CalculationTypeInterface
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function calculate()
     {
         $rules = $this->getFilledRules();
@@ -71,39 +66,19 @@ class CompositionType implements CalculationTypeInterface
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDiet()
     {
         return $this->diet;
     }
 
-    private function shuffleMealsByType(string $type = null)
-    {
-        $meals = $this->meals;
-
-        if ($type) {
-            shuffle($meals[$type]);
-        } else {
-            foreach($meals as $k => $v) {
-                shuffle($meals[$k]);
-            }
-        }
-
-        return $meals;
-    }
-
-    private function getDayMeals()
-    {
-        $meals = $this->shuffleMealsByType();
-
-        return [
-            1 => $meals[MealTypes::BREAKFAST][0],
-            2 => $meals[MealTypes::BRUNCH][0],
-            3 => $meals[MealTypes::LUNCH][0],
-            4 => $meals[MealTypes::DINNER][0],
-            5 => $meals[MealTypes::SUPPER][0]
-        ];
-    }
-
+    /**
+     * Get array with values for required conditions.
+     *
+     * @return array
+     */
     private function getFilledRules()
     {
         $rules = [];
