@@ -3,9 +3,9 @@ namespace DSL\DSLBundle\Service;
 use DSL\DSLBundle\Repository\CreatedDietRepository;
 use DSL\DSLBundle\Repository\MealRepository;
 use DSL\DSLBundle\Entity\DietRules;
-use DSL\DSLBundle\Service\CalculationTypes\CompositionType;
-use DSL\DSLBundle\Service\CalculationTypes\FinancialType;
-use DSL\DSLBundle\Service\CalculationTypes\PeriodicityType;
+use DSL\DSLBundle\Service\Calculators\CompositionCalculator;
+use DSL\DSLBundle\Service\Calculators\FinancialCalculator;
+use DSL\DSLBundle\Service\Calculators\PeriodicityCalculator;
 
 class DietGenerator
 {
@@ -39,17 +39,17 @@ class DietGenerator
         }
 
         if ($rule->hasCompositionRule()) {
-            $calculationType = new CompositionType();
+            $calculator = new CompositionCalculator();
         } elseif ($rule->hasFinancialRule()) {
-            $calculationType = new FinancialType();
+            $calculator = new FinancialCalculator();
         } elseif ($rule->hasPeriodicityRule()) {
-            $calculationType = new PeriodicityType();
+            $calculator = new PeriodicityCalculator();
         } else {
             throw new \Exception(sprintf('No rule parameter defined for rule_id = %s', $rule->getId()));
         }
 
         $meals = $this->mealRepository->pickMeals();
-        $diet = $calculationType
+        $diet = $calculator
             ->setMeals($meals)
             ->setRule($rule)
             ->calculate()
