@@ -1,9 +1,9 @@
 <?php
-namespace DSL\DSLBundle\Service\CalculationTypes;
+namespace DSL\DSLBundle\Service\Calculators;
 
 use DSL\DSLBundle\Entity\DietRules;
 
-class CompositionCalculator extends AbstractCalculationType implements CalculationTypeInterface
+class CompositionCalculator extends AbstractCalculator implements CalculatorInterface
 {
     const ENERGY        = 'energy';
     const PROTEIN       = 'protein';

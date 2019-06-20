@@ -1,10 +1,10 @@
 <?php
-namespace DSL\DSLBundle\Service\CalculationTypes;
+namespace DSL\DSLBundle\Service\Calculators;
 
 
 use DSL\DSLBundle\Entity\DietRules;
 
-interface CalculationTypeInterface
+interface CalculatorInterface
 {
     /**
      * Return array with meals of composed diet.

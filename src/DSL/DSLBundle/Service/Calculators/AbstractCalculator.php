@@ -1,10 +1,10 @@
 <?php
 
-namespace DSL\DSLBundle\Service\CalculationTypes;
+namespace DSL\DSLBundle\Service\Calculators;
 
 use DSL\DSLBundle\Service\MealTypes;
 
-abstract class AbstractCalculationType
+abstract class AbstractCalculator
 {
     private $meals;
 

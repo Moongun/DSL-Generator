@@ -1,9 +1,9 @@
 <?php
-namespace DSL\DSLBundle\Service\CalculationTypes;
+namespace DSL\DSLBundle\Service\Calculators;
 
 use DSL\DSLBundle\Entity\DietRules;
 
-class PeriodicityType extends AbstractCalculationType implements CalculationTypeInterface
+class PeriodicityCalculator extends AbstractCalculator implements CalculatorInterface
 {
     private $dietRule;
     private $diet;
