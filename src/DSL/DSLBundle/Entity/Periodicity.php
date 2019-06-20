@@ -67,6 +67,13 @@ class Periodicity
         return $this->id;
     }
 
+    /**
+     * Set product.
+     *
+     * @param \DSL\DSLBundle\Entity\Product|null $product
+     *
+     * @return $this
+     */
     public function setProduct(Product $product = null)
     {
         $this->product = $product;
@@ -74,11 +81,23 @@ class Periodicity
         return $this;
     }
 
+    /**
+     * Get product.
+     *
+     * @return mixed
+     */
     public function getProduct()
     {
         return $this->product;
     }
 
+    /**
+     * Set meal.
+     *
+     * @param \DSL\DSLBundle\Entity\Meal|null $meal
+     *
+     * @return $this
+     */
     public function setMeal(Meal $meal = null)
     {
         $this->meal = $meal;
@@ -86,6 +105,11 @@ class Periodicity
         return $this;
     }
 
+    /**
+     * get meal.
+     * 
+     * @return mixed
+     */
     public function getMeal()
     {
         return $this->meal;
