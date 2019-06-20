@@ -43,10 +43,16 @@ class PeriodicityType extends AbstractCalculationType implements CalculationType
 //        TODO dorobić dla prodktu
         foreach ($periodicities as $periodicity) {
             $daysToModify = $this->getDaysToModify($periodicity->getStartDay(), $periodicity->getCycle());
+            if($periodicity->getProduct()) {
+                dump($periodicity->getProduct())->getId();
+
+            }
             foreach ($daysToModify as $dayToModify) {
                 array_walk($diet[$dayToModify], function(&$meal) use($periodicity){
                     $wantedProduct = $periodicity->getProduct();
+//                    dump($wantedProduct);
                     if ($wantedProduct) {
+
                     }
 
                     if($periodicity->getMeal() && $meal->getType() === $periodicity->getMeal()->getType()) {

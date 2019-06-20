@@ -3,7 +3,7 @@ namespace DSL\DSLBundle\Service\CalculationTypes;
 
 use DSL\DSLBundle\Entity\DietRules;
 
-class CompositionType extends AbstractCalculationType implements CalculationTypeInterface
+class CompositionCalculator extends AbstractCalculationType implements CalculationTypeInterface
 {
     const ENERGY        = 'energy';
     const PROTEIN       = 'protein';
