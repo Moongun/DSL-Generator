@@ -98,7 +98,7 @@ class Meal
     private $base;
 
     /**
-     * @ORM\OneToMany(targetEntity="Periodicity", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="Periodicity", mappedBy="meal")
      */
     private $periodicities;
 
@@ -314,8 +314,6 @@ class Meal
             $ingredient->setMeal($this);
             $this->ingredients->add($ingredient);
         }
-
-        return $this;
 
         return $this;
     }
