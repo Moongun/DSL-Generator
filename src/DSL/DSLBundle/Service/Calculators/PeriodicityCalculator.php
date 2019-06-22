@@ -1,35 +1,11 @@
 <?php
 namespace DSL\DSLBundle\Service\Calculators;
 
-use DSL\DSLBundle\Entity\DietRules;
-use DSL\DSLBundle\Entity\Meal;
-use DSL\DSLBundle\Repository\MealRepository;
-use DSL\DSLBundle\Repository\ProductsRepository;
-
 class PeriodicityCalculator extends AbstractCalculator implements CalculatorInterface
 {
     const NUMBER_OF_DIET_DAYS = 30;
 
-    private $dietRule;
     private $diet;
-    private $mealRepository;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDiet() 
-    {
-        return $this->diet;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setRule(DietRules $dietRule) 
-    {
-        $this->dietRule = $dietRule;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}
@@ -40,7 +16,7 @@ class PeriodicityCalculator extends AbstractCalculator implements CalculatorInte
         $diet = [];
         $day = 1;
         do {
-            $dayMeals = $this->getDayMeals();
+            $dayMeals = $this->getRandomMealsForDay();
             $diet[$day] = $dayMeals;
             $day++;
         } while ($day <= self::NUMBER_OF_DIET_DAYS);
@@ -91,17 +67,11 @@ class PeriodicityCalculator extends AbstractCalculator implements CalculatorInte
     }
 
     /**
-     * Set productRepository.
-     *
-     * @param ProductsRepository $productRepository
-     *
-     * @return $this
+     * {@inheritDoc}
      */
-    public function setMealRepository(MealRepository $mealRepository)
+    public function getDiet()
     {
-        $this->mealRepository = $mealRepository;
-
-        return $this;
+        return $this->diet;
     }
 }
 

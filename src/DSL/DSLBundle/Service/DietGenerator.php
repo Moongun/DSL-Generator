@@ -39,20 +39,17 @@ class DietGenerator
         }
 
         if ($rule->hasCompositionRule()) {
-            $calculator = new CompositionCalculator();
+            $calculator = new CompositionCalculator($this->mealRepository, $rule);
         } elseif ($rule->hasFinancialRule()) {
-            $calculator = new FinancialCalculator();
+            $calculator = new FinancialCalculator($this->mealRepository, $rule);
         } elseif ($rule->hasPeriodicityRule()) {
-            $calculator = new PeriodicityCalculator();
-            $calculator->setMealRepository($this->mealRepository);
+            $calculator = new PeriodicityCalculator($this->mealRepository, $rule);
         } else {
             throw new \Exception(sprintf('No rule parameter defined for rule_id = %s', $rule->getId()));
         }
 
-        $meals = $this->mealRepository->pickMeals();
         $diet = $calculator
-            ->setMeals($meals)
-            ->setRule($rule)
+            ->initiate()
             ->calculate()
             ->getDiet();
 

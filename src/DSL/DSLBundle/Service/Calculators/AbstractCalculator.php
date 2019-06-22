@@ -2,63 +2,55 @@
 
 namespace DSL\DSLBundle\Service\Calculators;
 
+use DSL\DSLBundle\Entity\DietRules;
+use DSL\DSLBundle\Repository\MealRepository;
 use DSL\DSLBundle\Service\MealTypes;
 
 abstract class AbstractCalculator
 {
+    protected $mealRepository;
+    protected $dietRule;
     private $meals;
 
     /**
-     * Set Meals.
+     * AbstractCalculator constructor.
      *
-     * @param array $meals groupped by type.
+     * @param MealRepository $mealRepository
+     * @param DietRules $dietRule
+     */
+    public function __construct(MealRepository $mealRepository, DietRules $dietRule)
+    {
+        $this->mealRepository = $mealRepository;
+        $this->dietRule = $dietRule;
+    }
+
+    /**
+     * Runs code which has to be initialized.
      *
      * @return $this
      */
-    public function setMeals(array $meals)
+    public function initiate()
     {
-        $this->meals = $meals;
+        $this->meals = $this->mealRepository->pickMeals();
 
         return $this;
     }
 
     /**
-     * Shuffle Meals.
-     *
-     * @param string|null $type
-     *
-     * @return mixed
-     */
-    protected function shuffleMealsByType(string $type = null)
-    {
-        $meals = $this->meals;
-
-        if ($type) {
-            shuffle($meals[$type]);
-        } else {
-            foreach($meals as $k => $v) {
-                shuffle($meals[$k]);
-            }
-        }
-
-        return $meals;
-    }
-
-    /**
-     * Get meals for a day.
+     * Return random meals for a single day.
      *
      * @return array
      */
-    protected function getDayMeals()
+    protected function getRandomMealsForDay()
     {
-        $meals = $this->shuffleMealsByType();
+        $meals = $this->meals;
 
         return [
-            1 => $meals[MealTypes::BREAKFAST][0],
-            2 => $meals[MealTypes::BRUNCH][0],
-            3 => $meals[MealTypes::LUNCH][0],
-            4 => $meals[MealTypes::DINNER][0],
-            5 => $meals[MealTypes::SUPPER][0]
+            1 => $meals[MealTypes::BREAKFAST][array_rand($meals[MealTypes::BREAKFAST],1)],
+            2 => $meals[MealTypes::BRUNCH][array_rand($meals[MealTypes::BRUNCH],1)],
+            3 => $meals[MealTypes::LUNCH][array_rand($meals[MealTypes::LUNCH],1)],
+            4 => $meals[MealTypes::DINNER][array_rand($meals[MealTypes::DINNER],1)],
+            5 => $meals[MealTypes::SUPPER][array_rand($meals[MealTypes::SUPPER],1)]
         ];
     }
 

@@ -1,27 +1,20 @@
 <?php
 namespace DSL\DSLBundle\Service\Calculators;
 
-use DSL\DSLBundle\Entity\DietRules;
-
 class FinancialCalculator extends AbstractCalculator implements CalculatorInterface
 {
-    private $dietRule;
     private $diet;
 
-    public function setRule(DietRules $dietRule)
-    {
-        $this->dietRule = $dietRule;
-
-        return $this;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public function calculate()
     {
         $rule = $this->dietRule->getMonthlyCost();
         $diet = [];
         $day = 1;
         do {
-            $dayMeals = $this->getDayMeals();
+            $dayMeals = $this->getRandomMealsForDay();
 
             $financialValues = 0;
 
@@ -45,6 +38,9 @@ class FinancialCalculator extends AbstractCalculator implements CalculatorInterf
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDiet()
     {
         return $this->diet;

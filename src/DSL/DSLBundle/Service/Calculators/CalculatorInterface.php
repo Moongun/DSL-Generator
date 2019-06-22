@@ -1,9 +1,6 @@
 <?php
 namespace DSL\DSLBundle\Service\Calculators;
 
-
-use DSL\DSLBundle\Entity\DietRules;
-
 interface CalculatorInterface
 {
     /**
@@ -12,15 +9,6 @@ interface CalculatorInterface
      * @return mixed
      */
     public function calculate();
-
-    /**
-     * Setter for DietRule.
-     *
-     * @param DietRules $dietRule DietRules Entity.
-     *
-     * @return mixed
-     */
-    public function setRule(DietRules $dietRule);
 
     /**
      * Getter for composed diet.

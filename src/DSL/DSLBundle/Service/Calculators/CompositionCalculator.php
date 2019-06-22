@@ -1,8 +1,6 @@
 <?php
 namespace DSL\DSLBundle\Service\Calculators;
 
-use DSL\DSLBundle\Entity\DietRules;
-
 class CompositionCalculator extends AbstractCalculator implements CalculatorInterface
 {
     const ENERGY        = 'energy';
@@ -10,18 +8,7 @@ class CompositionCalculator extends AbstractCalculator implements CalculatorInte
     const CARBOHYDRATES ='carbohydrates';
     const FAT           = 'fat';
 
-    private $dietRule;
     private $diet;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setRule(DietRules $dietRule)
-    {
-        $this->dietRule = $dietRule;
-
-        return $this;
-    }
 
     /**
      * {@inheritDoc}
@@ -32,7 +19,7 @@ class CompositionCalculator extends AbstractCalculator implements CalculatorInte
         $diet = [];
         $day = 1;
         do {
-            $dayMeals = $this->getDayMeals();
+            $dayMeals = $this->getRandomMealsForDay();
 
             $dayValues = [
                 self::ENERGY        => 0,
