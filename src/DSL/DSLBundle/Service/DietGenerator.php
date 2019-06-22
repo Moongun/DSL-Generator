@@ -35,7 +35,7 @@ class DietGenerator
 
 //        TODO Do rozbudowy w przyszłości o połączenie regół.
         if(1 < count($activeRules)) {
-            throw new \Exception(sprintf('Zdefiniowano więcej niż jeden typ kalkulacji dla reguły (id = %s)', $rule->getId()));
+            throw new \Exception(sprintf('There is more than one type of calculation for this rule (id = %s)', $rule->getId()));
         }
 
         if ($rule->hasCompositionRule()) {
@@ -44,6 +44,7 @@ class DietGenerator
             $calculator = new FinancialCalculator();
         } elseif ($rule->hasPeriodicityRule()) {
             $calculator = new PeriodicityCalculator();
+            $calculator->setMealRepository($this->mealRepository);
         } else {
             throw new \Exception(sprintf('No rule parameter defined for rule_id = %s', $rule->getId()));
         }
