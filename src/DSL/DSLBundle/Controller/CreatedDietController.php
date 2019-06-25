@@ -106,22 +106,18 @@ class CreatedDietController extends Controller {
     /**
      * Finds and displays a createdDiet entity.
      *
-     * @Route("/{dietRuleId}", options={"expose"=true}, name="createddiet_show")
+     * @Route("/{dietRule}", options={"expose"=true}, name="createddiet_show")
      * @Method("GET")
      */
-    public function showAction($dietRuleId) {
-        $ruleRepository = $this->getDoctrine()->getRepository('DSLBundle:DietRules');
-        $user = $this->getUser();
+    public function showAction(DietRules $dietRule) {
+        if ($dietRule->getUser() !== $this->getUser()) {
+            throw new \Exception(sprintf('This diet (rule_id = %s) does not belong to this user.', $dietRule->getId()));
+        }
 
-        $rule = $ruleRepository->findOneBy([
-            'id' => $dietRuleId,
-            'user' => $user
-        ]);
-
-        $createdDiet = $rule->getCreatedDiet();
+        $createdDiet = $dietRule->getCreatedDiet();
 
         if (!count($createdDiet)) {
-            throw $this->createNotFoundException(sprintf('There is no created diet for given rule (rule_id = %s)', $dietRuleId));
+            throw $this->createNotFoundException(sprintf('There is no created diet for given rule (rule_id = %s)', $dietRule->getId()));
         }
 
         $mealRepository = $this->getDoctrine()->getRepository('DSLBundle:Meal');
@@ -192,7 +188,7 @@ class CreatedDietController extends Controller {
                     'thirdWeek' => $thirdWeek,
                     'fourthWeek' => $fourthWeek,
                     'restOfMonth' => $restOfMonth,
-                    'dietRuleId' =>$dietRuleId
+                    'dietRuleId' =>$dietRule->getId()
         ));
     }
 
@@ -219,58 +215,4 @@ class CreatedDietController extends Controller {
                     'delete_form' => $deleteForm->createView(),
         ));
     }
-
-    /**
-     * Deletes a createdDiet entity.
-     *
-     * @Route("/del/{id}", name="createddiet_delete")
-     * 
-     */
-    public function deleteAction(Request $request, $id) {
-        $em = $this->getDoctrine()->getManager();
-//        $createdDiet =
-
-//        $query = $em->createQuery("SELECT diet FROM DSLBundle:CreatedDiet diet WHERE diet.dietRules=$id");
-//        $results = $query->getResult();
-//        foreach ($results as $result) {
-//            $em->remove($result);
-//            $em->flush($result);
-//        }
-
-//        $createdDiets = $query->getResult();
-//        foreach ($createdDiets as $createdDiet) {
-//            $form = $this->createDeleteForm($createdDiet);
-//            $form->handleRequest($request);
-//            if ($form->isSubmitted() && $form->isValid()) {
-//                $em = $this->getDoctrine()->getManager();
-//                $em->remove($createdDiet);
-//                $em->flush($createdDiet);
-//            }
-//        }
-
-        return $this->redirectToRoute('diet_rules_index');
-    }
-
-    /**
-     * Creates a form to delete a createdDiet entity.
-     *
-     * @param CreatedDiet $createdDiet The createdDiet entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(CreatedDiet $createdDiet) {
-        return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('createddiet_delete', array('id' => $createdDiet->getId())))
-                        ->setMethod('DELETE')
-                        ->getForm()
-        ;
-    }
-
-    /**
-     * @Route ("/delete", name="delete_diet")
-     */
-    public function deleteDietAction() {
-        
-    }
-
 }
