@@ -25,7 +25,7 @@ $(document).ready(function(){
                 diet: state
             }
         }).done(function(msg){
-            location.href = Routing.generate('createddiet_show', {'dietRuleId': rule})
+            location.href = Routing.generate('createddiet_show', {'dietRule': rule})
         }).fail(function(XMLHttpRequest, textStatus, errorThrown){
             console.error(textStatus + ' ' + errorThrown);
         })
