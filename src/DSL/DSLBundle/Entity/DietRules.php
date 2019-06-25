@@ -69,7 +69,7 @@ class DietRules
     private $monthlyCost;
 
     /**
-     * @ORM\OneToMany(targetEntity="CreatedDiet", mappedBy="dietRules", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="CreatedDiet", mappedBy="dietRules", cascade={"remove"}, fetch="EAGER")
      * @var type 
      */
     private $createdDiet;
