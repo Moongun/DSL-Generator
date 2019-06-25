@@ -2,97 +2,15 @@
 
 {% block content %}
     <div class="container content">
-        <div class="sidebar">
-            <ul>
-                <li><a class="sidebar-a" href="{{ path('shopping_list', {'dietRuleId': diet_rule_id })}}">generuj listę zakupową</a></li>
-                <li>
-                    <button id='printDiet' onclick='printDiv()' hidden>drukuj dietę</button>
-                    <label for='printDiet'>drukuj dietę</label>
-                </li>
-            </ul>
-        </div>
+        {% include 'createddiet/block/actions.html.twig' %}
+
         <div class="row pb-4">
             <div class="col-lg-12 text-center">
                 <span class='content-header'>Stworzona dieta</span>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <span> Podsumowanie:</span>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col-lg-3">
-                <span class='table-center'>średnie wartość energetyczna/dzień</span>
-            </div>
-            <div class="col-lg-3">
-                <span class='table-center'>szacowany koszt/miesiąc</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>średnie białko/dzień</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>średnie tłuszcz/dzień</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>średnie węglowodany/dzień</span>
-            </div>
-        </div>
-        <div class="row py-4 text-center values-summary">
-            <div class="col-lg-3">
-                <span class='table-center summary-table-td-padding'>{{ statistics.daily_average_energy | number_format(0, '.', ' ') }} kcal</span>
-            </div>
-            <div class="col-lg-3">
-                <span class='table-center summary-table-td-padding'>{{ statistics.monthly_cost | number_format(0, '.', ' ') }} zł</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ statistics.daily_average_proteins | number_format(0, '.', ' ') }} g</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ statistics.daily_average_fats | number_format(0, '.', ' ') }} g</span>
-            </div>
-            <div class="col-lg-2"> 
-                <span class='table-center summary-table-td-padding'>{{ statistics.daily_average_carbohydrates | number_format(0, '.', ' ') }} g</span>
-            </div>
-        </div>
-        <div class="row text-right">
-            <div class="col-lg-2">
-                <span class='table-center'>koszty tygodniowe</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>1 tydzień</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>2 tydzień</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>3 tydzień</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>4 tydzień</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center'>reszta miesiąca</span>
-            </div>
-        </div>
-        <div class="row text-right text-bold pb-5">
-            <div class="col-lg-2"></div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ statistics.week_one_cost | number_format(0, '.', ' ') }} zł</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ statistics.week_two_cost | number_format(0, '.', ' ') }} zł</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ statistics.week_three_cost | number_format(0, '.', ' ') }} zł</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ statistics.week_four_cost | number_format(0, '.', ' ') }} zł</span>
-            </div>
-            <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ statistics.week_five_cost | number_format(0, '.', ' ') }} zł</span>
-            </div>
-        </div>
+
+        {% include 'createddiet/block/statistics.html.twig' %}
 
         <div id="diet">
             <div class="row pt-5">
