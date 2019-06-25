@@ -36,7 +36,7 @@ class CreatedDiet
     private $dietRules;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Meal", inversedBy="createdDiet")
+     * @ORM\ManyToOne(targetEntity="Meal", inversedBy="createdDiet", fetch="EAGER")
      * @ORM\JoinColumn(name="meal_id", referencedColumnName="id")
      * @var type 
      */
