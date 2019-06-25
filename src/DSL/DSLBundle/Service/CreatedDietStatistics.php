@@ -6,7 +6,7 @@ class CreatedDietStatistics
 {
     const DAILY_AVG_FATS = 'daily_average_fats';
     const DAILY_AVG_CARBOHYDRATES = 'daily_average_carbohydrates';
-    const DAILY_AVG_PROTEINS = 'daily_average_protein';
+    const DAILY_AVG_PROTEINS = 'daily_average_proteins';
     const DAILY_AVG_ENERGY = 'daily_average_energy';
     const MONTHLY_COST = 'monthly_cost';
     const WEEK_ONE_COST = 'week_one_cost';

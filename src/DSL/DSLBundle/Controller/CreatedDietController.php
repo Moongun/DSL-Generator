@@ -114,81 +114,25 @@ class CreatedDietController extends Controller {
             throw new \Exception(sprintf('This diet (rule_id = %s) does not belong to this user.', $dietRule->getId()));
         }
 
-        $createdDiet = $dietRule->getCreatedDiet();
+        $createdDiet = $dietRule->getCreatedDiet()->getValues();
 
         if (!count($createdDiet)) {
             throw $this->createNotFoundException(sprintf('There is no created diet for given rule (rule_id = %s)', $dietRule->getId()));
         }
 
-        $mealRepository = $this->getDoctrine()->getRepository('DSLBundle:Meal');
-
-        $arrayWithMealIds = [];
-        foreach ($createdDiet as $meal) {
-            $mealId = $meal->getMeal()->getId();
-            $arrayWithMealIds[] = $mealId;
-        }
+        $statistics = $this->get('service.created_diet_statistics')
+            ->setData($createdDiet)
+            ->getStatistics();
 
         $meals = [];
-        $energy = 0;
-        $proteins = 0;
-        $fats = 0;
-        $carbohydrates = 0;
-        $costs = 0;
-        $firstWeek = 0;
-        $secondWeek = 0;
-        $thirdWeek = 0;
-        $fourthWeek = 0;
-        $restOfMonth = 0;
-        $counter = 0;
-        foreach ($arrayWithMealIds as $singleId) {
-            $counter++;
-
-            $meal = $mealRepository->findOneById($singleId);
-            $meals[] = $meal;
-
-            $energy = $energy + $meal->getEnergyKcal();
-            $proteins = $proteins + $meal->getProteinG();
-            $fats = $fats + $meal->getFatG();
-            $carbohydrates = $carbohydrates + $meal->getCarbohydratesG();
-            $costs = $costs + $meal->getAverageCost();
-
-            switch ($counter) {
-                case $counter <= 35;
-                    $firstWeek = $firstWeek + $meal->getAverageCost();
-                    break;
-                case $counter <= 70;
-                    $secondWeek = $secondWeek + $meal->getAverageCost();
-                    break;
-                case $counter <= 105;
-                    $thirdWeek = $thirdWeek + $meal->getAverageCost();
-                    break;
-                case $counter <= 140;
-                    $fourthWeek = $fourthWeek + $meal->getAverageCost();
-                    break;
-                case $counter > 140;
-                    $restOfMonth = $restOfMonth + $meal->getAverageCost();
-                    break;
-            };
-        };
-        
-        $energy = $energy / 30;
-        $proteins = $proteins / 30;
-        $fats = $fats / 30;
-        $carbohydrates = $carbohydrates / 30;
+        foreach ($createdDiet as $item) {
+            $meals[] = $item->getMeal();
+        }
 
         return $this->render('createddiet/show.html.twig', array(
                     'meals' => $meals,
-                    'energy' => $energy,
-                    'proteins' => $proteins,
-                    'fats' => $fats,
-                    'carbohydrates' => $carbohydrates,
-                    'costs' => $costs,
-                    'firstWeek' => $firstWeek,
-                    'secondWeek' => $secondWeek,
-                    'thirdWeek' => $thirdWeek,
-                    'fourthWeek' => $fourthWeek,
-                    'restOfMonth' => $restOfMonth,
-                    'dietRuleId' =>$dietRule->getId()
+                    'statistics' => $statistics,
+                    'diet_rule_id' =>$dietRule->getId()
         ));
     }
 

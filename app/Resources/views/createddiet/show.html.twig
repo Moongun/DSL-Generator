@@ -4,7 +4,7 @@
     <div class="container content">
         <div class="sidebar">
             <ul>
-                <li><a class="sidebar-a" href="{{ path('shopping_list', {'dietRuleId': dietRuleId })}}">generuj listę zakupową</a></li>
+                <li><a class="sidebar-a" href="{{ path('shopping_list', {'dietRuleId': diet_rule_id })}}">generuj listę zakupową</a></li>
                 <li>
                     <button id='printDiet' onclick='printDiv()' hidden>drukuj dietę</button>
                     <label for='printDiet'>drukuj dietę</label>
@@ -40,19 +40,19 @@
         </div>
         <div class="row py-4 text-center values-summary">
             <div class="col-lg-3">
-                <span class='table-center summary-table-td-padding'>{{ energy | number_format(0, '.', ' ') }} kcal</span>
+                <span class='table-center summary-table-td-padding'>{{ statistics.daily_average_energy | number_format(0, '.', ' ') }} kcal</span>
             </div>
             <div class="col-lg-3">
-                <span class='table-center summary-table-td-padding'>{{ costs | number_format(0, '.', ' ') }} zł</span>
+                <span class='table-center summary-table-td-padding'>{{ statistics.monthly_cost | number_format(0, '.', ' ') }} zł</span>
             </div>
             <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ proteins | number_format(0, '.', ' ') }} g</span>
+                <span class='table-center summary-table-td-padding'>{{ statistics.daily_average_proteins | number_format(0, '.', ' ') }} g</span>
             </div>
             <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ fats | number_format(0, '.', ' ') }} g</span>
+                <span class='table-center summary-table-td-padding'>{{ statistics.daily_average_fats | number_format(0, '.', ' ') }} g</span>
             </div>
             <div class="col-lg-2"> 
-                <span class='table-center summary-table-td-padding'>{{ carbohydrates | number_format(0, '.', ' ') }} g</span>
+                <span class='table-center summary-table-td-padding'>{{ statistics.daily_average_carbohydrates | number_format(0, '.', ' ') }} g</span>
             </div>
         </div>
         <div class="row text-right">
@@ -78,19 +78,19 @@
         <div class="row text-right text-bold pb-5">
             <div class="col-lg-2"></div>
             <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ firstWeek | number_format(0, '.', ' ') }} zł</span>
+                <span class='table-center summary-table-td-padding'>{{ statistics.week_one_cost | number_format(0, '.', ' ') }} zł</span>
             </div>
             <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ secondWeek | number_format(0, '.', ' ') }} zł</span>
+                <span class='table-center summary-table-td-padding'>{{ statistics.week_two_cost | number_format(0, '.', ' ') }} zł</span>
             </div>
             <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ thirdWeek | number_format(0, '.', ' ') }} zł</span>
+                <span class='table-center summary-table-td-padding'>{{ statistics.week_three_cost | number_format(0, '.', ' ') }} zł</span>
             </div>
             <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ fourthWeek | number_format(0, '.', ' ') }} zł</span>
+                <span class='table-center summary-table-td-padding'>{{ statistics.week_four_cost | number_format(0, '.', ' ') }} zł</span>
             </div>
             <div class="col-lg-2">
-                <span class='table-center summary-table-td-padding'>{{ restOfMonth | number_format(0, '.', ' ') }} zł</span>
+                <span class='table-center summary-table-td-padding'>{{ statistics.week_five_cost | number_format(0, '.', ' ') }} zł</span>
             </div>
         </div>
 
