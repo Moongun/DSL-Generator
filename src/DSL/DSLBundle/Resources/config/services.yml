@@ -6,15 +6,12 @@ services:
 
     meal.fixtures:
         class: DSL\DSLBundle\DataFixtures\MealFixtures
-#        tags: ['doctrine.fixture.orm']
-        
+
     product.fixtures:
         class: DSL\DSLBundle\DataFixtures\ProductFixtures
-#        tags: ['doctrine.fixture.orm']
-        
+
     user.fixtures:
         class: DSL\DSLBundle\DataFixtures\UserFixtures
-#        tags: ['doctrine.fixture.orm']
         arguments:
             $adminName: %admin_name%
             $adminType: %admin_type%
@@ -29,4 +26,39 @@ services:
             
     ingredient.fixtures:
         class: DSL\DSLBundle\DataFixtures\IngredientFixtures
-    
+
+    repository.meal:
+        class: DSL\DSLBundle\Repository\MealRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - DSL\DSLBundle\Entity\Meal
+        DSL\DSLBundle\Repository\MealRepository: '@repository.meal'
+
+    repository.created_diet:
+        class: DSL\DSLBundle\Repository\CreatedDietRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - DSL\DSLBundle\Entity\CreatedDiet
+    DSL\DSLBundle\Repository\CreatedDietRepository: '@repository.created_diet'
+
+    repository.product:
+        class: DSL\DSLBundle\Repository\ProductsRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - DSL\DSLBundle\Entity\Product
+    DSL\DSLBundle\Repository\ProductsRepository: '@repository.product'
+
+    repository.ingredient:
+        class: DSL\DSLBundle\Repository\IngredientRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - DSL\DSLBundle\Entity\Ingredient
+        DSL\DSLBundle\Repository\IngredientRepository: '@repository.ingredient'
+
+    service.diet_generator:
+        class: DSL\DSLBundle\Service\DietGenerator
+        arguments:
+            - '@repository.created_diet'
+            - '@repository.meal'
+    service.created_diet_statistics:
+        class: DSL\DSLBundle\Service\CreatedDietStatistics
