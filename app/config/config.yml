@@ -102,9 +102,9 @@ hwi_oauth:
 knp_snappy:
     pdf:
         enabled:    true
-        binary:     /usr/local/bin/wkhtmltopdf #"\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\"" for Windows users
+        binary:     /usr/bin/wkhtmltopdf
         options:    []
     image:
         enabled:    true
-        binary:     /usr/local/bin/wkhtmltoimage #"\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltoimage.exe\"" for Windows users
+        binary:     /usr/bin/wkhtmltoimage
         options:    []
