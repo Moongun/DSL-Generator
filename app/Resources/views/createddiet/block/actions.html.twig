@@ -2,8 +2,9 @@
     <ul>
         <li><a class="sidebar-a" href="{{ path('shopping_list', {'dietRuleId': diet_rule_id })}}">generuj listę zakupową</a></li>
         <li>
-            <button id='printDiet' onclick='printDiv()' hidden>drukuj dietę</button>
-            <label for='printDiet'>drukuj dietę</label>
+            <a class="sidebar-a" href="{{  path('generate_pdf_diet', {'id': diet_rule_id }) }}"target ="_blank">Pobierz dietę w PDF</a>
+{#            <button id='printDiet' onclick='printDiv()' hidden>drukuj dietę</button>#}
+{#            <label for='printDiet'>drukuj dietę</label>#}
         </li>
     </ul>
 </div>

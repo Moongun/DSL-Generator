@@ -60,5 +60,15 @@ services:
         arguments:
             - '@repository.created_diet'
             - '@repository.meal'
+            -
     service.created_diet_statistics:
         class: DSL\DSLBundle\Service\CreatedDietStatistics
+
+    service.created_diet_helper:
+        class: DSL\DSLBundle\Service\CreatedDietHelper
+
+    service.pdf_generator:
+        class: DSL\DSLBundle\Service\PdfGenerator
+        arguments:
+            - '@knp_snappy.pdf'
+            - '%pdf_dir%'

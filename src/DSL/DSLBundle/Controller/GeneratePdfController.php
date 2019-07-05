@@ -15,6 +15,7 @@ class GeneratePdfController extends Controller
      * @Route("/diet/{id}", name="diet")
      * @param DietRules $dietRule
      */
+<<<<<<< HEAD
     public function pdfForDietAction(DietRules $dietRule)
     {
         //TODO przerzucić logikę do serwisu
@@ -43,5 +44,10 @@ class GeneratePdfController extends Controller
         $explode = explode('/', $pathToFile);
 
         return $this->redirect('/pdf/' . array_pop($explode));
+=======
+    public function generateDiet(DietRules $dietRule)
+    {
+
+>>>>>>> add_pdf_generation
     }
 }
