@@ -1,6 +1,5 @@
 <?php
 
-<<<<<<< HEAD
 namespace DSL\DSLBundle\Service;
 
 use DSL\DSLBundle\Entity\User;
@@ -28,14 +27,4 @@ class PdfGenerator
     {
         return $this->knpSnappyPdf->generateFromHtml($html, $pathToFile);
     }
-
-=======
-
-namespace DSL\DSLBundle\Service;
-
-
-class PdfGenerator
-{
->>>>>>> add_pdf_generation
-
 }

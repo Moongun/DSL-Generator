@@ -2,21 +2,13 @@
 
 namespace DSL\DSLBundle\Service;
 
-<<<<<<< HEAD
 class CreatedDietHelper
-=======
-class CreatedDietSorter
->>>>>>> add_pdf_generation
 {
     static function getMeals(array $collection)
     {
         $meals = [];
 
-<<<<<<< HEAD
         array_walk($collection, function ($item) use (&$meals) {
-=======
-        array_walk($collection, function ($item) use (&$meals){
->>>>>>> add_pdf_generation
             $meal = $item->getMeal();
             if (!key_exists($meal->getId(), $meals)) {
                 $meals[$meal->getId()] = $meal;
@@ -25,7 +17,6 @@ class CreatedDietSorter
 
         return $meals;
     }
-<<<<<<< HEAD
 
     static function groupMealsByWeekAndDay(array $collection)
     {
@@ -49,6 +40,4 @@ class CreatedDietSorter
 
         return $meals;
     }
-=======
->>>>>>> add_pdf_generation
 }
