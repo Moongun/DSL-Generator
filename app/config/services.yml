@@ -1,6 +1,5 @@
-# Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/service_container.html
 parameters:
+    pdf_dir: '%kernel.project_dir%/web/pdf/'
 #    parameter_name: value
 
 services:
@@ -8,3 +7,7 @@ services:
         class: DSL\DSLBundle\Security\Core\User\FOSUBUserProvider
         #this is the place where the properties are passed to the UserProvider - see config.yml
         arguments: ["@fos_user.user_manager",{facebook: facebook_id}]
+
+    DSL\DSLBundle\:
+        resource: '../../src/DSL/DSLBundle/*'
+        exclude: '../../src/DSL/DSLBundle/{Entity,Repository,Controller}'
