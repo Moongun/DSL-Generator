@@ -106,7 +106,7 @@ class CreatedDietController extends Controller {
     /**
      * Finds and displays a createdDiet entity.
      *
-     * @Route("/{dietRule}", options={"expose"=true}, name="createddiet_show")
+     * @Route("/{id}", options={"expose"=true}, name="createddiet_show")
      * @Method("GET")
      */
     public function showAction(DietRules $dietRule) {
