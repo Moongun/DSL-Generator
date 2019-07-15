@@ -14,11 +14,12 @@ class CreatedDietRepository extends EntityRepository {
      * Zwraca tablicę składników dla danego okresu diety.
      *
      * @param int $id Id reguły.
-     * @param \DateTime $startDate Obiekt DateTime z początkową datą.
-     * @param \DateTime $endDate Obiekt DateTime z końcową datą.
+     * @param int $startDay Dzień diety, od którego mają być szukane składniki.
+     * @param int $endDay Dzień diety. do któ©ego mają być szukane skłądniki.
+     * 
      * @return type
      */
-    public function findIngredientsByRuleIdInGivenTime(int $id, $startDate, $endDate = null) {
+    public function findIngredientsByRuleIdAndGivenDays(int $id, int $startDay, int $endDay = null) {
         $query = $this->createQueryBuilder('cd')
             ->addSelect('m.name as MealName')
             ->addSelect('i.quantity * count(p.name) as ProductCount')
@@ -27,15 +28,15 @@ class CreatedDietRepository extends EntityRepository {
             ->join('m.ingredients', 'i')
             ->join('i.product', 'p')
             ->where('cd.dietRules = :id')
-            ->andWhere('cd.date > :startDate')
+            ->andWhere('cd.day >= :startDate')
             ->setParameters([
                 'id' => $id,
-                'startDate' => $startDate
+                'startDate' => $startDay
             ]);
-        if ($endDate) {
-            $query
-                ->andWhere('cd.date <= :endDate')
-                ->setParameter('endDate', $endDate);
+
+        if ($endDay) {
+            $query->andWhere('cd.day <= :endDay')
+                ->setParameter('endDay', $endDay);
         }
 
         $query->groupBy('cd.meal');

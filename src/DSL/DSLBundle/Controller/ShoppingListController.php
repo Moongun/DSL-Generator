@@ -15,38 +15,34 @@ class ShoppingListController extends Controller
      */
     public function indexAction($dietRuleId) {
 
-        $em = $this->getDoctrine()->getManager();
-        
-        $createdDiet = $em->getRepository('DSLBundle:CreatedDiet')->findByDietRules($dietRuleId);
-        $createdDietDate = $em->getRepository('DSLBundle:DietRules')
-                ->find($dietRuleId)
-                ->getCreatedDate();
-        
-        $dateWeek1 = date('Y-m-d H:i:s', strtotime($createdDietDate->format('Y-m-d H:i:s') . '+7 days'));
-        $dateWeek2 = date('Y-m-d H:i:s', strtotime($createdDietDate->format('Y-m-d H:i:s') . '+14 days'));
-        $dateWeek3 = date('Y-m-d H:i:s', strtotime($createdDietDate->format('Y-m-d H:i:s') . '+21 days'));
-        $dateWeek4 = date('Y-m-d H:i:s', strtotime($createdDietDate->format('Y-m-d H:i:s') . '+28 days'));
-        
-        $ingredientsWeek1 = $em->getRepository(CreatedDiet::class)
-                ->findIngredientsByRuleIdInGivenTime($dietRuleId, $createdDietDate, $dateWeek1);
-        $ingredientsWeek2 = $em->getRepository(CreatedDiet::class)
-                ->findIngredientsByRuleIdInGivenTime($dietRuleId, $dateWeek1, $dateWeek2);
-        $ingredientsWeek3 = $em->getRepository(CreatedDiet::class)
-                ->findIngredientsByRuleIdInGivenTime($dietRuleId, $dateWeek2, $dateWeek3);
-        $ingredientsRest = $em->getRepository(CreatedDiet::class)
-                ->findIngredientsByRuleIdInGivenTime($dietRuleId, $dateWeek3);
-        
+        $createdDietRepository =$this->getDoctrine()->getRepository(CreatedDiet::class);
+
         $month = [
-            ['title' => 'Tydzień pierwszy', 'ingredients' => $ingredientsWeek1],
-            ['title' => 'Tydzień drugi', 'ingredients' => $ingredientsWeek2],
-            ['title' => 'Tydzień trzeci', 'ingredients' => $ingredientsWeek3],
-            ['title' => 'Reszta miesiąca', 'ingredients' => $ingredientsRest]
+            [
+                'title' => 'Tydzień pierwszy',
+                'ingredients' => $createdDietRepository->findIngredientsByRuleIdAndGivenDays($dietRuleId, 1, 7)
+            ],
+            [
+                'title' => 'Tydzień drugi',
+                'ingredients' => $createdDietRepository->findIngredientsByRuleIdAndGivenDays($dietRuleId, 8, 14)
+            ],
+            [
+                'title' => 'Tydzień trzeci',
+                'ingredients' => $createdDietRepository->findIngredientsByRuleIdAndGivenDays($dietRuleId, 15, 21)
+            ],
+            [
+                'title' => 'Tydzień czwarty',
+                'ingredients' => $createdDietRepository->findIngredientsByRuleIdAndGivenDays($dietRuleId, 22, 28)
+            ],
+            [
+                'title' => 'Reszta miesiąca',
+                'ingredients' => $createdDietRepository->findIngredientsByRuleIdAndGivenDays($dietRuleId, 29)
+            ]
         ];
         
         return $this->render("shoppingList/index.html.twig", array(
                     'dietRuleId' => $dietRuleId,
                     'month' => $month
-            
         ));
     }
 }
