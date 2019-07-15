@@ -16,7 +16,7 @@ class CreatedDietRepository extends EntityRepository {
      * @param int $id Id reguły.
      * @param int $startDay Dzień diety, od którego mają być szukane składniki.
      * @param int $endDay Dzień diety. do któ©ego mają być szukane skłądniki.
-     * 
+     *
      * @return type
      */
     public function findIngredientsByRuleIdAndGivenDays(int $id, int $startDay, int $endDay = null) {
