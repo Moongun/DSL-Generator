@@ -16,15 +16,18 @@ class PdfGenerator
         $this->pdfDir = $pdfDir;
     }
 
-    public function createPathToFile(array $components, string $extension = 'pdf')
+    public function createPathToFile(string $fileName)
     {
-        $pathToFile = implode('_',$components) . '.' . $extension;
-
-        return $this->pdfDir . $pathToFile;
+        return $this->pdfDir . $fileName;
     }
 
     public function generate(string $html, $pathToFile)
     {
         return $this->knpSnappyPdf->generateFromHtml($html, $pathToFile);
+    }
+
+    public function createFileName(array $components, string $extension = 'pdf')
+    {
+        return md5(implode('_',$components)) . '.' . $extension;
     }
 }

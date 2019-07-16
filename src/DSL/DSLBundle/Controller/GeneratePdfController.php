@@ -3,8 +3,13 @@
 namespace DSL\DSLBundle\Controller;
 
 use DSL\DSLBundle\Entity\DietRules;
+use DSL\DSLBundle\Entity\FilePath;
+use DSL\DSLBundle\Entity\User;
+use DSL\DSLBundle\Repository\FilePathRepository;
+use PHPUnit\Runner\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/generate_pdf", name="generate_pdf_")
@@ -17,31 +22,71 @@ class GeneratePdfController extends Controller
      */
     public function pdfForDietAction(DietRules $dietRule)
     {
+        $user = $this->getUser();
+
+        $filePathRepository = $this->getDoctrine()->getRepository(FilePath::class);
+        $filePath = $filePathRepository->findFilePathByUserIdAndDietRuleId($user->getId(), $dietRule->getId());
+
+        if ($filePath) {
+            return $this->redirect('/pdf/' . $filePath->getName());
+        }
+
         //TODO przerzucić logikę do serwisu
         $pdfGenerator = $this->get('service.pdf_generator');
 
         $components = [
             $dietRule->getUser()->getUsername(),
-            $dietRule->getCreatedDate()->format('Ymd_his')
+            $dietRule->getId(),
+            date('YmdHis')
         ];
 
-        $pathToFile = $pdfGenerator->createPathToFile($components);
+        $fileName = $pdfGenerator->createFileName($components);
+        $pathToFile = $pdfGenerator->createPathToFile($fileName);
+
+
+
+
 
         $statisticsService = $this->get('service.created_diet_statistics');
         $diet = $dietRule->getCreatedDiet()->getValues();
         $statistics = $statisticsService->setData($diet)->getStatistics();
 
         $dietHelper = $this->get('service.created_diet_helper');
-        $meals = $dietHelper::getMeals($diet);
+//        $meals = $dietHelper::getMeals($diet);
         $groupedMeals = $dietHelper::groupMealsByWeekAndDay($diet);
+//dump($statistics, $groupedMeals);
+        $html = $this->renderView('generatePdf/pdf_for_diet.html.twig', [
+            'requirements'  => $dietRule->getRequirements(),
+            'statistics'    => $statistics,
+            'grouped_meals' => $groupedMeals
+        ]);
 
-        $html = $this->renderView('generatePdf/pdf_for_diet.html.twig', []);
+        try {
+            $pdfGenerator->generate($html, $pathToFile);
+            $filePath = $this->saveFilePath($fileName, $pathToFile, $dietRule, $user);
+        } catch (Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
 
-        $pdfGenerator->generate($html, $pathToFile);
+        return $this->redirect('/pdf/' . $filePath->getName());
+    }
 
-//        TODO tymczas - trzeba inaczej
-        $explode = explode('/', $pathToFile);
+    private function saveFilePath(string $fileName, string $path, DietRules $dietRule,User $user) {
+        $dateTime = new \DateTime();
+        $dateTime->format('Y-m-d H:i:s');
 
-        return $this->redirect('/pdf/' . array_pop($explode));
+        $filePath = new FilePath();
+        $filePath
+            ->setName($fileName)
+            ->setPath($path)
+            ->setDietRule($dietRule)
+            ->setUser($user)
+            ->setCreatedAt($dateTime);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($filePath);
+            $em->flush();
+
+        return $filePath;
     }
 }
