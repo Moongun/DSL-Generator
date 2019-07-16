@@ -92,7 +92,7 @@ class DietRules
     public function __construct()
     {
         $this->createdDiet = new ArrayCollection();
-        $this->createdDate = new \DateTime;
+        $this->createdDate = new \DateTime();
         $this->periodicities = new ArrayCollection();
     }
     
@@ -347,5 +347,47 @@ class DietRules
             'financial' => $this->hasFinancialRule(),
             'periodicity' => $this->hasPeriodicityRule()
         ];
+    }
+
+    /**
+     * Returns array with requirements (without createdDiet).
+     *
+     * @return array
+     */
+    public function getRequirements()
+    {
+        return [
+            'created_date' => $this->getCreatedDate()->format('Y-m-s H:i:s'),
+            'user' => $this->getUser(),
+            'monthly_cost' => $this->getMonthlyCost(),
+            'daily_energy' => $this->getDailyCaloriesRequirementsKcal(),
+            'daily_proteins' => $this->getDailyProteinRequirementsG(),
+            'daily_carbohydrates' => $this->getDailyCarbohydratesRequirementsG(),
+            'daily_fats' => $this->getDailyFatRequirementsG(),
+            'periodicities' => $this->getArrayWithPeriodicities()
+        ];
+    }
+
+    /**
+     * Returns simple array build form periodicities containg name of item periodicity, cycle and start day.
+     * 
+     * @return array
+     */
+    private function getArrayWithPeriodicities()
+    {
+        $periodicities = $this->getPeriodicities()->getValues();
+
+        $array = [];
+
+        array_walk($periodicities, function($periodicity) use (&$array) {
+            $item = [
+                'item' => $periodicity->getProduct() ? $periodicity->getProduct()->getName() : $periodicity->getMeal()->getName(),
+                'cycle' => $periodicity->getCycle(),
+                'start_day' => $periodicity->getStartDay()
+            ];
+            $array[] = $item;
+        });
+
+        return $array;
     }
 }
