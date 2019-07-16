@@ -4,6 +4,13 @@ namespace DSL\DSLBundle\Service;
 
 class CreatedDietHelper
 {
+    /**
+     * Returns array with Meal Entities without duplicated objects.
+     *
+     * @param array $collection Array of Meal Entities.
+     *
+     * @return array
+     */
     static function getMeals(array $collection)
     {
         $meals = [];
@@ -18,6 +25,14 @@ class CreatedDietHelper
         return $meals;
     }
 
+    /**
+     * Returns associative array of week arrays wchich contain day arrays which contain Meal Entities.
+     *
+     * @param array $collection Array of Meal Entities.
+     *
+     * @return array
+     * @throws \Exception
+     */
     static function groupMealsByWeekAndDay(array $collection)
     {
         $meals = [];
