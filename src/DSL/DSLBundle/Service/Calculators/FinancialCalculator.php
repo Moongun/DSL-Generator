@@ -10,6 +10,7 @@ class FinancialCalculator extends AbstractCalculator implements CalculatorInterf
      */
     public function calculate()
     {
+//        TODO Błąd logiczny - jest liczenie jak na dzienne koszt, a trzeba na miesięczny
         $rule = $this->dietRule->getMonthlyCost();
         $diet = [];
         $day = 1;
