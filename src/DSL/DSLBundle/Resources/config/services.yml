@@ -55,12 +55,35 @@ services:
             - DSL\DSLBundle\Entity\Ingredient
         DSL\DSLBundle\Repository\IngredientRepository: '@repository.ingredient'
 
+    service.financial_calculator:
+        class: DSL\DSLBundle\Service\Calculators\FinancialCalculator
+        arguments:
+            - '@repository.meal'
+            - '%diet_days%'
+        DSL\DSLBundle\Service\Calculators\FinancialCalculator: '@service.financial_calculator'
+
+    service.composition_calculator:
+        class: DSL\DSLBundle\Service\Calculators\CompositionCalculator
+        arguments:
+            - '@repository.meal'
+            - '%diet_days%'
+        DSL\DSLBundle\Service\Calculators\CompositionCalculator: '@service.composition_calculator'
+
+    service.periodicity_calculator:
+        class: DSL\DSLBundle\Service\Calculators\PeriodicityCalculator
+        arguments:
+            - '@repository.meal'
+            - '%diet_days%'
+        DSL\DSLBundle\Service\Calculators\PeriodicityCalculator: '@service.periodicity_calculator'
+
     service.diet_generator:
         class: DSL\DSLBundle\Service\DietGenerator
         arguments:
             - '@repository.created_diet'
-            - '@repository.meal'
-            -
+            - '@service.financial_calculator'
+            - '@service.composition_calculator'
+            - '@service.periodicity_calculator'
+
     service.created_diet_statistics:
         class: DSL\DSLBundle\Service\CreatedDietStatistics
 
@@ -72,3 +95,4 @@ services:
         arguments:
             - '@knp_snappy.pdf'
             - '%pdf_dir%'
+
