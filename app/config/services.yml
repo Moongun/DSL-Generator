@@ -1,6 +1,6 @@
 parameters:
     pdf_dir: '%kernel.project_dir%/web/pdf/'
-#    parameter_name: value
+    diet_days: 30
 
 services:
     my_user_provider:
