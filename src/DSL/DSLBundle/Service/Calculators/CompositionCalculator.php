@@ -46,7 +46,7 @@ class CompositionCalculator extends AbstractCalculator implements CalculatorInte
                 $diet[$day] = $dayMeals;
                 $day++;
             }
-        } while ($day <= 30);
+        } while ($day <= $this->dietDays);
 
         $this->diet = $diet;
 

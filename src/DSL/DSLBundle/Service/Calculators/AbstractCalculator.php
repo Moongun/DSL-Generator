@@ -11,17 +11,32 @@ abstract class AbstractCalculator
     protected $mealRepository;
     protected $dietRule;
     private $meals;
+    protected $dietDays;
 
     /**
      * AbstractCalculator constructor.
      *
      * @param MealRepository $mealRepository
-     * @param DietRules $dietRule
+     * @param integer $dietDays
      */
-    public function __construct(MealRepository $mealRepository, DietRules $dietRule)
+    public function __construct(MealRepository $mealRepository, int $dietDays)
     {
         $this->mealRepository = $mealRepository;
+        $this->dietDays = $dietDays;
+    }
+
+    /**
+     * Setter for DietRule.
+     *
+     * @param DietRules $dietRule
+     *
+     * @return $this
+     */
+    private function setDietRule(DietRules $dietRule)
+    {
         $this->dietRule = $dietRule;
+
+        return $this;
     }
 
     /**
@@ -29,8 +44,9 @@ abstract class AbstractCalculator
      *
      * @return $this
      */
-    public function initiate()
+    public function initiate(DietRules $dietRule)
     {
+        $this->setDietRule($dietRule);
         $this->meals = $this->mealRepository->pickMeals();
 
         return $this;

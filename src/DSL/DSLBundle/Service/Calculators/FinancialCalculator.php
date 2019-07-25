@@ -10,8 +10,9 @@ class FinancialCalculator extends AbstractCalculator implements CalculatorInterf
      */
     public function calculate()
     {
-//        TODO Błąd logiczny - jest liczenie jak na dzienne koszt, a trzeba na miesięczny
         $rule = $this->dietRule->getMonthlyCost();
+        $days = $this->dietDays;
+        $dayCost = $rule / $days;
         $diet = [];
         $day = 1;
         do {
@@ -24,7 +25,7 @@ class FinancialCalculator extends AbstractCalculator implements CalculatorInterf
             }
 
             $validDayMeals = true;
-            if ($rule < $financialValues) {
+            if ($dayCost < $financialValues) {
                 $validDayMeals = false;
             }
 
@@ -32,7 +33,7 @@ class FinancialCalculator extends AbstractCalculator implements CalculatorInterf
                 $diet[$day] = $dayMeals;
                 $day++;
             }
-        } while ($day <= 30);
+        } while ($day <= $days);
 
         $this->diet = $diet;
 

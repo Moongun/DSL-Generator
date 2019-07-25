@@ -1,7 +1,6 @@
 <?php
 namespace DSL\DSLBundle\Service;
 use DSL\DSLBundle\Repository\CreatedDietRepository;
-use DSL\DSLBundle\Repository\MealRepository;
 use DSL\DSLBundle\Entity\DietRules;
 use DSL\DSLBundle\Service\Calculators\CompositionCalculator;
 use DSL\DSLBundle\Service\Calculators\FinancialCalculator;
@@ -10,15 +9,29 @@ use DSL\DSLBundle\Service\Calculators\PeriodicityCalculator;
 class DietGenerator
 {
     private $createdDietRepository;
-    private $mealRepository;
+    private $financialCalculator;
+    private $compositionCalculator;
+    private $periodicityCalculator;
 
+    /**
+     * DietGenerator constructor.
+     *
+     * @param CreatedDietRepository $createdDietRepository
+     * @param FinancialCalculator $financialCalculator
+     * @param CompositionCalculator $compositionCalculator
+     * @param PeriodicityCalculator $periodicityCalculator
+     */
     public function __construct(
         CreatedDietRepository $createdDietRepository,
-        MealRepository $mealRepository
+        FinancialCalculator $financialCalculator,
+        CompositionCalculator $compositionCalculator,
+        PeriodicityCalculator $periodicityCalculator
     )
     {
         $this->createdDietRepository = $createdDietRepository;
-        $this->mealRepository = $mealRepository;
+        $this->financialCalculator = $financialCalculator;
+        $this->compositionCalculator = $compositionCalculator;
+        $this->periodicityCalculator = $periodicityCalculator;
     }
 
     /**
@@ -39,17 +52,17 @@ class DietGenerator
         }
 
         if ($rule->hasCompositionRule()) {
-            $calculator = new CompositionCalculator($this->mealRepository, $rule);
+            $calculator = $this->compositionCalculator;
         } elseif ($rule->hasFinancialRule()) {
-            $calculator = new FinancialCalculator($this->mealRepository, $rule);
+            $calculator = $this->financialCalculator;
         } elseif ($rule->hasPeriodicityRule()) {
-            $calculator = new PeriodicityCalculator($this->mealRepository, $rule);
+            $calculator = $this->periodicityCalculator;
         } else {
             throw new \Exception(sprintf('No rule parameter defined for rule_id = %s', $rule->getId()));
         }
 
         $diet = $calculator
-            ->initiate()
+            ->initiate($rule)
             ->calculate()
             ->getDiet();
 

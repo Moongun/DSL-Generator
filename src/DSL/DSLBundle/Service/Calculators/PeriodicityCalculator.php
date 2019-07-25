@@ -3,8 +3,6 @@ namespace DSL\DSLBundle\Service\Calculators;
 
 class PeriodicityCalculator extends AbstractCalculator implements CalculatorInterface
 {
-    const NUMBER_OF_DIET_DAYS = 30;
-
     private $diet;
 
     /**
@@ -19,7 +17,7 @@ class PeriodicityCalculator extends AbstractCalculator implements CalculatorInte
             $dayMeals = $this->getRandomMealsForDay();
             $diet[$day] = $dayMeals;
             $day++;
-        } while ($day <= self::NUMBER_OF_DIET_DAYS);
+        } while ($day <= $this->dietDays);
 
         foreach ($periodicities as $periodicity) {
             if ($periodicity->getProduct() && $periodicity->getMeal()){
@@ -58,7 +56,7 @@ class PeriodicityCalculator extends AbstractCalculator implements CalculatorInte
         $day = $start;
         $result = [];
 
-        while ($day <= self::NUMBER_OF_DIET_DAYS) {
+        while ($day <= $this->dietDays) {
             $result[]= $day;
             $day = $day + $cycle;
         }
