@@ -4,6 +4,7 @@ services:
         autoconfigure: true
         public: true
 
+    #fixturies
     meal.fixtures:
         class: DSL\DSLBundle\DataFixtures\MealFixtures
 
@@ -27,6 +28,8 @@ services:
     ingredient.fixtures:
         class: DSL\DSLBundle\DataFixtures\IngredientFixtures
 
+
+    #repositories
     repository.meal:
         class: DSL\DSLBundle\Repository\MealRepository
         factory: ["@doctrine.orm.entity_manager", getRepository]
@@ -55,6 +58,8 @@ services:
             - DSL\DSLBundle\Entity\Ingredient
         DSL\DSLBundle\Repository\IngredientRepository: '@repository.ingredient'
 
+
+    #calculators
     service.financial_calculator:
         class: DSL\DSLBundle\Service\Calculators\FinancialCalculator
         arguments:
@@ -76,6 +81,8 @@ services:
             - '%diet_days%'
         DSL\DSLBundle\Service\Calculators\PeriodicityCalculator: '@service.periodicity_calculator'
 
+
+    #generators
     service.diet_generator:
         class: DSL\DSLBundle\Service\DietGenerator
         arguments:
@@ -84,15 +91,21 @@ services:
             - '@service.composition_calculator'
             - '@service.periodicity_calculator'
 
-    service.created_diet_statistics:
-        class: DSL\DSLBundle\Service\CreatedDietStatistics
-
-    service.created_diet_helper:
-        class: DSL\DSLBundle\Service\CreatedDietHelper
-
     service.pdf_generator:
         class: DSL\DSLBundle\Service\PdfGenerator
         arguments:
             - '@knp_snappy.pdf'
             - '%pdf_dir%'
+
+
+    #other
+    service.created_diet_statistics:
+        class: DSL\DSLBundle\Service\CreatedDietStatistics
+
+    service.created_diet_recipies:
+        class: DSL\DSLBundle\Service\CreatedDietRecipies
+
+    service.created_diet_helper:
+        class: DSL\DSLBundle\Service\CreatedDietHelper
+
 
