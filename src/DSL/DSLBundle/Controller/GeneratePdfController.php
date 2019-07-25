@@ -51,6 +51,9 @@ class GeneratePdfController extends Controller
         $diet = $dietRule->getCreatedDiet()->getValues();
         $statistics = $statisticsService->setData($diet)->getStatistics();
 
+        $recipiesService = $this->get('service.created_diet_recipies');
+        $recipies = $recipiesService->setData($diet)->getRecipies();
+
         $dietHelper = $this->get('service.created_diet_helper');
 //        $meals = $dietHelper::getMeals($diet);
         $groupedMeals = $dietHelper::groupMealsByWeekAndDay($diet);
@@ -58,7 +61,8 @@ class GeneratePdfController extends Controller
         $html = $this->renderView('generatePdf/pdf_for_diet.html.twig', [
             'requirements'  => $dietRule->getRequirements(),
             'statistics'    => $statistics,
-            'grouped_meals' => $groupedMeals
+            'grouped_meals' => $groupedMeals,
+            'recipies'      => $recipies
         ]);
 
         try {

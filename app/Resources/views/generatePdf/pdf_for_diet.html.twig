@@ -134,7 +134,36 @@
                 </table>
             {% endfor %}
 
-            {#        TODO dodać przepisy#}
+            {# przepisy #}
+{#            {% dump(recipies) %}#}
+            {% for recipe in recipies %}
+                <table>
+                    <thead>
+                        <tr class="main-header">
+                            <th colspan="2">{{ recipe.meal_name }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for ingredient in recipe.ingredients %}
+                        <tr>
+                            <td>{{ ingredient.product_name }}</td>
+                            <td>{{ ingredient.product_quantity }}</td>
+                        </tr>
+                    {% endfor %}
+                    {% for key, statistic in recipe.statistics %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>{{ statistic }}</td>
+                        </tr>
+                    {% endfor %}
+                        <tr>
+                            <td colspan="2">{{ recipe.description }}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot></tfoot>
+                </table>
+            {% endfor %}
+
         </div>
 
     </body>
