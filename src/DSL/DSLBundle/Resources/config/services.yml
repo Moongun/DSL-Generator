@@ -58,6 +58,13 @@ services:
             - DSL\DSLBundle\Entity\Ingredient
         DSL\DSLBundle\Repository\IngredientRepository: '@repository.ingredient'
 
+    repository.file_path:
+        class: DSL\DSLBundle\Repository\FilePathRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - DSL\DSLBundle\Entity\FilePath
+        DSL\DSLBundle\Repository\FilePathRepository: '@repository.file_path'
+
 
     #calculators
     service.financial_calculator:
@@ -109,3 +116,12 @@ services:
         class: DSL\DSLBundle\Service\CreatedDietHelper
 
 
+    #commands
+    command.dsl_pdf_remove:
+        class: DSL\DSLBundle\Command\DslPdfRemoveCommand
+        tags:
+            name: 'console.command'
+        arguments:
+            - '@repository.file_path'
+            - '@doctrine.orm.entity_manager'
+            - '%pdf_dir%'
