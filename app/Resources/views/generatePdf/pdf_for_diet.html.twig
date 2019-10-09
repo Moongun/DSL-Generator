@@ -1,18 +1,19 @@
-{#{% extends 'base_logged.html.twig' %}#}
-
-{#{% block content %}#}
 <html>
     <head>
         <meta charset="UTF-8"/>
-        <style>
+        <style type="text/css">
             body {
-                width: 2480px;
-
+                width: 100%;
             }
 
             table {
-                /*width: 70%;*/
+                width: 80%;
                 border-collapse: collapse;
+                word-break: break-all;
+            }
+
+            table.details {
+                margin: 0 auto;
             }
 
             table, th, td {
@@ -35,138 +36,178 @@
             #content {
                 margin: 30px 15px 30px 15px;
             }
+
+            /*.flex {*/
+            /*    overflow: auto;*/
+            /*}*/
+
+            .flex::after {
+                content: "";
+                clear: both;
+                display: table;
+            }
+
+            .flex > div {
+                float: left;
+                width: 50%;
+            }
+            .mb-2 {
+                margin-bottom: 20px;
+            }
+
+            .centered {
+                margin: 0 auto;
+            }
+
+            .break-before {
+                page-break-before: always;
+            }
+
+            .break-avoid {
+                page-break-inside: avoid;
+            }
         </style>
     </head>
+
     <body>
-
         <div id="content">
+            <h1>Dieta</h1>
+            <div class="flex mb-2">
 
-            {#        wymagania#}
-            <table>
-                <thead>
-                <tr class="main-header">
-                    <th colspan="2">Wymagania</th>
-                </tr>
-                <tr>
-                    <th>klucz</th>
-                    <th>wartość</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for key, value in requirements %}
-                    {% if value is iterable %}
-                        {% set collection = value %}
-                        <tr>
-                            <td colspan="2">{{ key }}</td>
+{#          SUMMARY         #}
+                <div>
+                    <table class="details">
+                        <thead>
+                        <tr class="main-header">
+                            <th colspan="2">Wymagania</th>
                         </tr>
-                        {% for key, element in collection %}
-                            <tr>
-                                <td>{{ key+1 }}</td>
-                            </tr>
-                            {% for key, value in element %}
+                        <tr>
+                            <th>klucz</th>
+                            <th>wartość</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for key, value in requirements %}
+                            {% if value is iterable %}
+                                {% set collection = value %}
+                                <tr>
+                                    <td colspan="2">{{ key }}</td>
+                                </tr>
+                                {% for key, element in collection %}
+                                    <tr>
+                                        <td>{{ key+1 }}</td>
+                                    </tr>
+                                    {% for key, value in element %}
+                                        <tr>
+                                            <td>{{ key }}</td>
+                                            <td>{{ value }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            {% else %}
                                 <tr>
                                     <td>{{ key }}</td>
                                     <td>{{ value }}</td>
                                 </tr>
-                            {% endfor %}
+                            {% endif %}
                         {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td>{{ key }}</td>
-                            <td>{{ value }}</td>
+                        </tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+
+{#          STATISTICS          #}
+                <div>
+                    <table class="details">
+                        <thead>
+                        <tr class="main-header">
+                            <th colspan="2">statystyki diety</th>
                         </tr>
-                    {% endif %}
-                {% endfor %}
-                </tbody>
-                <tfoot></tfoot>
-            </table>
-
-            {#    statystyki#}
-            <table>
-                <thead>
-                <tr class="main-header">
-                    <th colspan="2">statystyki diety</th>
-                </tr>
-                <tr>
-                    <th>klucz</th>
-                    <th>wartość</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for key, value in statistics %}
-                    <tr>
-                        <td>{{ key }}</td>
-                        <td>{{ value | number_format(0, '.', ' ') }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-                <tfoot></tfoot>
-            </table>
-
-
-            {#      posiłki - tygodnie #}
-            {% for key, week in grouped_meals %}
-                <table>
-                    <thead>
-                    <tr class="main-header">
-                        <th colspan="6">{{ key }}</th>
-                    </tr>
-                    <tr>
-                        <th>dzień</th>
-                        <th>śniadanie</th>
-                        <th>brunch</th>
-                        <th>lunch</th>
-                        <th>obiad</th>
-                        <th>kolacja</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for key, day in week %}
                         <tr>
-                            <td>{{ key }}</td>
-                            {% for meal in day %}
-                                <td>{{ meal }}</td>
-                            {% endfor %}
+                            <th>klucz</th>
+                            <th>wartość</th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                    <tfoot></tfoot>
-                </table>
-            {% endfor %}
+                        </thead>
+                        <tbody>
+                        {% for key, value in statistics %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>{{ value | number_format(0, '.', ' ') }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+            </div>
 
-            {# przepisy #}
-{#            {% dump(recipies) %}#}
-            {% for recipe in recipies %}
-                <table>
-                    <thead>
+{#          MEALS          #}
+            <div class="mb-2">
+                <h1>Rozkład dnia</h1>
+                {% for key, week in grouped_meals %}
+                <div class="mb-2">
+                    <table class="week centered break-avoid">
+                        <thead>
+                        <tr class="main-header">
+                            <th colspan="6">{{ key }}</th>
+                        </tr>
+                        <tr>
+                            <th>dzień</th>
+                            <th>śniadanie</th>
+                            <th>brunch</th>
+                            <th>lunch</th>
+                            <th>obiad</th>
+                            <th>kolacja</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for key, day in week %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                {% for meal in day %}
+                                    <td>{{ meal }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+                {% endfor %}
+            </div>
+
+{#          RECIPIES            #}
+            <div class="break-before mb-2">
+                <h1>Przepisy</h1>
+                {# przepisy #}
+                {% for recipe in recipies %}
+                    <table class="centered break-avoid">
+                        <thead>
                         <tr class="main-header">
                             <th colspan="2">{{ recipe.meal_name }}</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                    {% for ingredient in recipe.ingredients %}
-                        <tr>
-                            <td>{{ ingredient.product_name }}</td>
-                            <td>{{ ingredient.product_quantity }}</td>
-                        </tr>
-                    {% endfor %}
-                    {% for key, statistic in recipe.statistics %}
-                        <tr>
-                            <td>{{ key }}</td>
-                            <td>{{ statistic }}</td>
-                        </tr>
-                    {% endfor %}
+                        </thead>
+                        <tbody>
+                        {% for ingredient in recipe.ingredients %}
+                            <tr>
+                                <td>{{ ingredient.product_name }}</td>
+                                <td>{{ ingredient.product_quantity }}</td>
+                            </tr>
+                        {% endfor %}
+                        {% for key, statistic in recipe.statistics %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>{{ statistic }}</td>
+                            </tr>
+                        {% endfor %}
                         <tr>
                             <td colspan="2">{{ recipe.description }}</td>
                         </tr>
-                    </tbody>
-                    <tfoot></tfoot>
-                </table>
-            {% endfor %}
-
+                        </tbody>
+                        <tfoot></tfoot>
+                    </table>
+                {% endfor %}
+            </div>
         </div>
-
     </body>
 </html>
-
-{#{% endblock content %}#}
