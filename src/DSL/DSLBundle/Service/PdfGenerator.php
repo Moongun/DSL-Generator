@@ -23,7 +23,9 @@ class PdfGenerator
 
     public function generate(string $html, $pathToFile)
     {
-        return $this->knpSnappyPdf->generateFromHtml($html, $pathToFile);
+        $options = ['page-width' => 595];
+
+        return $this->knpSnappyPdf->generateFromHtml($html, $pathToFile, $options);
     }
 
     public function createFileName(array $components, string $extension = 'pdf')
