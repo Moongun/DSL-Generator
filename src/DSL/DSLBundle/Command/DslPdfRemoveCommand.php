@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class DslPdfRemoveCommand extends Command
 {
@@ -31,36 +32,60 @@ class DslPdfRemoveCommand extends Command
         $this
             ->setName('dsl:pdf:remove')
             ->setDescription('Removes pdf files and clear datatable connected with those files')
-        ;
+            ->addArgument('dietRuleId', InputArgument::OPTIONAL, 'Id of diet rule to remove');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $dietRuleId = $input->getArgument('dietRuleId');
+        $io = new SymfonyStyle($input, $output);
 
         $filePathRepository = $this->filePathRepository;
         $em = $this->em;
+        $counterDb = 0;
+        $counterFiles = 0;
 
-        $pdfs = glob($this->pdfDir.'*.pdf');
+        if ($dietRuleId) {
+            $filePath = $filePathRepository->findOneBy(['dietRule' => $dietRuleId]);
+            if (!$filePath) {
+                return $io->error(sprintf('There is no FilePath for diet_rule_id = %s', $dietRuleId));
+            }
+            $path = $filePath->getPath();
+            try {
+                $em->remove($filePath);
+                $em->flush();
+                $counterDb++;
+                $io->writeln(sprintf('%s removed from Database', $path));
 
-
-        $counter = 0;
-
-        foreach($pdfs as $pdf) {
-            $row = $filePathRepository->findOneByPath($pdf);
-            if ($row) {
-                try {
-                    $em->remove($row);
+                unlink($path);
+                $counterFiles++;
+                $output->writeln(sprintf('%s removed from FileFirectory', $path));
+            } catch (\Exception $e) {
+                return $io->error($e->getMessage());
+            }
+        } else {
+            try {
+                $filePaths = $filePathRepository->findAll();
+                foreach ($filePaths as $filePath) {
+                    $em->remove($filePath);
                     $em->flush();
-                    unlink($pdf);
-
-                    $output->writeln(sprintf('%s removed', $pdf));
-                    $counter++;
-                } catch (\Exception $e) {
-                    $output->writeln($e->getMessage());
+                    $counterDb++;
                 }
+
+                $pdfs = glob($this->pdfDir.'*.pdf');
+                foreach ($pdfs as $pdf) {
+                    unlink($pdf);
+                    $counterFiles++;
+                }
+            }catch (\Exception $e) {
+                return $io->error($e->getMessage());
             }
         }
 
-        $output->writeln(sprintf('removed: %s', $counter));
+        $summary = [
+            sprintf('removed from Database: %s', $counterDb),
+            sprintf('removed from File directory: %s', $counterFiles)
+        ];
+        return $io->success($summary);
     }
 }
