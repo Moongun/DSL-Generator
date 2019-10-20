@@ -59,7 +59,7 @@ class DslPdfRemoveCommand extends Command
 
                 unlink($path);
                 $counterFiles++;
-                $output->writeln(sprintf('%s removed from FileFirectory', $path));
+                $output->writeln(sprintf('%s removed from FileDirectory', $path));
             } catch (\Exception $e) {
                 return $io->error($e->getMessage());
             }
