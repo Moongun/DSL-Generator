@@ -31,43 +31,15 @@ class GeneratePdfController extends Controller
             return $this->redirect('/pdf/' . $filePath->getName());
         }
 
-        //TODO przerzucić logikę do serwisu
-        $pdfGenerator = $this->get('service.pdf_generator');
-
-        $components = [
-            $dietRule->getUser()->getUsername(),
-            $dietRule->getId(),
-            date('YmdHis')
-        ];
-
-        $fileName = $pdfGenerator->createFileName($components);
-        $pathToFile = $pdfGenerator->createPathToFile($fileName);
-
-
-
-
-
-        $statisticsService = $this->get('service.created_diet_statistics');
-        $diet = $dietRule->getCreatedDiet()->getValues();
-        $statistics = $statisticsService->setData($diet)->getStatistics();
-
-        $recipiesService = $this->get('service.created_diet_recipies');
-        $recipies = $recipiesService->setData($diet)->getRecipies();
-
-        $dietHelper = $this->get('service.created_diet_helper');
-//        $meals = $dietHelper::getMeals($diet);
-        $groupedMeals = $dietHelper::groupMealsByWeekAndDay($diet);
-//dump($statistics, $groupedMeals);
-        $html = $this->renderView('generatePdf/pdf_for_diet.html.twig', [
-            'requirements'  => $dietRule->getRequirements(),
-            'statistics'    => $statistics,
-            'grouped_meals' => $groupedMeals,
-            'recipies'      => $recipies
-        ]);
+        $schedule = $this->get('service.schedule');
 
         try {
-            $pdfGenerator->generate($html, $pathToFile);
-            $filePath = $this->saveFilePath($fileName, $pathToFile, $dietRule, $user);
+            $schedule
+                ->setDietRule($dietRule)
+                ->generateHtml()
+                ->makeFile();
+
+            $filePath = $this->saveFilePath($schedule->getFileName(), $schedule->getPathToFile(), $dietRule);
         } catch (Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -75,7 +47,18 @@ class GeneratePdfController extends Controller
         return $this->redirect('/pdf/' . $filePath->getName());
     }
 
-    private function saveFilePath(string $fileName, string $path, DietRules $dietRule,User $user) {
+    /**
+     * Saving FilePath Entity
+     * TODO create command
+     *
+     * @param string    $fileName   FileName
+     * @param string    $path       Path to File
+     * @param DietRules $dietRule   DietRule
+     *
+     * @return FilePath
+     * @throws \Exception
+     */
+    private function saveFilePath(string $fileName, string $path, DietRules $dietRule) {
         $dateTime = new \DateTime();
         $dateTime->format('Y-m-d H:i:s');
 
@@ -84,7 +67,7 @@ class GeneratePdfController extends Controller
             ->setName($fileName)
             ->setPath($path)
             ->setDietRule($dietRule)
-            ->setUser($user)
+            ->setUser($dietRule->getUser())
             ->setCreatedAt($dateTime);
 
         $em = $this->getDoctrine()->getManager();

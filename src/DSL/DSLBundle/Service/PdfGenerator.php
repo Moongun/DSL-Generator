@@ -9,6 +9,8 @@ class PdfGenerator
 {
     private $knpSnappyPdf;
     private $pdfDir;
+    private $fileName;
+    private $pathToFile;
 
     /**
      * PdfGenerator constructor.
@@ -29,9 +31,32 @@ class PdfGenerator
      *
      * @return string
      */
-    public function createPathToFile(string $fileName)
+    public function setPathToFile(string $fileName)
     {
-        return $this->pdfDir . $fileName;
+        $this->pathToFile = $this->pdfDir . $fileName;
+
+        return $this;
+    }
+
+    public function getPathToFile() {
+        return $this->pathToFile;
+    }
+
+    /**
+     * Set file name.
+     *
+     * @param array $components Array with unique diet data
+     * @return string
+     */
+    public function setFileName(array $components)
+    {
+        $this->fileName = md5(implode('_',$components)) . '.pdf';
+
+        return $this;
+    }
+
+    public function getFileName() {
+        return $this->fileName;
     }
 
     /**
@@ -40,22 +65,10 @@ class PdfGenerator
      * @param string $html Html
      * @param $pathToFile Path to file
      */
-    public function generate(string $html, $pathToFile)
+    public function generate(string $html, $options = [])
     {
         $options = ['page-width' => 595];
 
-        return $this->knpSnappyPdf->generateFromHtml($html, $pathToFile, $options);
-    }
-
-    /**
-     * Create file name.
-     *
-     * @param array $components Array with unique diet data
-     * @param string $extension Extension
-     * @return string
-     */
-    public function createFileName(array $components, string $extension = 'pdf')
-    {
-        return md5(implode('_',$components)) . '.' . $extension;
+        return $this->knpSnappyPdf->generateFromHtml($html, $this->pathToFile, $options);
     }
 }
