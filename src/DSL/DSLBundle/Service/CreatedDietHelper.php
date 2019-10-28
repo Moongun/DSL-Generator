@@ -26,9 +26,9 @@ class CreatedDietHelper
     }
 
     /**
-     * Returns associative array of week arrays wchich contain day arrays which contain Meal Entities.
+     * Returns associative array of week arrays which contain day arrays which contain Meal Entities.
      *
-     * @param array $collection Array of Meal Entities.
+     * @param array $collection Array of CreatedDiet Entities.
      *
      * @return array
      * @throws \Exception
@@ -53,6 +53,22 @@ class CreatedDietHelper
             }
         }
 
+        return $meals;
+    }
+
+    /**
+     * Returns associative array of arrays where key is day of diet and value is array of meals in this day.
+     *
+     * @param array $collection Array of CreatedDietMeals.
+     *
+     * @return array
+     */
+    static function groupMealsByDay(array $collection)
+    {
+        $meals = [];
+        foreach ($collection as $item) {
+            $meals[$item->getDay()][] = $item->getMeal();
+        }
         return $meals;
     }
 }
