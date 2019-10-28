@@ -7,33 +7,9 @@
                 <span class='content-header'>Stworzona dieta</span>
             </div>
         </div>
-
         {% include 'createddiet/block/actions.html.twig' %}
         {% include 'createddiet/block/statistics.html.twig' %}
         {% include 'createddiet/block/diet.html.twig' %}
-
-{#        <table class="table text-center mt-5">#}
-{#            <tr>#}
-{#                <th>Dzień</th>#}
-{#                <th>śniadanie</th>#}
-{#                <th>brunch</th>#}
-{#                <th>lunch</th>#}
-{#                <th>obiad</th>#}
-{#                <th>kolacja</th>#}
-{#            </tr>#}
-
-{#            {% dump(meals) %}#}
-{#            {% set counterMeal = 0 %}#}
-{#            {% for i in 1..30 %}#}
-{#                <tr>#}
-{#                    <td>{{ i }}</td>#}
-{#                    {% for meal in meals |slice(counterMeal, 5) %}#}
-{#                        <td>{{ meal.name }}</td>#}
-{#                    {% endfor %}#}
-{#                    {% set counterMeal = counterMeal + 5 %}#}
-{#                </tr>#}
-{#            {% endfor %}#}
-{#        </table>#}
     </div>
 
 {% endblock content %}
