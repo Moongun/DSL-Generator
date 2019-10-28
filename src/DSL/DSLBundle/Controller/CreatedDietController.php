@@ -4,6 +4,7 @@ namespace DSL\DSLBundle\Controller;
 
 use DSL\DSLBundle\Entity\CreatedDiet;
 use DSL\DSLBundle\Entity\DietRules;
+use DSL\DSLBundle\Service\CreatedDietHelper;
 use GuzzleHttp\Psr7\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -62,7 +63,7 @@ class CreatedDietController extends Controller {
 
         return $this->render('createddiet\generate.html.twig', [
             'diet' => $createdDiet,
-            'dietRule' => $dietRule
+            'diet_rule' => $dietRule
         ]);
     }
 
@@ -124,15 +125,10 @@ class CreatedDietController extends Controller {
             ->setData($createdDiet)
             ->getStatistics();
 
-        $meals = [];
-        foreach ($createdDiet as $item) {
-            $meals[] = $item->getMeal();
-        }
-
         return $this->render('createddiet/show.html.twig', array(
-                    'meals' => $meals,
+                    'diet' => CreatedDietHelper::groupMealsByDay($createdDiet),
                     'statistics' => $statistics,
-                    'diet_rule_id' =>$dietRule->getId()
+                    'diet_rule' =>$dietRule
         ));
     }
 

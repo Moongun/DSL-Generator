@@ -1,0 +1,36 @@
+<table id="diet" class="table" data-rule="{{ diet_rule.id }}">
+    <thead class="text-center">
+    <tr>
+        <th rowspan="2" class="">dzień</th>
+        <th colspan="5">posiłek</th>
+    </tr>
+    <tr>
+        <th>śniadanie</th>
+        <th>brunch</th>
+        <th>lunch</th>
+        <th>obiad</th>
+        <th>kolacja</th>
+    </tr>
+    </thead>
+    <tbody class="text-center">
+    {% for day, meals in diet %}
+        <tr class="day">
+            <td data-day = {{ day }} class="day-td" title="">{{ day }}</td>
+            {% for meal in meals %}
+                {%  set details = {
+                    'id': meal.id,
+                    'name': meal.name,
+                    'type': meal.type,
+                    'energy': meal.energyKcal,
+                    'protein': meal.proteinG,
+                    'carbohydrates': meal.carbohydratesG,
+                    'fat': meal.fatG,
+                    'avgCost': meal.averageCost,
+                    'description': meal.description
+                } %}
+                <td data-meal="{{ meal.id }}"  data-details="{{ details | json_encode() }}" class="meal">{{ meal.name }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

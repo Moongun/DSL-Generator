@@ -10,43 +10,30 @@
 
         {% include 'createddiet/block/actions.html.twig' %}
         {% include 'createddiet/block/statistics.html.twig' %}
+        {% include 'createddiet/block/diet.html.twig' %}
 
-        <div id="diet">
-            <div class="row pt-5">
-                <div class="col-lg-2">
-                    <span class='table-center'>Dzień</span>
-                </div>
-                <div class="col-lg-2">
-                    <span class='table-center'>śniadanie</span>
-                </div>
-                <div class="col-lg-2">
-                    <span class='table-center'>brunch</span>
-                </div>
-                <div class="col-lg-2">
-                    <span class='table-center'>lunch</span>
-                </div>
-                <div class="col-lg-2">
-                    <span class='table-center'>obiad</span>
-                </div>
-                <div class="col-lg-2">
-                    <span class='table-center'>kolacja</span>
-                </div>
-            </div>
-            {% set counterMeal = 0 %}
-            {% for i in 1..30 %}
-                <div class="row">
-                    <div class="col-lg-2">
-                        <span>{{ i }}</span>
-                    </div>
-                    {% for meal in meals |slice(counterMeal, 5) %}
-                        <div class="col-lg-2">
-                            <span>{{ meal.name }}</span>
-                        </div>
-                    {% endfor %}
-                    {% set counterMeal = counterMeal + 5 %}
-                </div>
-            {% endfor %}
-        </div>
+{#        <table class="table text-center mt-5">#}
+{#            <tr>#}
+{#                <th>Dzień</th>#}
+{#                <th>śniadanie</th>#}
+{#                <th>brunch</th>#}
+{#                <th>lunch</th>#}
+{#                <th>obiad</th>#}
+{#                <th>kolacja</th>#}
+{#            </tr>#}
+
+{#            {% dump(meals) %}#}
+{#            {% set counterMeal = 0 %}#}
+{#            {% for i in 1..30 %}#}
+{#                <tr>#}
+{#                    <td>{{ i }}</td>#}
+{#                    {% for meal in meals |slice(counterMeal, 5) %}#}
+{#                        <td>{{ meal.name }}</td>#}
+{#                    {% endfor %}#}
+{#                    {% set counterMeal = counterMeal + 5 %}#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        </table>#}
     </div>
 
 {% endblock content %}
