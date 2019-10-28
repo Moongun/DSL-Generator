@@ -7,9 +7,9 @@
                 <span class='content-header'>Lista Zakupów</span>
             </div>
         </div>
-        {% for partOfMonth in month %}
-            {% include 'shoppingList/block/shopping_list_table_template.html.twig' 
-                with {'title': partOfMonth.title, 'ingredients':partOfMonth.ingredients} only %}
+        {% for week in month %}
+            {% include 'shoppingList/block/week.html.twig'
+                with {'title': week.title, 'ingredients':week.ingredients} only %}
         {%endfor %}
     </div>
 {% endblock content %}

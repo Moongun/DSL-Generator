@@ -41,7 +41,6 @@ class ShoppingListController extends Controller
         ];
         
         return $this->render("shoppingList/index.html.twig", array(
-                    'dietRuleId' => $dietRuleId,
                     'month' => $month
         ));
     }
