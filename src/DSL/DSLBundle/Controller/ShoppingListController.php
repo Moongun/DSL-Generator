@@ -17,36 +17,26 @@ class ShoppingListController extends Controller
      */
     public function indexAction(int $dietRuleId)
     {
-        $createdDietRepository =$this->getDoctrine()->getRepository(CreatedDiet::class);
-
-        $month = [
-            [
-                'title' => 'Tydzień pierwszy',
-                'number' => 1,
-                'ingredients' => $createdDietRepository->findIngredientsByRuleIdAndGivenDays($dietRuleId, 1, 7)
-            ],
-            [
-                'title' => 'Tydzień drugi',
-                'number' => 2,
-                'ingredients' => $createdDietRepository->findIngredientsByRuleIdAndGivenDays($dietRuleId, 8, 14)
-            ],
-            [
-                'title' => 'Tydzień trzeci',
-                'number' => 3,
-                'ingredients' => $createdDietRepository->findIngredientsByRuleIdAndGivenDays($dietRuleId, 15, 21)
-            ],
-            [
-                'title' => 'Tydzień czwarty',
-                'number' => 4,
-                'ingredients' => $createdDietRepository->findIngredientsByRuleIdAndGivenDays($dietRuleId, 22, 28)
-            ],
-            [
-                'title' => 'Reszta miesiąca',
-                'number' => 5,
-                'ingredients' => $createdDietRepository->findIngredientsByRuleIdAndGivenDays($dietRuleId, 29)
-            ]
+        $weeks = [
+            1 => 'shopping_list.week.one',
+            2 => 'shopping_list.week.two',
+            3 => 'shopping_list.week.three',
+            4 => 'shopping_list.week.four',
+            5 => 'shopping_list.week.five',
         ];
-        
+
+        $helper = $this->get('service.shopping_list_helper');
+        $month = [];
+        array_walk($weeks, function ($title, $number) use (&$month, $dietRuleId, $helper) {
+            $week = [
+                'title' => $title,
+                'number' => $number,
+                'ingredients' => $helper->getShoppingListByWeek($dietRuleId, $number)
+            ];
+            $month[] = $week;
+        });
+
+
         return $this->render("shoppingList/index.html.twig", array(
             'month' => $month,
             'diet_rule_id' => $dietRuleId

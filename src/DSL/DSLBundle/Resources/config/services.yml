@@ -115,6 +115,11 @@ services:
     service.created_diet_helper:
         class: DSL\DSLBundle\Service\CreatedDietHelper
 
+    service.shopping_list_helper:
+        class: DSL\DSLBundle\Service\ShoppingListHelper
+        arguments:
+            - '@repository.created_diet'
+
     service.schedule:
         class: DSL\DSLBundle\Service\Schedule
         arguments:
