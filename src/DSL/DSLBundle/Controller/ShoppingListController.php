@@ -41,7 +41,7 @@ class ShoppingListController extends Controller
         ];
         
         return $this->render("shoppingList/index.html.twig", array(
-                    'month' => $month
+            'month' => $month
         ));
     }
 }
