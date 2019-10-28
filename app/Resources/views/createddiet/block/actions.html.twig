@@ -1,13 +1,13 @@
 <div class="mb-5 actions">
     <ul class="nav nav-fill">
         <li class="nav-item mx-2 my-2">
-            <a class="nav-link basis-color" href="{{ path('shopping_list', {'dietRuleId': diet_rule.id })}}">
+            <a class="nav-link basis-color" href="{{ path('shopping_list_index', {'dietRuleId': diet_rule.id })}}">
                 <i class="fa fa-cart-arrow-down"></i>
                 generuj listę zakupową
             </a>
         </li>
         <li class="nav-item mx-2 my-2">
-            <a class="nav-link basis-color" href="{{  path('generate_pdf_diet', {'id': diet_rule.id }) }}"target ="_blank">
+            <a class="nav-link basis-color" href="{{  path('generate_pdf_diet', {'id': diet_rule.id }) }}" target ="_blank">
                 <i class="fa fa-save"></i>
                 Pobierz dietę w PDF
             </a>

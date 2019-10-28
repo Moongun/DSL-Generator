@@ -1,10 +1,11 @@
 <div class="table-responsive pb-5">
     <table class="table table-sm">
         <tr class="table-row shopping-list-tr-title">
-            <th colspan="7">{{ title }}</th>
+            <th colspan="11">{{ title }}</th>
             <th colspan="1" class="text-right pr-5">
-                <i class="fa fa-arrow-circle-down pr-3" aria-hidden="true"></i>
-                <i class="fa fa-print pr-3" aria-hidden="true"></i>
+                <a href="{{ path('generate_pdf_shopping_list', {'id': diet_rule_id, 'week': week }) }}" target="_blank">
+                    <i class="fa fa-arrow-circle-down pr-3" aria-hidden="true"></i>
+                </a>
             </th>
         </tr>
         {% set counter = 1 %}
@@ -13,13 +14,13 @@
             {% if counter is same as(1) %}
                 <tr class="table-row">
             {% endif %}
-                <td collspan="1">{{ingredient.ProductCount}}</td>
-                <td collspan="2">{{ingredient.ProductName}}</td>
+                <td colspan="1">{{ingredient.ProductCount}}</td>
+                <td colspan="2">{{ingredient.ProductName}}</td>
             {% if counter is same as(4) %}
                 </tr>
             {% endif %}
-            {% set counter = counter + 1%}
-            {% if counter is same as(5)  %}
+            {% set counter = counter + 1 %}
+            {% if counter is same as(5) %}
                 {% set counter = 1%}    
             {% endif %}
         {% endfor %}

@@ -9,7 +9,12 @@
         </div>
         {% for week in month %}
             {% include 'shoppingList/block/week.html.twig'
-                with {'title': week.title, 'ingredients':week.ingredients} only %}
+                with {
+                'title': week.title,
+                'ingredients': week.ingredients,
+                'diet_rule_id': diet_rule_id,
+                'week': week.number
+            } only %}
         {%endfor %}
     </div>
 {% endblock content %}

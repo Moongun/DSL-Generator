@@ -17,6 +17,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class GeneratePdfController extends Controller
 {
     /**
+     * Redirect to pdf of diet.
+     *
      * @Route("/diet/{id}", name="diet")
      * @param DietRules $dietRule
      */
@@ -45,6 +47,19 @@ class GeneratePdfController extends Controller
         }
 
         return $this->redirect('/pdf/' . $filePath->getName());
+    }
+
+    /**
+     * Redirect to pdf of shopping list.
+     *
+     * @Route("shopping_list/{id}/{week}", name="shopping_list")
+     * @param DietRules $dietRule
+     * @param int       $Week
+     */
+    public function pdfForShoppingListAction(DietRules $dietRule, int $week)
+    {
+        dump($dietRule, $week);
+
     }
 
     /**
