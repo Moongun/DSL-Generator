@@ -1278,12 +1278,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "5d2145777fa1d61ba27ba4c1e7016f3c3e7ee7ba"
+                "reference": "a9e71b6e7b61e7f39ba77436ba3e9af954450c4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/5d2145777fa1d61ba27ba4c1e7016f3c3e7ee7ba",
-                "reference": "5d2145777fa1d61ba27ba4c1e7016f3c3e7ee7ba",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/a9e71b6e7b61e7f39ba77436ba3e9af954450c4b",
+                "reference": "a9e71b6e7b61e7f39ba77436ba3e9af954450c4b",
                 "shasum": ""
             },
             "require": {
@@ -1335,11 +1335,11 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "FriendsOfSymfony Community",
-                    "homepage": "https://github.com/friendsofsymfony/FOSUserBundle/contributors"
+                    "name": "Thibault Duplessis"
                 },
                 {
-                    "name": "Thibault Duplessis"
+                    "name": "FriendsOfSymfony Community",
+                    "homepage": "https://github.com/friendsofsymfony/FOSUserBundle/contributors"
                 }
             ],
             "description": "Symfony FOSUserBundle",
@@ -1347,7 +1347,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2019-03-01T13:05:23+00:00"
+            "time": "2020-01-08T18:06:24+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -3527,7 +3527,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -4322,20 +4322,21 @@
                 }
             ],
             "description": "This bundle generates code for you",
+            "abandoned": true,
             "time": "2017-12-07T15:36:41+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "8796da921e4613352818b478e9bb0803ea0dbb9a"
+                "reference": "12593ad0bc54658d9bc74fa240a545b3873b4626"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/8796da921e4613352818b478e9bb0803ea0dbb9a",
-                "reference": "8796da921e4613352818b478e9bb0803ea0dbb9a",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/12593ad0bc54658d9bc74fa240a545b3873b4626",
+                "reference": "12593ad0bc54658d9bc74fa240a545b3873b4626",
                 "shasum": ""
             },
             "require": {
@@ -4387,7 +4388,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2019-03-26T20:16:42+00:00"
+            "time": "2019-04-16T09:36:45+00:00"
         }
     ],
     "aliases": [],
