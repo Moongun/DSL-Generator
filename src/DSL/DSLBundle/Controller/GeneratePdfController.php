@@ -54,7 +54,7 @@ class GeneratePdfController extends Controller
      *
      * @Route("shopping_list/{id}/{week}", name="shopping_list")
      * @param DietRules $dietRule
-     * @param int       $Week
+     * @param int       $week
      */
     public function pdfForShoppingListAction(DietRules $dietRule, int $week)
     {
