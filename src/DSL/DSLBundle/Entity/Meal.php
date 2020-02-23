@@ -91,13 +91,6 @@ class Meal
     private $createdDiet;
     
     /**
-     * @var int
-     * 
-     * @ORM\Column(name="base", type="integer", nullable=false)
-     */
-    private $base;
-
-    /**
      * @ORM\OneToMany(targetEntity="Periodicity", mappedBy="meal")
      */
     private $periodicities;
@@ -371,14 +364,6 @@ class Meal
         return $this->createdDiet;
     }
     
-    function getBase() {
-        return $this->base;
-    }
-
-    function setBase($base) {
-        $this->base = $base;
-    }
-
     /**
      * Generates the magic method
      * 

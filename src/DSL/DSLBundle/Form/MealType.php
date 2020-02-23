@@ -134,22 +134,8 @@ class MealType extends AbstractType
                         ))
                     )
                 ))
-                ->add('base', ChoiceType::class, array(
-                    'required'      => false,
-                    'constraints'   => array(
-                        new NotBlank(array(
-                            'message' => self::BLANK_MSG                            
-                        ))
-                    ),
-                    'choices' => array(
-                        0 => 'Baza podstawowa',
-                        1 => 'Biedronka',
-                        2 => 'Lidl'
-                    ),
-                    'placeholder'   => 'Wybierz bazę posiłków',
-                    'expanded'      => false,
-                    'multiple'      => false,
-                ));
+
+        ;
     }
     
     /**

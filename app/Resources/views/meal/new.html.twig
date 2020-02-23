@@ -51,25 +51,6 @@
                 </div>
 
                 <div class="row pb-3">
-                    {% if(form_errors(form.base)) %}
-                        <div class="col-lg-12 py-2 error">
-                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                            {{form_errors(form.base)}}
-                        </div>
-                    {% else %}
-                        <div class="col-lg-12"></div>
-                    {% endif %}
-                </div>
-                <div class="row pb-3">
-                    <div class="col-lg-3 text-right">
-                        <span>Baza</span>
-                    </div>
-                    <div class="col-lg-9">
-                        {{ form_widget(form.base, {'attr': {'placeholder': 'Baza', 'class':'form-field'}}) }}
-                    </div>
-                </div>
-
-                <div class="row pb-3">
                     <div class="col-lg-12">
                         <div class="row pb-3">
                             {% if(form_errors(form.energyKcal)) %}
